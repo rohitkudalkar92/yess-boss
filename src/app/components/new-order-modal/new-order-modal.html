@@ -1,0 +1,129 @@
+<!-- Backdrop -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm" (click)="close()">
+
+  <!-- Modal -->
+  <div class="bg-white rounded-2xl shadow-xl w-full max-w-md max-h-[90vh] flex flex-col" (click)="$event.stopPropagation()">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between px-6 py-5 border-b border-slate-100 shrink-0">
+      <div>
+        <h2 class="text-base font-bold text-slate-900">New Order</h2>
+        <p class="text-xs text-slate-400 mt-0.5">Step {{ step }} of 2 — {{ step === 1 ? 'Order Info' : form.garment + ' Details' }}</p>
+      </div>
+      <button (click)="close()" class="text-slate-400 hover:text-slate-600 transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Step indicator -->
+    <div class="flex px-6 pt-5 gap-2 shrink-0">
+      <div class="h-1 flex-1 rounded-full transition-all" [class]="step >= 1 ? 'bg-emerald-500' : 'bg-slate-200'"></div>
+      <div class="h-1 flex-1 rounded-full transition-all" [class]="step >= 2 ? 'bg-emerald-500' : 'bg-slate-200'"></div>
+    </div>
+
+    <!-- Scrollable body -->
+    <div class="overflow-y-auto flex-1 px-6 py-5 space-y-4">
+
+      <!-- Step 1 -->
+      @if (step === 1) {
+        <div>
+          <label class="block text-xs font-semibold text-slate-500 mb-1.5">Client Name <span class="text-red-500">*</span></label>
+          <input [(ngModel)]="form.client" name="client" type="text" placeholder="e.g. Michael Grant"
+            class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-500 mb-1.5">Phone Number</label>
+          <input [(ngModel)]="form.phone" name="phone" type="tel" placeholder="e.g. +1-202-555-0141"
+            class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-500 mb-1.5">Garment <span class="text-red-500">*</span></label>
+          <select [(ngModel)]="form.garment" name="garment" (ngModelChange)="onGarmentChange()"
+            class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition">
+            <option value="" disabled>Select garment...</option>
+            @for (g of garments; track g) {
+              <option [value]="g">{{ g }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-500 mb-1.5">Status</label>
+            <select [(ngModel)]="form.status" name="status"
+              class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition">
+              @for (s of statuses; track s) {
+                <option [value]="s">{{ s }}</option>
+              }
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-500 mb-1.5">Due Date <span class="text-red-500">*</span></label>
+            <input [(ngModel)]="form.dueDate" name="dueDate" type="date"
+              class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition">
+          </div>
+        </div>
+      }
+
+      <!-- Step 2 -->
+      @if (step === 2) {
+        <p class="text-xs text-slate-500 bg-slate-50 rounded-xl px-4 py-3 border border-slate-200">
+          Enter measurements for <span class="font-semibold text-slate-700">{{ form.garment }}</span>
+        </p>
+
+        <div class="grid grid-cols-2 gap-4">
+          @for (field of fields; track field.key) {
+            <div [class]="field.type === 'select' ? 'col-span-2' : ''">
+              <label class="block text-xs font-semibold text-slate-500 mb-1.5">{{ field.label }}</label>
+              @if (field.type === 'number') {
+                <input [(ngModel)]="garmentDetails[field.key]" [name]="field.key" type="number"
+                  [placeholder]="field.placeholder || ''"
+                  class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition">
+              }
+              @if (field.type === 'select') {
+                <select [(ngModel)]="garmentDetails[field.key]" [name]="field.key"
+                  class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition">
+                  <option value="" disabled>Select...</option>
+                  @for (opt of field.options; track opt) {
+                    <option [value]="opt">{{ opt }}</option>
+                  }
+                </select>
+              }
+            </div>
+          }
+        </div>
+      }
+
+    </div>
+
+    <!-- Footer -->
+    <div class="px-6 py-5 border-t border-slate-100 flex gap-3 shrink-0">
+      @if (step === 1) {
+        <button type="button" (click)="close()"
+          class="flex-1 border border-slate-200 text-slate-600 text-sm font-semibold py-2.5 rounded-xl hover:bg-slate-50 transition">
+          Cancel
+        </button>
+        <button type="button" (click)="nextStep()"
+          [disabled]="!form.client || !form.garment || !form.dueDate"
+          class="flex-1 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-semibold py-2.5 rounded-xl transition">
+          Next →
+        </button>
+      }
+      @if (step === 2) {
+        <button type="button" (click)="step = 1"
+          class="flex-1 border border-slate-200 text-slate-600 text-sm font-semibold py-2.5 rounded-xl hover:bg-slate-50 transition">
+          ← Back
+        </button>
+        <button type="button" (click)="submit()"
+          class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold py-2.5 rounded-xl transition">
+          Create Order
+        </button>
+      }
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,49 @@
+<div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+
+  @if (title() || actionsRef) {
+    <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center">
+      <h2 class="text-base font-bold text-slate-900">{{ title() }}</h2>
+      @if (actionsRef) {
+        <ng-container *ngTemplateOutlet="actionsRef" />
+      }
+    </div>
+  }
+
+  <!-- Desktop -->
+  <div class="hidden sm:block overflow-x-auto">
+    <table class="w-full text-left text-sm">
+      <thead class="bg-slate-50 text-slate-400 uppercase text-xs">
+        <tr>
+          @for (col of columns(); track col.key) {
+            <th class="px-6 py-3 font-semibold">{{ col.label }}</th>
+          }
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100">
+        @for (row of rows(); track $index) {
+          <tr class="hover:bg-slate-50/60 transition">
+            @for (col of columns(); track col.key) {
+              <td class="px-6 py-3.5">
+                @if (cellRef) {
+                  <ng-container *ngTemplateOutlet="cellRef; context: { $implicit: row, col: col.key }" />
+                } @else {
+                  <span class="text-slate-700">{{ row[col.key] }}</span>
+                }
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Mobile -->
+  <div class="sm:hidden divide-y divide-slate-100">
+    @for (row of rows(); track $index) {
+      @if (mobileRowRef) {
+        <ng-container *ngTemplateOutlet="mobileRowRef; context: { $implicit: row }" />
+      }
+    }
+  </div>
+
+</div>

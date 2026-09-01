@@ -1,0 +1,36 @@
+<div class="min-h-screen bg-slate-50 font-sans text-slate-800 flex flex-col pb-20 md:pb-0">
+
+  <app-topbar />
+
+  <div class="flex-1 w-full px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+    <main class="lg:col-span-3 space-y-6">
+      <router-outlet />
+    </main>
+
+    <aside class="space-y-6">
+      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Quick Directory</h3>
+        <button routerLink="/measurements" class="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition font-medium text-sm text-slate-700">
+          <span>📐 Client Measurements</span>
+          <span class="text-slate-400">→</span>
+        </button>
+        <button class="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition font-medium text-sm text-slate-700">
+          <span>👥 Client Database</span>
+          <span class="text-slate-400">→</span>
+        </button>
+        <button class="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition font-medium text-sm text-slate-700">
+          <span>🧾 Generate Invoice</span>
+          <span class="text-slate-400">→</span>
+        </button>
+      </div>
+    </aside>
+
+  </div>
+
+  <button class="md:hidden fixed bottom-6 right-6 bg-emerald-600 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-2xl font-bold hover:bg-emerald-700 focus:outline-none z-30">
+    +
+  </button>
+
+  <app-toast />
+</div>
