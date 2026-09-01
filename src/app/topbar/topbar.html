@@ -30,6 +30,11 @@
     </div>
 
     <div class="flex items-center space-x-3">
+      <button (click)="showModal = true" class="md:hidden bg-emerald-600 hover:bg-emerald-700 text-white p-2 rounded-xl transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+        </svg>
+      </button>
       <button (click)="showModal = true" class="hidden md:inline-flex bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition">
         + New Order
       </button>
