@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet, RouterLink } from '@angular/router';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { Topbar } from './topbar/topbar';
 import { Toast } from './components/toast/toast';
 
@@ -13,7 +13,7 @@ export interface Order {
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, Topbar, Toast],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, Topbar, Toast],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

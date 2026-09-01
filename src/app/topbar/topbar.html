@@ -2,7 +2,7 @@
   <div class="px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
 
     <div class="flex items-center space-x-3">
-      <button class="md:hidden p-2 text-slate-600 hover:text-slate-900 focus:outline-none">
+      <button (click)="showSidebar = true" class="md:hidden p-2 text-slate-600 hover:text-slate-900 focus:outline-none">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
         </svg>
@@ -48,4 +48,42 @@
 
 @if (showModal) {
   <app-new-order-modal (closed)="showModal = false" />
+}
+
+@if (showSidebar) {
+  <div class="md:hidden fixed inset-0 z-40 flex">
+    <!-- Backdrop -->
+    <div class="fixed inset-0 bg-black/40" (click)="showSidebar = false"></div>
+    <!-- Drawer -->
+    <div class="relative w-72 bg-white h-full shadow-xl flex flex-col z-50">
+      <div class="flex items-center justify-between px-5 py-4 border-b border-slate-200">
+        <span class="font-bold text-slate-800 text-base">Quick Directory</span>
+        <button (click)="showSidebar = false" class="p-1 text-slate-400 hover:text-slate-700">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <nav class="flex-1 px-4 py-4 space-y-2">
+        <a routerLink="/dashboard" routerLinkActive="bg-emerald-50 text-emerald-700" (click)="showSidebar = false"
+          class="flex items-center justify-between px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition font-medium text-sm text-slate-700">
+          <span>🏠 Dashboard</span>
+          <span class="text-slate-400">→</span>
+        </a>
+        <a routerLink="/measurements" routerLinkActive="bg-emerald-50 text-emerald-700" (click)="showSidebar = false"
+          class="flex items-center justify-between px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition font-medium text-sm text-slate-700">
+          <span>📐 Client Measurements</span>
+          <span class="text-slate-400">→</span>
+        </a>
+        <a class="flex items-center justify-between px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition font-medium text-sm text-slate-700">
+          <span>👥 Client Database</span>
+          <span class="text-slate-400">→</span>
+        </a>
+        <a class="flex items-center justify-between px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition font-medium text-sm text-slate-700">
+          <span>🧾 Generate Invoice</span>
+          <span class="text-slate-400">→</span>
+        </a>
+      </nav>
+    </div>
+  </div>
 }
