@@ -3,9 +3,7 @@
 
     <div class="flex items-center space-x-3">
       <button (click)="showSidebar = true" class="md:hidden p-2 text-slate-600 hover:text-slate-900 focus:outline-none">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
+        <app-icon name="menu" [cls]="'w-6 h-6'" />
       </button>
       <a [routerLink]="routes.DASHBOARD" class="flex items-center space-x-3 cursor-pointer">
         <div class="bg-slate-800 text-white p-2 rounded-lg font-bold text-lg leading-none">YB</div>
@@ -23,17 +21,13 @@
           placeholder="Search orders, clients..."
           class="w-full bg-slate-100 text-sm pl-9 pr-4 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 border border-transparent transition"
         >
-        <svg class="w-4 h-4 text-slate-400 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-        </svg>
+        <app-icon name="search" [cls]="'w-4 h-4 text-slate-400 absolute left-3 top-3'" />
       </div>
     </div>
 
     <div class="flex items-center space-x-3">
       <button (click)="showModal = true" class="md:hidden bg-emerald-600 hover:bg-emerald-700 text-white p-2 rounded-xl transition">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-        </svg>
+        <app-icon name="plus" [cls]="'w-5 h-5'" />
       </button>
       <button (click)="showModal = true" class="hidden md:inline-flex bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition">
         + New Order
@@ -63,36 +57,32 @@
 
 @if (showSidebar) {
   <div class="md:hidden fixed inset-0 z-40 flex">
-    <!-- Backdrop -->
     <div class="fixed inset-0 bg-black/40" (click)="showSidebar = false"></div>
-    <!-- Drawer -->
     <div class="relative w-72 bg-white h-full shadow-xl flex flex-col z-50">
       <div class="flex items-center justify-between px-5 py-4 border-b border-slate-200">
         <span class="font-bold text-slate-800 text-base">Quick Directory</span>
         <button (click)="showSidebar = false" class="p-1 text-slate-400 hover:text-slate-700">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-          </svg>
+          <app-icon name="close" [cls]="'w-5 h-5'" />
         </button>
       </div>
       <nav class="flex-1 px-4 py-4 space-y-2">
         <a [routerLink]="routes.DASHBOARD" routerLinkActive="bg-emerald-50 text-emerald-700" (click)="showSidebar = false"
           class="flex items-center justify-between px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition font-medium text-sm text-slate-700">
-          <span>🏠 Dashboard</span>
-          <span class="text-slate-400">→</span>
+          <span>Dashboard</span>
+          <app-icon name="arrowRight" [cls]="'w-4 h-4 text-slate-400'" />
         </a>
         <a [routerLink]="routes.MEASUREMENTS" routerLinkActive="bg-emerald-50 text-emerald-700" (click)="showSidebar = false"
           class="flex items-center justify-between px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition font-medium text-sm text-slate-700">
-          <span>📐 Client Measurements</span>
-          <span class="text-slate-400">→</span>
+          <span>Client Measurements</span>
+          <app-icon name="arrowRight" [cls]="'w-4 h-4 text-slate-400'" />
         </a>
         <a class="flex items-center justify-between px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition font-medium text-sm text-slate-700">
-          <span>👥 Client Database</span>
-          <span class="text-slate-400">→</span>
+          <span>Client Database</span>
+          <app-icon name="arrowRight" [cls]="'w-4 h-4 text-slate-400'" />
         </a>
         <a class="flex items-center justify-between px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition font-medium text-sm text-slate-700">
-          <span>🧾 Generate Invoice</span>
-          <span class="text-slate-400">→</span>
+          <span>Generate Invoice</span>
+          <app-icon name="arrowRight" [cls]="'w-4 h-4 text-slate-400'" />
         </a>
       </nav>
     </div>

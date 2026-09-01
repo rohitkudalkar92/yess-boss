@@ -4,6 +4,7 @@ import { Topbar } from './topbar/topbar';
 import { Toast } from './components/toast/toast';
 import { filter } from 'rxjs';
 import { APP_ROUTES } from './constants/app-routes';
+import { AppIcon } from './components/icon/icon';
 
 export interface Order {
   id: string;
@@ -15,7 +16,7 @@ export interface Order {
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, Topbar, Toast],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, Topbar, Toast, AppIcon],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

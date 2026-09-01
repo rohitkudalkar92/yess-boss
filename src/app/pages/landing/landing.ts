@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
@@ -7,7 +6,7 @@ import { APP_ROUTES } from '../../constants/app-routes';
 
 @Component({
   selector: 'app-landing',
-  imports: [RouterLink, FormsModule],
+  imports: [FormsModule],
   templateUrl: './landing.html',
 })
 export class Landing {

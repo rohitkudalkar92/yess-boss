@@ -3,10 +3,11 @@ import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { NewOrderModal } from '../components/new-order-modal/new-order-modal';
 import { AuthService } from '../services/auth.service';
 import { APP_ROUTES } from '../constants/app-routes';
+import { AppIcon } from '../components/icon/icon';
 
 @Component({
   selector: 'app-topbar',
-  imports: [NewOrderModal, RouterLink, RouterLinkActive],
+  imports: [NewOrderModal, RouterLink, RouterLinkActive, AppIcon],
   templateUrl: './topbar.html',
 })
 export class Topbar {
