@@ -7,7 +7,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
         </svg>
       </button>
-      <a routerLink="/dashboard" class="flex items-center space-x-3 cursor-pointer">
+      <a [routerLink]="routes.DASHBOARD" class="flex items-center space-x-3 cursor-pointer">
         <div class="bg-slate-800 text-white p-2 rounded-lg font-bold text-lg leading-none">YB</div>
         <div class="flex flex-col leading-tight">
           <span class="font-bold text-lg sm:text-xl text-slate-900 truncate">Yes Boss Tailor</span>
@@ -38,8 +38,19 @@
       <button (click)="showModal = true" class="hidden md:inline-flex bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition">
         + New Order
       </button>
-      <div class="w-9 h-9 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 flex items-center justify-center font-bold text-sm">
-        AT
+      <div class="relative">
+        <button (click)="showUserMenu = !showUserMenu"
+          class="w-9 h-9 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 flex items-center justify-center font-bold text-sm">
+          {{ auth.initials || 'YB' }}
+        </button>
+        @if (showUserMenu) {
+          <div class="absolute right-0 mt-2 w-40 bg-white border border-slate-200 rounded-xl shadow-lg z-50 overflow-hidden">
+            <div class="px-4 py-2.5 text-xs text-slate-400 border-b border-slate-100 truncate">{{ auth.username() }}</div>
+            <button (click)="logout()" class="w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition font-medium">
+              Logout
+            </button>
+          </div>
+        }
       </div>
     </div>
 
@@ -65,12 +76,12 @@
         </button>
       </div>
       <nav class="flex-1 px-4 py-4 space-y-2">
-        <a routerLink="/dashboard" routerLinkActive="bg-emerald-50 text-emerald-700" (click)="showSidebar = false"
+        <a [routerLink]="routes.DASHBOARD" routerLinkActive="bg-emerald-50 text-emerald-700" (click)="showSidebar = false"
           class="flex items-center justify-between px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition font-medium text-sm text-slate-700">
           <span>🏠 Dashboard</span>
           <span class="text-slate-400">→</span>
         </a>
-        <a routerLink="/measurements" routerLinkActive="bg-emerald-50 text-emerald-700" (click)="showSidebar = false"
+        <a [routerLink]="routes.MEASUREMENTS" routerLinkActive="bg-emerald-50 text-emerald-700" (click)="showSidebar = false"
           class="flex items-center justify-between px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition font-medium text-sm text-slate-700">
           <span>📐 Client Measurements</span>
           <span class="text-slate-400">→</span>

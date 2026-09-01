@@ -1,8 +1,13 @@
 <div class="min-h-screen bg-slate-50 font-sans text-slate-800 flex flex-col pb-20 md:pb-0">
 
-  <app-topbar />
+  @if (!isLanding) {
+    <app-topbar />
+  }
 
-  <div class="flex-1 w-full px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
+  @if (isLanding) {
+    <router-outlet />
+  } @else {
+    <div class="flex-1 w-full px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
 
     <main class="lg:col-span-3 space-y-6">
       <router-outlet />
@@ -11,7 +16,7 @@
     <aside class="space-y-6">
       <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
         <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Quick Directory</h3>
-        <button routerLink="/measurements" class="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition font-medium text-sm text-slate-700">
+        <button [routerLink]="routes.MEASUREMENTS" class="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition font-medium text-sm text-slate-700">
           <span>📐 Client Measurements</span>
           <span class="text-slate-400">→</span>
         </button>
@@ -26,16 +31,16 @@
       </div>
     </aside>
 
-  </div>
+    </div>
 
-  <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-30 flex">
-    <a routerLink="/dashboard" routerLinkActive="text-emerald-600 bg-emerald-50" class="flex-1 flex flex-col items-center justify-center py-3 text-slate-500 hover:text-emerald-600 transition text-xs font-medium gap-1">
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-30 flex">
+    <a [routerLink]="routes.DASHBOARD" routerLinkActive="text-emerald-600 bg-emerald-50" class="flex-1 flex flex-col items-center justify-center py-3 text-slate-500 hover:text-emerald-600 transition text-xs font-medium gap-1">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0h6"/>
       </svg>
       Dashboard
     </a>
-    <a routerLink="/measurements" routerLinkActive="text-emerald-600 bg-emerald-50" class="flex-1 flex flex-col items-center justify-center py-3 text-slate-500 hover:text-emerald-600 transition text-xs font-medium gap-1">
+    <a [routerLink]="routes.MEASUREMENTS" routerLinkActive="text-emerald-600 bg-emerald-50" class="flex-1 flex flex-col items-center justify-center py-3 text-slate-500 hover:text-emerald-600 transition text-xs font-medium gap-1">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
       </svg>
@@ -53,7 +58,8 @@
       </svg>
       Invoice
     </a>
-  </nav>
+    </nav>
+  }
 
   <app-toast />
 </div>

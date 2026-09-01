@@ -1,7 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
 import { Topbar } from './topbar/topbar';
 import { Toast } from './components/toast/toast';
+import { filter } from 'rxjs';
+import { APP_ROUTES } from './constants/app-routes';
 
 export interface Order {
   id: string;
@@ -19,6 +21,14 @@ export interface Order {
 })
 export class App {
   protected readonly title = signal('yess-boss');
+  readonly routes = APP_ROUTES;
+  isLanding = false;
+
+  constructor(private router: Router) {
+    this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe((e: NavigationEnd) => {
+      this.isLanding = e.urlAfterRedirects.startsWith(`/${APP_ROUTES.LANDING}`);
+    });
+  }
 
   readonly orders: Order[] = [
     { id: '#ORD-1082', client: 'Alex Morgan',    garment: '3-Piece Suit',     status: 'In Stitching',  dueDate: 'Sep 04' },
