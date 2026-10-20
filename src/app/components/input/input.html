@@ -9,27 +9,41 @@
   }
 
   @if (type === InputType.Select) {
-    <div class="relative" (keydown.escape)="closeDropdown()">
+    <div
+      class="relative"
+      (keydown.escape)="closeDropdown()">
       <button
         type="button"
         (click)="toggleOpen()"
         (blur)="!open && onBlur()"
         [class]="
           'w-full bg-slate-100 text-sm px-4 py-2.5 rounded-xl border transition focus:outline-none focus:ring-2 focus:ring-emerald-500 text-left flex items-center justify-between ' +
-          (errors.length ? 'border-red-400' : 'border-transparent')
+          (errors.length
+            ? 'border-red-400'
+            : 'border-transparent')
         ">
-        <span [class]="value ? 'text-slate-800' : 'text-slate-400'">{{ value || placeholder || 'Select...' }}</span>
+        <span
+          [class]="
+            value ? 'text-slate-800' : 'text-slate-400'
+          "
+          >{{ value || placeholder || 'Select...' }}</span
+        >
         <svg
           class="w-4 h-4 text-slate-400 transition-transform"
           [class.rotate-180]="open"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 9l-7 7-7-7" />
         </svg>
       </button>
       @if (open) {
-        <div class="absolute z-50 mt-1 w-full bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden">
+        <div
+          class="absolute z-50 mt-1 w-full bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden">
           <div class="p-2 border-b border-slate-100">
             <input
               type="text"
@@ -45,13 +59,18 @@
                 (mousedown)="select(opt)"
                 [class]="
                   'px-4 py-2.5 text-sm cursor-pointer transition ' +
-                  (opt === value ? 'bg-emerald-50 text-emerald-700 font-medium' : 'text-slate-700 hover:bg-slate-50')
+                  (opt === value
+                    ? 'bg-emerald-50 text-emerald-700 font-medium'
+                    : 'text-slate-700 hover:bg-slate-50')
                 ">
                 {{ opt }}
               </li>
             }
             @if (filtered.length === 0) {
-              <li class="px-4 py-2.5 text-sm text-slate-400">No results found</li>
+              <li
+                class="px-4 py-2.5 text-sm text-slate-400">
+                No results found
+              </li>
             }
           </ul>
           @if (allowCreate) {
@@ -60,10 +79,22 @@
                 type="button"
                 (mousedown)="onCreate()"
                 class="w-full flex items-center gap-2 px-3 py-2 text-sm text-emerald-600 font-medium hover:bg-emerald-50 rounded-lg transition">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 4v16m8-8H4" />
                 </svg>
-                {{ search ? 'Create "' + search + '"' : 'Create new' }}
+                {{
+                  search
+                    ? 'Create "' + search + '"'
+                    : 'Create new'
+                }}
               </button>
             </div>
           }
@@ -81,18 +112,29 @@
       (blur)="onBlur()"
       [class]="
         'w-full bg-slate-100 text-sm px-4 py-2.5 rounded-xl border transition focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-800 ' +
-        (errors.length ? 'border-red-400' : 'border-transparent')
+        (errors.length
+          ? 'border-red-400'
+          : 'border-transparent')
       " />
   }
 
-  <div class="flex justify-between items-start min-h-[1.25rem]">
+  <div
+    class="flex justify-between items-start min-h-[1.25rem]">
     <div class="space-y-0.5">
       @for (err of errors; track err) {
         <p class="text-xs text-red-500">{{ err }}</p>
       }
     </div>
-    @if (type !== InputType.Date && type !== InputType.Select) {
-      <span class="text-xs shrink-0 ml-2" [class]="charCount > maxLength ? 'text-red-500' : 'text-slate-400'">
+    @if (
+      type !== InputType.Date && type !== InputType.Select
+    ) {
+      <span
+        class="text-xs shrink-0 ml-2"
+        [class]="
+          charCount > maxLength
+            ? 'text-red-500'
+            : 'text-slate-400'
+        ">
         {{ charCount }}/{{ maxLength }}
       </span>
     }

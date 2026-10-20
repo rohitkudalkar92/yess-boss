@@ -1,7 +1,18 @@
-<div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-  <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">{{ label() }}</p>
-  <p class="text-3xl font-extrabold text-slate-900 mt-2">{{ value() }}</p>
+<div
+  class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+  <p
+    class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+    {{ label() }}
+  </p>
+  <p class="text-3xl font-extrabold text-slate-900 mt-2">
+    {{ value() }}
+  </p>
   @if (badge()) {
-    <span class="text-xs font-medium mt-2 inline-block {{ badgeClass() }}">{{ badge() }}</span>
+    <span
+      class="text-xs font-medium mt-2 inline-block {{
+        badgeClass()
+      }}"
+      >{{ badge() }}</span
+    >
   }
 </div>

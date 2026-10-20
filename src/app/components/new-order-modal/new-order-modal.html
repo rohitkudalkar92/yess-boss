@@ -1,20 +1,40 @@
 <!-- Backdrop -->
-<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm" (click)="close()">
+<div
+  class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm"
+  (click)="close()">
   <!-- Modal -->
   <div
     class="bg-white rounded-2xl shadow-xl w-full max-w-md max-h-[90vh] flex flex-col"
     (click)="$event.stopPropagation()">
     <!-- Header -->
-    <div class="flex items-center justify-between px-6 py-5 border-b border-slate-100 shrink-0">
+    <div
+      class="flex items-center justify-between px-6 py-5 border-b border-slate-100 shrink-0">
       <div>
-        <h2 class="text-base font-bold text-slate-900">New Order</h2>
+        <h2 class="text-base font-bold text-slate-900">
+          New Order
+        </h2>
         <p class="text-xs text-slate-400 mt-0.5">
-          Step {{ step }} of 2 — {{ step === OrderStep.Info ? 'Order Info' : form.garment + ' Details' }}
+          Step {{ step }} of 2 —
+          {{
+            step === OrderStep.Info
+              ? 'Order Info'
+              : form.garment + ' Details'
+          }}
         </p>
       </div>
-      <button (click)="close()" class="text-slate-400 hover:text-slate-600 transition">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      <button
+        (click)="close()"
+        class="text-slate-400 hover:text-slate-600 transition">
+        <svg
+          class="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
     </div>
@@ -23,10 +43,18 @@
     <div class="flex px-6 pt-5 gap-2 shrink-0">
       <div
         class="h-1 flex-1 rounded-full transition-all"
-        [class]="step >= OrderStep.Info ? 'bg-emerald-500' : 'bg-slate-200'"></div>
+        [class]="
+          step >= OrderStep.Info
+            ? 'bg-emerald-500'
+            : 'bg-slate-200'
+        "></div>
       <div
         class="h-1 flex-1 rounded-full transition-all"
-        [class]="step >= OrderStep.Details ? 'bg-emerald-500' : 'bg-slate-200'"></div>
+        [class]="
+          step >= OrderStep.Details
+            ? 'bg-emerald-500'
+            : 'bg-slate-200'
+        "></div>
     </div>
 
     <!-- Scrollable body -->
@@ -69,20 +97,32 @@
               [options]="statuses"
               [(ngModel)]="form.status"
               name="status" />
-            <app-input label="Due Date" [type]="InputType.Date" [(ngModel)]="form.dueDate" name="dueDate" required />
+            <app-input
+              label="Due Date"
+              [type]="InputType.Date"
+              [(ngModel)]="form.dueDate"
+              name="dueDate"
+              required />
           </div>
         </form>
       }
 
       <!-- Step 2 -->
       @if (step === OrderStep.Details) {
-        <p class="text-xs text-slate-500 bg-slate-50 rounded-xl px-4 py-3 border border-slate-200">
-          Enter measurements for <span class="font-semibold text-slate-700">{{ form.garment }}</span>
+        <p
+          class="text-xs text-slate-500 bg-slate-50 rounded-xl px-4 py-3 border border-slate-200">
+          Enter measurements for
+          <span class="font-semibold text-slate-700">{{
+            form.garment
+          }}</span>
         </p>
 
         <div class="grid grid-cols-2 gap-4">
           @for (field of fields; track field.key) {
-            <div [class]="field.type === 'select' ? 'col-span-2' : ''">
+            <div
+              [class]="
+                field.type === 'select' ? 'col-span-2' : ''
+              ">
               @if (field.type === 'number') {
                 <app-input
                   [label]="field.label"
@@ -106,13 +146,20 @@
     </div>
 
     <!-- Footer -->
-    <div class="px-6 py-5 border-t border-slate-100 flex gap-3 shrink-0 [&>*]:flex-1">
+    <div
+      class="px-6 py-5 border-t border-slate-100 flex gap-3 shrink-0 [&>*]:flex-1">
       @if (step === OrderStep.Info) {
-        <app-button label="Cancel" [variant]="ButtonVariant.Secondary" [width]="ButtonWidth.Full" (clicked)="close()" />
+        <app-button
+          label="Cancel"
+          [variant]="ButtonVariant.Secondary"
+          [width]="ButtonWidth.Full"
+          (clicked)="close()" />
         <app-button
           label="Next →"
           [width]="ButtonWidth.Full"
-          [disabled]="!form.client || !form.garment || !form.dueDate"
+          [disabled]="
+            !form.client || !form.garment || !form.dueDate
+          "
           (clicked)="nextStep()" />
       }
       @if (step === OrderStep.Details) {
@@ -121,7 +168,10 @@
           [variant]="ButtonVariant.Secondary"
           [width]="ButtonWidth.Full"
           (clicked)="step = OrderStep.Info" />
-        <app-button label="Create Order" [width]="ButtonWidth.Full" (clicked)="submit()" />
+        <app-button
+          label="Create Order"
+          [width]="ButtonWidth.Full"
+          (clicked)="submit()" />
       }
     </div>
   </div>

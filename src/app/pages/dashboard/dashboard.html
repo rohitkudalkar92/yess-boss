@@ -1,20 +1,44 @@
 <div class="space-y-6">
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-    <app-stat-card label="Active Orders" value="28" badge="↑ 4 new this week" />
-    <app-stat-card label="Pending Fittings" value="6" badge="Due Today" badgeClass="text-amber-600" />
-    <app-stat-card label="Completed (Month)" value="142" badge="↑ 12% above target" />
+    <app-stat-card
+      label="Active Orders"
+      value="28"
+      badge="↑ 4 new this week" />
+    <app-stat-card
+      label="Pending Fittings"
+      value="6"
+      badge="Due Today"
+      badgeClass="text-amber-600" />
+    <app-stat-card
+      label="Completed (Month)"
+      value="142"
+      badge="↑ 12% above target" />
   </div>
 
-  <app-data-table title="Recent Tailoring Orders" [columns]="columns" [rows]="orders">
-    <ng-template #cell let-row [ngTemplateOutletContext]="{}" let-col="col">
+  <app-data-table
+    title="Recent Tailoring Orders"
+    [columns]="columns"
+    [rows]="orders">
+    <ng-template
+      #cell
+      let-row
+      [ngTemplateOutletContext]="{}"
+      let-col="col">
       @if (col === 'id') {
-        <span class="font-semibold text-slate-900">{{ row[col] }}</span>
-      } @else if (col === 'status') {
-        <span class="px-2.5 py-1 text-xs font-semibold rounded-full border {{ statusClass(row[col]) }}">{{
+        <span class="font-semibold text-slate-900">{{
           row[col]
         }}</span>
+      } @else if (col === 'status') {
+        <span
+          class="px-2.5 py-1 text-xs font-semibold rounded-full border {{
+            statusClass(row[col])
+          }}"
+          >{{ row[col] }}</span
+        >
       } @else if (col === 'dueDate') {
-        <span class="text-slate-400 text-xs">{{ row[col] }}</span>
+        <span class="text-slate-400 text-xs">{{
+          row[col]
+        }}</span>
       } @else {
         <span class="text-slate-600">{{ row[col] }}</span>
       }
@@ -24,14 +48,23 @@
       <div class="px-4 py-4 space-y-2">
         <div class="flex justify-between items-start">
           <div>
-            <span class="text-xs font-bold text-slate-400">{{ order.id }}</span>
-            <h3 class="font-bold text-slate-900">{{ order.client }}</h3>
+            <span
+              class="text-xs font-bold text-slate-400"
+              >{{ order.id }}</span
+            >
+            <h3 class="font-bold text-slate-900">
+              {{ order.client }}
+            </h3>
           </div>
-          <span class="px-2.5 py-1 text-xs font-semibold rounded-full border {{ statusClass(order.status) }}">{{
-            order.status
-          }}</span>
+          <span
+            class="px-2.5 py-1 text-xs font-semibold rounded-full border {{
+              statusClass(order.status)
+            }}"
+            >{{ order.status }}</span
+          >
         </div>
-        <div class="flex justify-between items-center text-xs text-slate-400">
+        <div
+          class="flex justify-between items-center text-xs text-slate-400">
           <span>{{ order.garment }}</span>
           <span>Due: {{ order.dueDate }}</span>
         </div>
