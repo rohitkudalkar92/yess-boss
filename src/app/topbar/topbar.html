@@ -44,23 +44,15 @@
     </div>
 
     <div class="flex items-center space-x-3">
-      <button
-        (click)="showModal = true"
-        class="md:hidden bg-emerald-600 hover:bg-emerald-700 text-white p-2 rounded-xl transition">
-        <app-icon
-          [name]="IconName.Plus"
-          [cls]="'w-5 h-5'" />
-      </button>
-      <button
-        (click)="showModal = true"
-        class="hidden md:inline-flex bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition">
-        + New Order
-      </button>
-      <button
-        (click)="showUserModal = true"
-        class="hidden md:inline-flex bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition">
-        + New User
-      </button>
+      <span class="md:hidden">
+        <app-button [icon]="IconName.Plus" label="" [size]="ButtonSize.Md" (clicked)="showModal = true" />
+      </span>
+      <span class="hidden md:inline-flex">
+        <app-button label="+ New Order" (clicked)="showModal = true" />
+      </span>
+      <span class="hidden md:inline-flex">
+        <app-button label="+ New User" (clicked)="showUserModal = true" />
+      </span>
       <div class="relative">
         <button
           (click)="showUserMenu = !showUserMenu"
@@ -74,11 +66,7 @@
               class="px-4 py-2.5 text-xs text-slate-400 border-b border-slate-100 truncate">
               {{ auth.username() }}
             </div>
-            <button
-              (click)="logout()"
-              class="w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition font-medium">
-              Logout
-            </button>
+            <app-button label="Logout" [variant]="ButtonVariant.Danger" [size]="ButtonSize.Sm" [width]="ButtonWidth.Full" (clicked)="logout()" />
           </div>
         }
       </div>
@@ -106,13 +94,7 @@
         <span class="font-bold text-slate-800 text-base"
           >Quick Directory</span
         >
-        <button
-          (click)="showSidebar = false"
-          class="p-1 text-slate-400 hover:text-slate-700">
-          <app-icon
-            [name]="IconName.Close"
-            [cls]="'w-5 h-5'" />
-        </button>
+        <app-button [icon]="IconName.Close" label="" [variant]="ButtonVariant.Ghost" [size]="ButtonSize.Sm" (clicked)="showSidebar = false" />
       </div>
       <nav class="flex-1 px-4 py-4 space-y-2">
         <a

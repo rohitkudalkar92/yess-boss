@@ -5,11 +5,13 @@ import { NewUserModal } from '../components/new-user-modal/new-user-modal';
 import { AuthService } from '../services/auth.service';
 import { APP_ROUTES } from '../constants/app-routes';
 import { AppIcon } from '../components/icon/icon';
+import { AppButton } from '../components/button/button';
 import { IconName } from '../enums/icon-name.enum';
+import { ButtonVariant, ButtonSize, ButtonWidth } from '../enums/button.enum';
 
 @Component({
   selector: 'app-topbar',
-  imports: [NewOrderModal, NewUserModal, RouterLink, RouterLinkActive, AppIcon],
+  imports: [NewOrderModal, NewUserModal, RouterLink, RouterLinkActive, AppIcon, AppButton],
   templateUrl: './topbar.html',
 })
 export class Topbar {
@@ -19,6 +21,9 @@ export class Topbar {
   showUserMenu = false;
   readonly IconName = IconName;
   readonly routes = APP_ROUTES;
+  readonly ButtonVariant = ButtonVariant;
+  readonly ButtonSize = ButtonSize;
+  readonly ButtonWidth = ButtonWidth;
 
   constructor(
     public auth: AuthService,

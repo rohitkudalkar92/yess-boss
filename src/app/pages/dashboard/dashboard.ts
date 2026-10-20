@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { StatCard } from '../../components/stat-card/stat-card';
 import { DataTable, TableColumn } from '../../components/data-table/data-table';
+import { IconName } from '../../enums/icon-name.enum';
 
 interface Order {
   id: string;
@@ -16,6 +17,7 @@ interface Order {
   templateUrl: './dashboard.html',
 })
 export class Dashboard {
+  readonly IconName = IconName;
   readonly columns: TableColumn[] = [
     { key: 'id', label: 'Order' },
     { key: 'client', label: 'Client' },
