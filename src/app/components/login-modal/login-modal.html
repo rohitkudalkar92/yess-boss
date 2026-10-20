@@ -4,13 +4,19 @@
       <h2 class="text-slate-900 font-bold text-xl">Welcome Back</h2>
       <button (click)="close.emit()" class="text-slate-400 hover:text-slate-700">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
     </div>
     <form #loginForm="ngForm" class="space-y-4">
       <app-input label="Username" placeholder="Enter username" [(ngModel)]="username" name="username" required />
-      <app-input label="Password" placeholder="Enter password" [type]="InputType.Password" [(ngModel)]="password" name="password" required />
+      <app-input
+        label="Password"
+        placeholder="Enter password"
+        [type]="InputType.Password"
+        [(ngModel)]="password"
+        name="password"
+        required />
     </form>
     <app-button
       label="Login"
@@ -19,7 +25,6 @@
       [width]="ButtonWidth.Full"
       [disabled]="loginForm.invalid || loading"
       [loading]="loading"
-      (clicked)="login()"
-    />
+      (clicked)="login()" />
   </div>
 </div>

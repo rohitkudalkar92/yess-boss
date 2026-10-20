@@ -1,8 +1,8 @@
 export enum ButtonVariant {
-  Primary   = 'primary',
+  Primary = 'primary',
   Secondary = 'secondary',
-  Danger    = 'danger',
-  Ghost     = 'ghost',
+  Danger = 'danger',
+  Ghost = 'ghost',
 }
 
 export enum ButtonSize {
@@ -13,23 +13,23 @@ export enum ButtonSize {
 }
 
 export enum ButtonWidth {
-  Auto  = 'auto',
-  Full  = 'full',
+  Auto = 'auto',
+  Full = 'full',
 }
 
 export enum ButtonType {
   Button = 'button',
   Submit = 'submit',
-  Reset  = 'reset',
+  Reset = 'reset',
 }
 
 export enum ButtonIconPosition {
-  Left  = 'left',
+  Left = 'left',
   Right = 'right',
 }
 
 export enum ButtonLoadingStyle {
   Spinner = 'spinner',
-  Text    = 'text',
-  Icon    = 'icon',
+  Text = 'text',
+  Icon = 'icon',
 }

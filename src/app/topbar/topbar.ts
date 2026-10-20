@@ -18,7 +18,10 @@ export class Topbar {
   readonly IconName = IconName;
   readonly routes = APP_ROUTES;
 
-  constructor(public auth: AuthService, private router: Router) {}
+  constructor(
+    public auth: AuthService,
+    private router: Router,
+  ) {}
 
   logout() {
     this.auth.logout();

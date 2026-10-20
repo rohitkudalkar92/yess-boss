@@ -1,5 +1,19 @@
-import { Component, Input, Output, EventEmitter, forwardRef, booleanAttribute } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, Validator, AbstractControl, ValidationErrors } from '@angular/forms';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  forwardRef,
+  booleanAttribute,
+} from '@angular/core';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+  NG_VALIDATORS,
+  Validator,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { InputType } from '../../enums/input-type.enum';
 
@@ -32,7 +46,9 @@ export class AppInput implements ControlValueAccessor, Validator {
   private onChange = (_: string) => {};
   onTouched = () => {};
 
-  get charCount() { return this.value?.length ?? 0; }
+  get charCount() {
+    return this.value?.length ?? 0;
+  }
 
   get filtered() {
     return this.options.filter(o => o.toLowerCase().includes(this.search.toLowerCase()));
@@ -42,9 +58,15 @@ export class AppInput implements ControlValueAccessor, Validator {
     const errs: string[] = [];
     if (this.touched && this.required && !this.value) errs.push('This field is required.');
     if (this.type !== InputType.Date && this.type !== InputType.Select) {
-      if (this.touched && this.minLength > 0 && this.charCount > 0 && this.charCount < this.minLength)
+      if (
+        this.touched &&
+        this.minLength > 0 &&
+        this.charCount > 0 &&
+        this.charCount < this.minLength
+      )
         errs.push(`Minimum ${this.minLength} characters required.`);
-      if (this.charCount > this.maxLength) errs.push(`Maximum ${this.maxLength} characters allowed.`);
+      if (this.charCount > this.maxLength)
+        errs.push(`Maximum ${this.maxLength} characters allowed.`);
     }
     return errs;
   }
@@ -83,14 +105,21 @@ export class AppInput implements ControlValueAccessor, Validator {
     this.onBlur();
   }
 
-  writeValue(val: string) { this.value = val ?? ''; }
-  registerOnChange(fn: (_: string) => void) { this.onChange = fn; }
-  registerOnTouched(fn: () => void) { this.onTouched = fn; }
+  writeValue(val: string) {
+    this.value = val ?? '';
+  }
+  registerOnChange(fn: (_: string) => void) {
+    this.onChange = fn;
+  }
+  registerOnTouched(fn: () => void) {
+    this.onTouched = fn;
+  }
 
   validate(_: AbstractControl): ValidationErrors | null {
     if (this.required && !this.value) return { required: true };
     if (this.type !== InputType.Date && this.type !== InputType.Select) {
-      if (this.minLength > 0 && this.charCount > 0 && this.charCount < this.minLength) return { minLength: true };
+      if (this.minLength > 0 && this.charCount > 0 && this.charCount < this.minLength)
+        return { minLength: true };
       if (this.charCount > this.maxLength) return { maxLength: true };
     }
     return null;

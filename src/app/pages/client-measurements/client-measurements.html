@@ -1,17 +1,16 @@
 <div class="space-y-6">
-
   <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
     <div>
       <h1 class="text-xl sm:text-2xl font-bold text-slate-900">Men's Client Measurements</h1>
       <p class="text-sm text-slate-400 mt-1">{{ measurements.length }} clients on record</p>
     </div>
-    <button class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition">
+    <button
+      class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition">
       + Add Measurement
     </button>
   </div>
 
   <app-data-table [columns]="columns" [rows]="measurements">
-
     <ng-template #cell let-row let-col="col">
       @if (col === 'client') {
         <span class="font-semibold text-slate-900">{{ row[col] }}</span>
@@ -61,7 +60,5 @@
         </div>
       </div>
     </ng-template>
-
   </app-data-table>
-
 </div>

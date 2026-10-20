@@ -1,5 +1,12 @@
 import { Component, Input, Output, EventEmitter, booleanAttribute } from '@angular/core';
-import { ButtonVariant, ButtonSize, ButtonWidth, ButtonType, ButtonIconPosition, ButtonLoadingStyle } from '../../enums/button.enum';
+import {
+  ButtonVariant,
+  ButtonSize,
+  ButtonWidth,
+  ButtonType,
+  ButtonIconPosition,
+  ButtonLoadingStyle,
+} from '../../enums/button.enum';
 import { IconName } from '../../enums/icon-name.enum';
 import { AppIcon } from '../icon/icon';
 
@@ -21,21 +28,29 @@ export class AppButton {
   @Input() iconPosition: ButtonIconPosition = ButtonIconPosition.Left;
   @Input() loadingStyle: ButtonLoadingStyle = ButtonLoadingStyle.Spinner;
   @Input() loadingText = 'Loading...';
-  
+
   @Output() clicked = new EventEmitter<void>();
 
-  get isDisabled() { return this.disabled || this.loading; }
-  get isSpinner()   { return this.loading && this.loadingStyle === ButtonLoadingStyle.Spinner; }
-  get isTextLoad()  { return this.loading && this.loadingStyle === ButtonLoadingStyle.Text; }
-  get isIconLoad()  { return this.loading && this.loadingStyle === ButtonLoadingStyle.Icon; }
+  get isDisabled() {
+    return this.disabled || this.loading;
+  }
+  get isSpinner() {
+    return this.loading && this.loadingStyle === ButtonLoadingStyle.Spinner;
+  }
+  get isTextLoad() {
+    return this.loading && this.loadingStyle === ButtonLoadingStyle.Text;
+  }
+  get isIconLoad() {
+    return this.loading && this.loadingStyle === ButtonLoadingStyle.Icon;
+  }
 
   get variantClasses(): string {
     if (this.isDisabled) return 'bg-slate-200 text-slate-400 cursor-not-allowed';
     const map: Record<ButtonVariant, string> = {
-      [ButtonVariant.Primary]:   'bg-emerald-600 hover:bg-emerald-500 text-white',
+      [ButtonVariant.Primary]: 'bg-emerald-600 hover:bg-emerald-500 text-white',
       [ButtonVariant.Secondary]: 'border border-slate-200 text-slate-600 hover:bg-slate-50',
-      [ButtonVariant.Danger]:    'bg-red-500 hover:bg-red-600 text-white',
-      [ButtonVariant.Ghost]:     'text-slate-500 hover:text-slate-800 hover:bg-slate-100',
+      [ButtonVariant.Danger]: 'bg-red-500 hover:bg-red-600 text-white',
+      [ButtonVariant.Ghost]: 'text-slate-500 hover:text-slate-800 hover:bg-slate-100',
     };
     const active = this.active ? 'ring-2 ring-offset-1 ring-emerald-400' : '';
     return `${map[this.variant]} ${active}`;

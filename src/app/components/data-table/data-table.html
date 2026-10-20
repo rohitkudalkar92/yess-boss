@@ -1,10 +1,32 @@
 <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-
-  @if (title() || actionsRef) {
-    <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center">
-      <h2 class="text-base font-bold text-slate-900">{{ title() }}</h2>
-      @if (actionsRef) {
-        <ng-container *ngTemplateOutlet="actionsRef" />
+  @if (title() || actionsRef || searchable()) {
+    <div class="px-6 py-4 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center gap-3">
+      <div class="flex-1 flex justify-between items-center">
+        <h2 class="text-base font-bold text-slate-900">{{ title() }}</h2>
+        @if (actionsRef) {
+          <ng-container *ngTemplateOutlet="actionsRef" />
+        }
+      </div>
+      @if (searchable()) {
+        <div class="relative">
+          <svg
+            class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+          </svg>
+          <input
+            type="text"
+            [value]="search()"
+            (input)="search.set($any($event.target).value)"
+            placeholder="Search..."
+            class="bg-slate-100 text-sm pl-9 pr-4 py-2 rounded-xl border border-transparent focus:outline-none focus:ring-2 focus:ring-emerald-500 transition w-full sm:w-56" />
+        </div>
       }
     </div>
   }
@@ -20,7 +42,7 @@
         </tr>
       </thead>
       <tbody class="divide-y divide-slate-100">
-        @for (row of rows(); track $index) {
+        @for (row of filtered(); track $index) {
           <tr class="hover:bg-slate-50/60 transition">
             @for (col of columns(); track col.key) {
               <td class="px-6 py-3.5">
@@ -39,11 +61,10 @@
 
   <!-- Mobile -->
   <div class="sm:hidden divide-y divide-slate-100">
-    @for (row of rows(); track $index) {
+    @for (row of filtered(); track $index) {
       @if (mobileRowRef) {
         <ng-container *ngTemplateOutlet="mobileRowRef; context: { $implicit: row }" />
       }
     }
   </div>
-
 </div>

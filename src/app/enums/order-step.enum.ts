@@ -1,4 +1,4 @@
 export enum OrderStep {
-  Info    = 1,
+  Info = 1,
   Details = 2,
 }

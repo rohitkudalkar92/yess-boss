@@ -20,7 +20,9 @@ export class NewOrderModal {
   private toast = inject(ToastService);
   private clientService = inject(ClientService);
 
-  get clients() { return this.clientService.clients(); }
+  get clients() {
+    return this.clientService.clients();
+  }
 
   readonly ButtonVariant = ButtonVariant;
   readonly ButtonWidth = ButtonWidth;
@@ -68,7 +70,13 @@ export class NewOrderModal {
 
   close() {
     this.step = OrderStep.Info;
-    this.form = { client: '', phone: '', garment: '' as Garment | '', status: 'In Cutting', dueDate: '' };
+    this.form = {
+      client: '',
+      phone: '',
+      garment: '' as Garment | '',
+      status: 'In Cutting',
+      dueDate: '',
+    };
     this.garmentDetails = {};
     this.closed.emit();
   }

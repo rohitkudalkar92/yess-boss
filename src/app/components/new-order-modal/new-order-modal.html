@@ -1,42 +1,74 @@
 <!-- Backdrop -->
 <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm" (click)="close()">
-
   <!-- Modal -->
-  <div class="bg-white rounded-2xl shadow-xl w-full max-w-md max-h-[90vh] flex flex-col" (click)="$event.stopPropagation()">
-
+  <div
+    class="bg-white rounded-2xl shadow-xl w-full max-w-md max-h-[90vh] flex flex-col"
+    (click)="$event.stopPropagation()">
     <!-- Header -->
     <div class="flex items-center justify-between px-6 py-5 border-b border-slate-100 shrink-0">
       <div>
         <h2 class="text-base font-bold text-slate-900">New Order</h2>
-        <p class="text-xs text-slate-400 mt-0.5">Step {{ step }} of 2 — {{ step === OrderStep.Info ? 'Order Info' : form.garment + ' Details' }}</p>
+        <p class="text-xs text-slate-400 mt-0.5">
+          Step {{ step }} of 2 — {{ step === OrderStep.Info ? 'Order Info' : form.garment + ' Details' }}
+        </p>
       </div>
       <button (click)="close()" class="text-slate-400 hover:text-slate-600 transition">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
     </div>
 
     <!-- Step indicator -->
     <div class="flex px-6 pt-5 gap-2 shrink-0">
-      <div class="h-1 flex-1 rounded-full transition-all" [class]="step >= OrderStep.Info ? 'bg-emerald-500' : 'bg-slate-200'"></div>
-      <div class="h-1 flex-1 rounded-full transition-all" [class]="step >= OrderStep.Details ? 'bg-emerald-500' : 'bg-slate-200'"></div>
+      <div
+        class="h-1 flex-1 rounded-full transition-all"
+        [class]="step >= OrderStep.Info ? 'bg-emerald-500' : 'bg-slate-200'"></div>
+      <div
+        class="h-1 flex-1 rounded-full transition-all"
+        [class]="step >= OrderStep.Details ? 'bg-emerald-500' : 'bg-slate-200'"></div>
     </div>
 
     <!-- Scrollable body -->
     <div class="overflow-y-auto flex-1 px-6 py-5 space-y-4">
-
       <!-- Step 1 -->
       @if (step === OrderStep.Info) {
         <form class="space-y-4">
-          <app-input label="Client Name" [type]="InputType.Select" [options]="clients" placeholder="Select client..." [(ngModel)]="form.client" name="client" allowCreate (createNew)="onCreateClient($event)" required />
+          <app-input
+            label="Client Name"
+            [type]="InputType.Select"
+            [options]="clients"
+            placeholder="Select client..."
+            [(ngModel)]="form.client"
+            name="client"
+            allowCreate
+            (createNew)="onCreateClient($event)"
+            required />
 
-          <app-input label="Phone Number" placeholder="e.g. +1-202-555-0141" [type]="InputType.Tel" [(ngModel)]="form.phone" name="phone" />
+          <app-input
+            label="Phone Number"
+            placeholder="e.g. +1-202-555-0141"
+            [type]="InputType.Tel"
+            [(ngModel)]="form.phone"
+            name="phone" />
 
-          <app-input label="Garment" [type]="InputType.Select" [options]="garments" placeholder="Select garment..." [(ngModel)]="form.garment" name="garment" (ngModelChange)="onGarmentChange()" required />
+          <app-input
+            label="Garment"
+            [type]="InputType.Select"
+            [options]="garments"
+            placeholder="Select garment..."
+            [(ngModel)]="form.garment"
+            name="garment"
+            (ngModelChange)="onGarmentChange()"
+            required />
 
           <div class="grid grid-cols-2 gap-4">
-            <app-input label="Status" [type]="InputType.Select" [options]="statuses" [(ngModel)]="form.status" name="status" />
+            <app-input
+              label="Status"
+              [type]="InputType.Select"
+              [options]="statuses"
+              [(ngModel)]="form.status"
+              name="status" />
             <app-input label="Due Date" [type]="InputType.Date" [(ngModel)]="form.dueDate" name="dueDate" required />
           </div>
         </form>
@@ -52,29 +84,45 @@
           @for (field of fields; track field.key) {
             <div [class]="field.type === 'select' ? 'col-span-2' : ''">
               @if (field.type === 'number') {
-                <app-input [label]="field.label" [type]="InputType.Number" [(ngModel)]="garmentDetails[field.key]" [name]="field.key" [placeholder]="field.placeholder || ''" />
+                <app-input
+                  [label]="field.label"
+                  [type]="InputType.Number"
+                  [(ngModel)]="garmentDetails[field.key]"
+                  [name]="field.key"
+                  [placeholder]="field.placeholder || ''" />
               }
               @if (field.type === 'select') {
-                <app-input [label]="field.label" [type]="InputType.Select" [options]="field.options || []" [(ngModel)]="garmentDetails[field.key]" [name]="field.key" />
+                <app-input
+                  [label]="field.label"
+                  [type]="InputType.Select"
+                  [options]="field.options || []"
+                  [(ngModel)]="garmentDetails[field.key]"
+                  [name]="field.key" />
               }
             </div>
           }
         </div>
       }
-
     </div>
 
     <!-- Footer -->
     <div class="px-6 py-5 border-t border-slate-100 flex gap-3 shrink-0 [&>*]:flex-1">
       @if (step === OrderStep.Info) {
         <app-button label="Cancel" [variant]="ButtonVariant.Secondary" [width]="ButtonWidth.Full" (clicked)="close()" />
-        <app-button label="Next →" [width]="ButtonWidth.Full" [disabled]="!form.client || !form.garment || !form.dueDate" (clicked)="nextStep()" />
+        <app-button
+          label="Next →"
+          [width]="ButtonWidth.Full"
+          [disabled]="!form.client || !form.garment || !form.dueDate"
+          (clicked)="nextStep()" />
       }
       @if (step === OrderStep.Details) {
-        <app-button label="← Back" [variant]="ButtonVariant.Secondary" [width]="ButtonWidth.Full" (clicked)="step = OrderStep.Info" />
+        <app-button
+          label="← Back"
+          [variant]="ButtonVariant.Secondary"
+          [width]="ButtonWidth.Full"
+          (clicked)="step = OrderStep.Info" />
         <app-button label="Create Order" [width]="ButtonWidth.Full" (clicked)="submit()" />
       }
     </div>
-
   </div>
 </div>

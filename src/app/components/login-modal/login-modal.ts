@@ -25,7 +25,10 @@ export class LoginModal {
   password = '';
   loading = false;
 
-  constructor(private router: Router, private auth: AuthService) {}
+  constructor(
+    private router: Router,
+    private auth: AuthService,
+  ) {}
 
   async login() {
     this.loading = true;

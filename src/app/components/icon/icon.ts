@@ -13,7 +13,7 @@ import { IconName } from '../../enums/icon-name.enum';
 })
 export class AppIcon {
   name = input.required<IconName>();
-  cls  = input('w-5 h-5');
+  cls = input('w-5 h-5');
 
   path() {
     return ICONS[this.name()];
