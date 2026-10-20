@@ -103,25 +103,12 @@
     <!-- Footer -->
     <div class="px-6 py-5 border-t border-slate-100 flex gap-3 shrink-0">
       @if (step === 1) {
-        <button type="button" (click)="close()"
-          class="flex-1 border border-slate-200 text-slate-600 text-sm font-semibold py-2.5 rounded-xl hover:bg-slate-50 transition">
-          Cancel
-        </button>
-        <button type="button" (click)="nextStep()"
-          [disabled]="!form.client || !form.garment || !form.dueDate"
-          class="flex-1 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-semibold py-2.5 rounded-xl transition">
-          Next →
-        </button>
+        <app-button label="Cancel" [variant]="ButtonVariant.Secondary" [width]="ButtonWidth.Full" (clicked)="close()" />
+        <app-button label="Next →" [width]="ButtonWidth.Full" [disabled]="!form.client || !form.garment || !form.dueDate" (clicked)="nextStep()" />
       }
       @if (step === 2) {
-        <button type="button" (click)="step = 1"
-          class="flex-1 border border-slate-200 text-slate-600 text-sm font-semibold py-2.5 rounded-xl hover:bg-slate-50 transition">
-          ← Back
-        </button>
-        <button type="button" (click)="submit()"
-          class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold py-2.5 rounded-xl transition">
-          Create Order
-        </button>
+        <app-button label="← Back" [variant]="ButtonVariant.Secondary" [width]="ButtonWidth.Full" (clicked)="step = 1" />
+        <app-button label="Create Order" [width]="ButtonWidth.Full" (clicked)="submit()" />
       }
     </div>
 

@@ -5,6 +5,7 @@ import { Toast } from './components/toast/toast';
 import { filter } from 'rxjs';
 import { APP_ROUTES } from './constants/app-routes';
 import { AppIcon } from './components/icon/icon';
+import { IconName } from './enums/icon-name.enum';
 
 export interface Order {
   id: string;
@@ -23,6 +24,7 @@ export interface Order {
 export class App {
   protected readonly title = signal('yess-boss');
   readonly routes = APP_ROUTES;
+  readonly IconName = IconName;
   isLanding = false;
 
   constructor(private router: Router) {

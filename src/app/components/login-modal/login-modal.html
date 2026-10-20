@@ -1,0 +1,25 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm mx-4 p-8 space-y-6">
+    <div class="flex items-center justify-between">
+      <h2 class="text-slate-900 font-bold text-xl">Welcome Back</h2>
+      <button (click)="close.emit()" class="text-slate-400 hover:text-slate-700">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    <form #loginForm="ngForm" class="space-y-4">
+      <app-input label="Username" placeholder="Enter username" [(ngModel)]="username" name="username" required />
+      <app-input label="Password" placeholder="Enter password" [type]="InputType.Password" [(ngModel)]="password" name="password" required />
+    </form>
+    <app-button
+      label="Login"
+      [icon]="IconName.ArrowRight"
+      [iconPosition]="ButtonIconPosition.Right"
+      [width]="ButtonWidth.Full"
+      [disabled]="loginForm.invalid || loading"
+      [loading]="loading"
+      (clicked)="login()"
+    />
+  </div>
+</div>

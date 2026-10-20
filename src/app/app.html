@@ -17,16 +17,8 @@
         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
           <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Quick Directory</h3>
           <button [routerLink]="routes.MEASUREMENTS" class="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition font-medium text-sm text-slate-700">
-            <span class="flex items-center gap-2"><app-icon name="measurements" [cls]="'w-4 h-4'" /> Client Measurements</span>
-            <app-icon name="arrowRight" [cls]="'w-4 h-4 text-slate-400'" />
-          </button>
-          <button class="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition font-medium text-sm text-slate-700">
-            <span class="flex items-center gap-2"><app-icon name="clients" [cls]="'w-4 h-4'" /> Client Database</span>
-            <app-icon name="arrowRight" [cls]="'w-4 h-4 text-slate-400'" />
-          </button>
-          <button class="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition font-medium text-sm text-slate-700">
-            <span class="flex items-center gap-2"><app-icon name="invoice" [cls]="'w-4 h-4'" /> Generate Invoice</span>
-            <app-icon name="arrowRight" [cls]="'w-4 h-4 text-slate-400'" />
+            <span class="flex items-center gap-2"><app-icon [name]="IconName.Measurements" [cls]="'w-4 h-4'" /> Client Measurements</span>
+            <app-icon [name]="IconName.ArrowRight" [cls]="'w-4 h-4 text-slate-400'" />
           </button>
         </div>
       </aside>
@@ -35,19 +27,19 @@
 
     <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-30 flex">
       <a [routerLink]="routes.DASHBOARD" routerLinkActive="text-emerald-600 bg-emerald-50" class="flex-1 flex flex-col items-center justify-center py-3 text-slate-500 hover:text-emerald-600 transition text-xs font-medium gap-1">
-        <app-icon name="home" />
+        <app-icon [name]="IconName.Home" />
         Dashboard
       </a>
       <a [routerLink]="routes.MEASUREMENTS" routerLinkActive="text-emerald-600 bg-emerald-50" class="flex-1 flex flex-col items-center justify-center py-3 text-slate-500 hover:text-emerald-600 transition text-xs font-medium gap-1">
-        <app-icon name="measurements" />
+        <app-icon [name]="IconName.Measurements" />
         Measurements
       </a>
       <a class="flex-1 flex flex-col items-center justify-center py-3 text-slate-500 hover:text-emerald-600 transition text-xs font-medium gap-1">
-        <app-icon name="clients" />
+        <app-icon [name]="IconName.Clients" />
         Clients
       </a>
       <a class="flex-1 flex flex-col items-center justify-center py-3 text-slate-500 hover:text-emerald-600 transition text-xs font-medium gap-1">
-        <app-icon name="invoice" />
+        <app-icon [name]="IconName.Invoice" />
         Invoice
       </a>
     </nav>

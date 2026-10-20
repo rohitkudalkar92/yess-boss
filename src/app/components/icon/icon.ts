@@ -1,5 +1,6 @@
 import { Component, input } from '@angular/core';
 import { ICONS } from '../../constants/icons';
+import { IconName } from '../../enums/icon-name.enum';
 
 @Component({
   selector: 'app-icon',
@@ -11,7 +12,7 @@ import { ICONS } from '../../constants/icons';
   host: { style: 'display:contents' },
 })
 export class AppIcon {
-  name = input.required<keyof typeof ICONS>();
+  name = input.required<IconName>();
   cls  = input('w-5 h-5');
 
   path() {

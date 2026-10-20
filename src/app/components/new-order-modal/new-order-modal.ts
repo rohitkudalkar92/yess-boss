@@ -2,16 +2,21 @@ import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Garment, GarmentField, GARMENT_FIELDS } from '../../enums/garment.enum';
 import { ToastService } from '../../services/toast.service';
+import { AppButton } from '../button/button';
+import { ButtonVariant, ButtonWidth } from '../../enums/button.enum';
 
 @Component({
   selector: 'app-new-order-modal',
-  imports: [FormsModule],
+  imports: [FormsModule, AppButton],
   templateUrl: './new-order-modal.html',
 })
 export class NewOrderModal {
   @Output() closed = new EventEmitter<void>();
 
   private toast = inject(ToastService);
+
+  readonly ButtonVariant = ButtonVariant;
+  readonly ButtonWidth = ButtonWidth;
 
   step = 1;
 

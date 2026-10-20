@@ -3,13 +3,13 @@
 
     <div class="flex items-center space-x-3">
       <button (click)="showSidebar = true" class="md:hidden p-2 text-slate-600 hover:text-slate-900 focus:outline-none">
-        <app-icon name="menu" [cls]="'w-6 h-6'" />
+        <app-icon [name]="IconName.Menu" [cls]="'w-6 h-6'" />
       </button>
       <a [routerLink]="routes.DASHBOARD" class="flex items-center space-x-3 cursor-pointer">
         <div class="bg-slate-800 text-white p-2 rounded-lg font-bold text-lg leading-none">YB</div>
         <div class="flex flex-col leading-tight">
-          <span class="font-bold text-lg sm:text-xl text-slate-900 truncate">Yes Boss Tailor</span>
-          <span class="text-xs font-medium text-slate-400 tracking-widest uppercase">Men's Portal</span>
+          <span class="font-bold text-lg sm:text-xl text-slate-900 truncate">Yes Boss</span>
+          <span class="text-xs font-medium text-slate-400 tracking-widest uppercase">Men's Tailor</span>
         </div>
       </a>
     </div>
@@ -21,13 +21,13 @@
           placeholder="Search orders, clients..."
           class="w-full bg-slate-100 text-sm pl-9 pr-4 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 border border-transparent transition"
         >
-        <app-icon name="search" [cls]="'w-4 h-4 text-slate-400 absolute left-3 top-3'" />
+        <app-icon [name]="IconName.Search" [cls]="'w-4 h-4 text-slate-400 absolute left-3 top-3'" />
       </div>
     </div>
 
     <div class="flex items-center space-x-3">
       <button (click)="showModal = true" class="md:hidden bg-emerald-600 hover:bg-emerald-700 text-white p-2 rounded-xl transition">
-        <app-icon name="plus" [cls]="'w-5 h-5'" />
+        <app-icon [name]="IconName.Plus" [cls]="'w-5 h-5'" />
       </button>
       <button (click)="showModal = true" class="hidden md:inline-flex bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition">
         + New Order
@@ -62,27 +62,19 @@
       <div class="flex items-center justify-between px-5 py-4 border-b border-slate-200">
         <span class="font-bold text-slate-800 text-base">Quick Directory</span>
         <button (click)="showSidebar = false" class="p-1 text-slate-400 hover:text-slate-700">
-          <app-icon name="close" [cls]="'w-5 h-5'" />
+          <app-icon [name]="IconName.Close" [cls]="'w-5 h-5'" />
         </button>
       </div>
       <nav class="flex-1 px-4 py-4 space-y-2">
         <a [routerLink]="routes.DASHBOARD" routerLinkActive="bg-emerald-50 text-emerald-700" (click)="showSidebar = false"
           class="flex items-center justify-between px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition font-medium text-sm text-slate-700">
           <span>Dashboard</span>
-          <app-icon name="arrowRight" [cls]="'w-4 h-4 text-slate-400'" />
+          <app-icon [name]="IconName.ArrowRight" [cls]="'w-4 h-4 text-slate-400'" />
         </a>
         <a [routerLink]="routes.MEASUREMENTS" routerLinkActive="bg-emerald-50 text-emerald-700" (click)="showSidebar = false"
           class="flex items-center justify-between px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition font-medium text-sm text-slate-700">
           <span>Client Measurements</span>
-          <app-icon name="arrowRight" [cls]="'w-4 h-4 text-slate-400'" />
-        </a>
-        <a class="flex items-center justify-between px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition font-medium text-sm text-slate-700">
-          <span>Client Database</span>
-          <app-icon name="arrowRight" [cls]="'w-4 h-4 text-slate-400'" />
-        </a>
-        <a class="flex items-center justify-between px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition font-medium text-sm text-slate-700">
-          <span>Generate Invoice</span>
-          <app-icon name="arrowRight" [cls]="'w-4 h-4 text-slate-400'" />
+          <app-icon [name]="IconName.ArrowRight" [cls]="'w-4 h-4 text-slate-400'" />
         </a>
       </nav>
     </div>
