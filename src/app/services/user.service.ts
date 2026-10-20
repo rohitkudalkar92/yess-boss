@@ -23,6 +23,8 @@ export interface User {
   phone: string;
   email: string;
   isActive: boolean;
+  token?: string;
+  tokenExpiry?: string;
   createdAt: string;
   modifiedAt: string;
 }
@@ -47,6 +49,23 @@ export class UserService {
   async findByCredentials(username: string, password: string): Promise<User | null> {
     const snapshot = await getDocs(
       query(collection(db, 'users'), where('username', '==', username), where('password', '==', password), where('isActive', '==', true))
+    );
+    if (snapshot.empty) return null;
+    const d = snapshot.docs[0];
+    return { id: d.id, ...d.data() } as User;
+  }
+
+  async saveToken(id: string, token: string, tokenExpiry: string) {
+    await updateDoc(doc(db, 'users', id), { token, tokenExpiry });
+  }
+
+  async clearToken(id: string) {
+    await updateDoc(doc(db, 'users', id), { token: '', tokenExpiry: '' });
+  }
+
+  async findByToken(token: string): Promise<User | null> {
+    const snapshot = await getDocs(
+      query(collection(db, 'users'), where('token', '==', token), where('isActive', '==', true))
     );
     if (snapshot.empty) return null;
     const d = snapshot.docs[0];
