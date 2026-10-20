@@ -1,18 +1,9 @@
-<div
-  class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-  <p
-    class="text-xs font-semibold uppercase tracking-wider text-slate-400">
-    {{ label() }}
-  </p>
-  <p class="text-3xl font-extrabold text-slate-900 mt-2">
-    {{ value() }}
-  </p>
+<div class="bg-white px-6 py-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col gap-1">
+  <div class="flex items-start justify-between">
+    <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">{{ label() }}</p>
+    <p class="text-4xl font-extrabold text-slate-900 tabular-nums">{{ value() }}</p>
+  </div>
   @if (badge()) {
-    <span
-      class="text-xs font-medium mt-2 inline-block {{
-        badgeClass()
-      }}"
-      >{{ badge() }}</span
-    >
+    <span class="text-xs font-semibold px-2 py-0.5 rounded-full w-fit mt-1 {{ badgeClass() }}">{{ badge() }}</span>
   }
 </div>

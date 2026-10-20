@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { NewOrderModal } from '../components/new-order-modal/new-order-modal';
+import { NewUserModal } from '../components/new-user-modal/new-user-modal';
 import { AuthService } from '../services/auth.service';
 import { APP_ROUTES } from '../constants/app-routes';
 import { AppIcon } from '../components/icon/icon';
@@ -8,11 +9,12 @@ import { IconName } from '../enums/icon-name.enum';
 
 @Component({
   selector: 'app-topbar',
-  imports: [NewOrderModal, RouterLink, RouterLinkActive, AppIcon],
+  imports: [NewOrderModal, NewUserModal, RouterLink, RouterLinkActive, AppIcon],
   templateUrl: './topbar.html',
 })
 export class Topbar {
   showModal = false;
+  showUserModal = false;
   showSidebar = false;
   showUserMenu = false;
   readonly IconName = IconName;

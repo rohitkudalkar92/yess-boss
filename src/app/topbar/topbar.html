@@ -57,7 +57,7 @@
         + New Order
       </button>
       <button
-        (click)="showModal = true"
+        (click)="showUserModal = true"
         class="hidden md:inline-flex bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition">
         + New User
       </button>
@@ -88,6 +88,10 @@
 
 @if (showModal) {
   <app-new-order-modal (closed)="showModal = false" />
+}
+
+@if (showUserModal) {
+  <app-new-user-modal (closed)="showUserModal = false" />
 }
 
 @if (showSidebar) {
