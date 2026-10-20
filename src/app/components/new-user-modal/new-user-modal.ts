@@ -22,7 +22,7 @@ export class NewUserModal {
   readonly ButtonWidth = ButtonWidth;
   readonly InputType = InputType;
 
-  form = { name: '', phone: '', email: '' };
+  form = { name: '', phone: '', email: '', age: '' };
 
   submit() {
     this.clientService.add(this.form.name.trim());
@@ -31,7 +31,7 @@ export class NewUserModal {
   }
 
   close() {
-    this.form = { name: '', phone: '', email: '' };
+    this.form = { name: '', phone: '', email: '', age: '' };
     this.closed.emit();
   }
 }

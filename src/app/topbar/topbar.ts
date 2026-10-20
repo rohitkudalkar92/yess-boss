@@ -19,6 +19,7 @@ export class Topbar {
   showUserModal = false;
   showSidebar = false;
   showUserMenu = false;
+  showMobileMenu = false;
   readonly IconName = IconName;
   readonly routes = APP_ROUTES;
   readonly ButtonVariant = ButtonVariant;

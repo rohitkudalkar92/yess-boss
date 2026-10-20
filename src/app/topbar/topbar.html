@@ -44,14 +44,20 @@
     </div>
 
     <div class="flex items-center space-x-3">
-      <span class="md:hidden">
-        <app-button [icon]="IconName.Plus" label="" [size]="ButtonSize.Md" (clicked)="showModal = true" />
-      </span>
+      <div class="md:hidden relative">
+        <app-button [icon]="IconName.Plus" label="" [size]="ButtonSize.Md" (clicked)="showMobileMenu = !showMobileMenu" />
+        @if (showMobileMenu) {
+          <div class="absolute right-0 mt-2 w-40 bg-white border border-slate-200 rounded-xl shadow-lg z-50 overflow-hidden">
+            <app-button label="+ New Order" [width]="ButtonWidth.Full" (clicked)="showModal = true; showMobileMenu = false" />
+            <app-button label="+ New User" [variant]="ButtonVariant.Secondary" [width]="ButtonWidth.Full" (clicked)="showUserModal = true; showMobileMenu = false" />
+          </div>
+        }
+      </div>
       <span class="hidden md:inline-flex">
         <app-button label="+ New Order" (clicked)="showModal = true" />
       </span>
       <span class="hidden md:inline-flex">
-        <app-button label="+ New User" (clicked)="showUserModal = true" />
+        <app-button label="+ New User" [variant]="ButtonVariant.Secondary" (clicked)="showUserModal = true" />
       </span>
       <div class="relative">
         <button
