@@ -13,19 +13,13 @@
       <a
         [routerLink]="routes.DASHBOARD"
         class="flex items-center space-x-3 cursor-pointer">
-        <div
-          class="bg-slate-800 text-white p-2 rounded-lg font-bold text-lg leading-none">
-          YB
+        <div class="relative w-12 h-12 rounded-full bg-emerald-800 flex items-center justify-center shadow-lg"
+          style="background: radial-gradient(circle at 35% 35%, #065f46, #022c22); box-shadow: 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.1); outline: 2px solid #064e3b; outline-offset: 2px;">
+          <img src="logo.png" alt="Yes Boss" class="w-8 h-8 object-contain" />
         </div>
         <div class="flex flex-col leading-tight">
-          <span
-            class="font-bold text-lg sm:text-xl text-slate-900 truncate"
-            >Yes Boss</span
-          >
-          <span
-            class="text-xs font-medium text-slate-400 tracking-widest uppercase"
-            >Men's Tailor</span
-          >
+          <span class="font-bold text-lg sm:text-xl text-slate-900 truncate">Yes Boss</span>
+          <span class="text-xs font-medium text-slate-400 tracking-widest uppercase">Men's Tailor</span>
         </div>
       </a>
     </div>
@@ -71,8 +65,14 @@
             <div
               class="px-4 py-2.5 text-xs text-slate-400 border-b border-slate-100 truncate">
               {{ auth.username() }}
+              <span class="block text-[10px] font-semibold text-slate-600">{{ UserRoleLabel[auth.currentUser()?.role!] }}</span>
+              @if (auth.currentUser()?.email) {
+                <span class="block text-[10px] font-semibold text-slate-600 truncate">{{ auth.currentUser()?.email }}</span>
+              }
             </div>
-            <app-button label="Logout" [variant]="ButtonVariant.Danger" [size]="ButtonSize.Sm" [width]="ButtonWidth.Full" (clicked)="logout()" />
+            <div class="p-2">
+              <app-button label="Logout" [variant]="ButtonVariant.Danger" [size]="ButtonSize.Sm" [width]="ButtonWidth.Full" (clicked)="logout()" />
+            </div>
           </div>
         }
       </div>

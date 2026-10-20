@@ -110,6 +110,7 @@
       [(ngModel)]="value"
       (ngModelChange)="onInput($event)"
       (blur)="onBlur()"
+      [min]="type === InputType.Date && disablePast ? todayStr : null"
       [class]="
         'w-full bg-slate-100 text-sm px-4 py-2.5 rounded-xl border transition focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-800 ' +
         (errors.length

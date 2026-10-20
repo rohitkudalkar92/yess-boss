@@ -1,19 +1,18 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, inject } from '@angular/core';
+import { UserService, User } from './user.service';
 
-const USERNAME_KEY = 'yb_username';
+const SESSION_KEY = 'yb_user';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  readonly username = signal<string>(sessionStorage.getItem(USERNAME_KEY) ?? '');
+  private userService = inject(UserService);
 
-  login(username: string) {
-    sessionStorage.setItem(USERNAME_KEY, username);
-    this.username.set(username);
-  }
+  readonly currentUser = signal<User | null>(
+    JSON.parse(sessionStorage.getItem(SESSION_KEY) ?? 'null')
+  );
 
-  logout() {
-    sessionStorage.removeItem(USERNAME_KEY);
-    this.username.set('');
+  username() {
+    return this.currentUser()?.fullName ?? '';
   }
 
   get initials(): string {
@@ -24,5 +23,18 @@ export class AuthService {
       .join('')
       .toUpperCase()
       .slice(0, 2);
+  }
+
+  async login(username: string, password: string): Promise<boolean> {
+    const user = await this.userService.findByCredentials(username, password);
+    if (!user) return false;
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify(user));
+    this.currentUser.set(user);
+    return true;
+  }
+
+  logout() {
+    sessionStorage.removeItem(SESSION_KEY);
+    this.currentUser.set(null);
   }
 }

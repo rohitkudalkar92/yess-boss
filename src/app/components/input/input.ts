@@ -35,8 +35,13 @@ export class AppInput implements ControlValueAccessor, Validator {
   @Output() createNew = new EventEmitter<string>();
   readonly InputType = InputType;
   @Input({ transform: booleanAttribute }) required = false;
+  @Input({ transform: booleanAttribute }) disablePast = false;
   @Input() minLength = 0;
   @Input() maxLength = 64;
+
+  get todayStr() {
+    return new Date().toISOString().split('T')[0];
+  }
 
   value = '';
   touched = false;

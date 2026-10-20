@@ -8,6 +8,7 @@ import { AppIcon } from '../components/icon/icon';
 import { AppButton } from '../components/button/button';
 import { IconName } from '../enums/icon-name.enum';
 import { ButtonVariant, ButtonSize, ButtonWidth } from '../enums/button.enum';
+import { UserRoleLabel } from '../enums/user-role.enum';
 
 @Component({
   selector: 'app-topbar',
@@ -25,6 +26,7 @@ export class Topbar {
   readonly ButtonVariant = ButtonVariant;
   readonly ButtonSize = ButtonSize;
   readonly ButtonWidth = ButtonWidth;
+  readonly UserRoleLabel = UserRoleLabel;
 
   constructor(
     public auth: AuthService,

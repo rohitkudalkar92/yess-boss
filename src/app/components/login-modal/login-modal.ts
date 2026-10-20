@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, inject, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { ToastService } from '../../services/toast.service';
 import { APP_ROUTES } from '../../constants/app-routes';
 import { AppInput } from '../input/input';
 import { AppButton } from '../button/button';
@@ -21,19 +22,30 @@ export class LoginModal {
   readonly ButtonWidth = ButtonWidth;
   readonly ButtonIconPosition = ButtonIconPosition;
   readonly IconName = IconName;
+
   username = '';
   password = '';
   loading = false;
 
-  constructor(
-    private router: Router,
-    private auth: AuthService,
-  ) {}
+  private router = inject(Router);
+  private auth = inject(AuthService);
+  private toast = inject(ToastService);
+  private cdr = inject(ChangeDetectorRef);
 
   async login() {
     this.loading = true;
-    await new Promise(res => setTimeout(res, 2000));
-    this.auth.login(this.username);
-    this.router.navigate([APP_ROUTES.DASHBOARD]);
+    try {
+      const success = await this.auth.login(this.username, this.password);
+      if (!success) {
+        this.toast.show('Invalid username or password.', 'error');
+        return;
+      }
+      this.router.navigate([APP_ROUTES.DASHBOARD]);
+    } catch {
+      this.toast.show('Something went wrong. Please try again.', 'error');
+    } finally {
+      this.loading = false;
+      this.cdr.detectChanges();
+    }
   }
 }
