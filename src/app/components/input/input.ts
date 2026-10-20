@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef, booleanAttribute } from '@angular/core';
+import { Component, Input, Output, EventEmitter, forwardRef, booleanAttribute } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, Validator, AbstractControl, ValidationErrors } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { InputType } from '../../enums/input-type.enum';
@@ -17,6 +17,8 @@ export class AppInput implements ControlValueAccessor, Validator {
   @Input() placeholder = '';
   @Input() type: InputType = InputType.Text;
   @Input() options: string[] = [];
+  @Input({ transform: booleanAttribute }) allowCreate = false;
+  @Output() createNew = new EventEmitter<string>();
   readonly InputType = InputType;
   @Input({ transform: booleanAttribute }) required = false;
   @Input() minLength = 0;
@@ -24,20 +26,32 @@ export class AppInput implements ControlValueAccessor, Validator {
 
   value = '';
   touched = false;
+  search = '';
+  open = false;
 
   private onChange = (_: string) => {};
   onTouched = () => {};
 
   get charCount() { return this.value?.length ?? 0; }
 
+  get filtered() {
+    return this.options.filter(o => o.toLowerCase().includes(this.search.toLowerCase()));
+  }
+
   get errors(): string[] {
     const errs: string[] = [];
     if (this.touched && this.required && !this.value) errs.push('This field is required.');
     if (this.type !== InputType.Date && this.type !== InputType.Select) {
+      if (this.touched && this.minLength > 0 && this.charCount > 0 && this.charCount < this.minLength)
         errs.push(`Minimum ${this.minLength} characters required.`);
       if (this.charCount > this.maxLength) errs.push(`Maximum ${this.maxLength} characters allowed.`);
     }
     return errs;
+  }
+
+  onCreate() {
+    this.createNew.emit(this.search);
+    this.closeDropdown();
   }
 
   onInput(val: string) {
@@ -48,6 +62,25 @@ export class AppInput implements ControlValueAccessor, Validator {
   onBlur() {
     this.touched = true;
     this.onTouched();
+  }
+
+  select(opt: string) {
+    this.onInput(opt);
+    this.open = false;
+    this.search = '';
+    this.touched = true;
+    this.onTouched();
+  }
+
+  toggleOpen() {
+    this.open = !this.open;
+    this.search = '';
+  }
+
+  closeDropdown() {
+    this.open = false;
+    this.search = '';
+    this.onBlur();
   }
 
   writeValue(val: string) { this.value = val ?? ''; }

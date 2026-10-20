@@ -28,18 +28,18 @@
 
       <!-- Step 1 -->
       @if (step === OrderStep.Info) {
-        <app-input label="Client Name" placeholder="e.g. Michael Grant" [(ngModel)]="form.client" name="client" required />
+        <form class="space-y-4">
+          <app-input label="Client Name" [type]="InputType.Select" [options]="clients" placeholder="Select client..." [(ngModel)]="form.client" name="client" allowCreate (createNew)="onCreateClient($event)" required />
 
-        <app-input label="Phone Number" placeholder="e.g. +1-202-555-0141" [type]="InputType.Tel" [(ngModel)]="form.phone" name="phone" />
+          <app-input label="Phone Number" placeholder="e.g. +1-202-555-0141" [type]="InputType.Tel" [(ngModel)]="form.phone" name="phone" />
 
-        <app-input label="Garment" [type]="InputType.Select" [options]="garments" placeholder="Select garment..." [(ngModel)]="form.garment" name="garment" (ngModelChange)="onGarmentChange()" required />
+          <app-input label="Garment" [type]="InputType.Select" [options]="garments" placeholder="Select garment..." [(ngModel)]="form.garment" name="garment" (ngModelChange)="onGarmentChange()" required />
 
-        <div class="grid grid-cols-2 gap-4">
-          <app-input label="Status" [type]="InputType.Select" [options]="statuses" [(ngModel)]="form.status" name="status" />
-          <div>
+          <div class="grid grid-cols-2 gap-4">
+            <app-input label="Status" [type]="InputType.Select" [options]="statuses" [(ngModel)]="form.status" name="status" />
             <app-input label="Due Date" [type]="InputType.Date" [(ngModel)]="form.dueDate" name="dueDate" required />
           </div>
-        </div>
+        </form>
       }
 
       <!-- Step 2 -->

@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Garment, GarmentField, GARMENT_FIELDS } from '../../enums/garment.enum';
 import { OrderStep } from '../../enums/order-step.enum';
 import { ToastService } from '../../services/toast.service';
+import { ClientService } from '../../services/client.service';
 import { AppButton } from '../button/button';
 import { AppInput } from '../input/input';
 import { ButtonVariant, ButtonWidth } from '../../enums/button.enum';
@@ -17,6 +18,9 @@ export class NewOrderModal {
   @Output() closed = new EventEmitter<void>();
 
   private toast = inject(ToastService);
+  private clientService = inject(ClientService);
+
+  get clients() { return this.clientService.clients(); }
 
   readonly ButtonVariant = ButtonVariant;
   readonly ButtonWidth = ButtonWidth;
@@ -42,6 +46,12 @@ export class NewOrderModal {
     return this.form.garment ? GARMENT_FIELDS[this.form.garment as Garment] : [];
   }
 
+  onCreateClient(name: string) {
+    if (!name.trim()) return;
+    this.clientService.add(name.trim());
+    this.form.client = name.trim();
+  }
+
   onGarmentChange() {
     this.garmentDetails = {};
   }
@@ -57,6 +67,9 @@ export class NewOrderModal {
   }
 
   close() {
+    this.step = OrderStep.Info;
+    this.form = { client: '', phone: '', garment: '' as Garment | '', status: 'In Cutting', dueDate: '' };
+    this.garmentDetails = {};
     this.closed.emit();
   }
 }
