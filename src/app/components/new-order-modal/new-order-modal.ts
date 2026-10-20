@@ -4,6 +4,7 @@ import { Garment, GarmentField, GARMENT_FIELDS } from '../../enums/garment.enum'
 import { OrderStep } from '../../enums/order-step.enum';
 import { ToastService } from '../../services/toast.service';
 import { ClientService } from '../../services/client.service';
+import { OrderService } from '../../services/order.service';
 import { AppButton } from '../button/button';
 import { AppInput } from '../input/input';
 import { ButtonVariant, ButtonWidth } from '../../enums/button.enum';
@@ -19,6 +20,7 @@ export class NewOrderModal {
 
   private toast = inject(ToastService);
   private clientService = inject(ClientService);
+  private orderService = inject(OrderService);
 
   get clients() {
     return this.clientService.clients();
@@ -48,9 +50,9 @@ export class NewOrderModal {
     return this.form.garment ? GARMENT_FIELDS[this.form.garment as Garment] : [];
   }
 
-  onCreateClient(name: string) {
+  async onCreateClient(name: string) {
     if (!name.trim()) return;
-    this.clientService.add(name.trim());
+    await this.clientService.add(name.trim());
     this.form.client = name.trim();
   }
 
@@ -63,9 +65,15 @@ export class NewOrderModal {
     this.step = OrderStep.Details;
   }
 
-  submit() {
+  async submit() {
+    await this.orderService.add({
+      client: this.form.client,
+      garment: this.form.garment as string,
+      status: this.form.status,
+      dueDate: this.form.dueDate,
+    });
     this.toast.show(`Order created for ${this.form.client} — ${this.form.garment}`);
-    this.closed.emit();
+    this.close();
   }
 
   close() {

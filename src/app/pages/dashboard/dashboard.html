@@ -2,17 +2,17 @@
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
     <app-stat-card
       label="Active Orders"
-      value="28"
+      [value]="activeCount"
       badge="↑ 4 new this week" />
     <app-stat-card
       label="Pending Fittings"
-      value="6"
+      [value]="pendingFittingsCount"
       badge="Due Today"
       badgeClass="text-amber-600"
       [icon]="IconName.Clock" />
     <app-stat-card
       label="Completed (Month)"
-      value="142"
+      [value]="deliveredThisMonth"
       badge="↑ 12% above target" />
   </div>
 

@@ -19,7 +19,6 @@ export interface Order {
   selector: 'app-root',
   imports: [RouterOutlet, RouterLink, RouterLinkActive, Topbar, Toast, AppIcon],
   templateUrl: './app.html',
-  styleUrl: './app.scss',
 })
 export class App {
   protected readonly title = signal('yess-boss');

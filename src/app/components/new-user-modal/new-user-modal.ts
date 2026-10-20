@@ -24,8 +24,8 @@ export class NewUserModal {
 
   form = { name: '', phone: '', email: '', age: '' };
 
-  submit() {
-    this.clientService.add(this.form.name.trim());
+  async submit() {
+    await this.clientService.add(this.form.name.trim());
     this.toast.show(`Client "${this.form.name.trim()}" added`);
     this.close();
   }
