@@ -1,4 +1,4 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, inject } from '@angular/core';
 import {
   collection,
   onSnapshot,
@@ -6,8 +6,12 @@ import {
   serverTimestamp,
   query,
   orderBy,
+  doc,
+  updateDoc,
+  increment,
 } from 'firebase/firestore';
 import { db } from '../firebase';
+import { ClientService } from './client.service';
 
 export interface Order {
   id: string;
@@ -20,6 +24,7 @@ export interface Order {
 @Injectable({ providedIn: 'root' })
 export class OrderService {
   readonly orders = signal<Order[]>([]);
+  private clientService = inject(ClientService);
 
   readonly activeCount = computed(() =>
     this.orders().filter(o => o.status !== 'Delivered').length
@@ -48,9 +53,10 @@ export class OrderService {
   }
 
   async add(order: Omit<Order, 'id'>) {
-    await addDoc(collection(db, 'orders'), {
-      ...order,
-      createdAt: serverTimestamp(),
-    });
+    const clientDoc = this.clientService.clients().find(c => c.name === order.client);
+    await addDoc(collection(db, 'orders'), { ...order, createdAt: serverTimestamp() });
+    if (clientDoc) {
+      await updateDoc(doc(db, 'clients', clientDoc.id), { orderCount: increment(1) });
+    }
   }
 }

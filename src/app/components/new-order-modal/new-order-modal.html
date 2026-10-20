@@ -73,22 +73,24 @@
             (createNew)="onCreateClient($event)"
             required />
 
-          <app-input
-            label="Phone Number"
-            placeholder="e.g. +1-202-555-0141"
-            [type]="InputType.Tel"
-            [(ngModel)]="form.phone"
-            name="phone" />
+          <div class="grid grid-cols-2 gap-4">
+            <app-input
+              label="Phone Number"
+              placeholder="e.g. +1-202-555-0141"
+              [type]="InputType.Tel"
+              [(ngModel)]="form.phone"
+              name="phone" />
 
-          <app-input
-            label="Garment"
-            [type]="InputType.Select"
-            [options]="garments"
-            placeholder="Select garment..."
-            [(ngModel)]="form.garment"
-            name="garment"
-            (ngModelChange)="onGarmentChange()"
-            required />
+            <app-input
+              label="Garment"
+              [type]="InputType.Select"
+              [options]="garments"
+              placeholder="Select garment..."
+              [(ngModel)]="form.garment"
+              name="garment"
+              (ngModelChange)="onGarmentChange()"
+              required />
+          </div>
 
           <div class="grid grid-cols-2 gap-4">
             <app-input

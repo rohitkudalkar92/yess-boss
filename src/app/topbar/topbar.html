@@ -114,6 +114,14 @@
             [cls]="'w-4 h-4 text-slate-400'" />
         </a>
         <a
+          [routerLink]="routes.CLIENTS"
+          routerLinkActive="bg-emerald-50 text-emerald-700"
+          (click)="showSidebar = false"
+          class="flex items-center justify-between px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition font-medium text-sm text-slate-700">
+          <span>Clients</span>
+          <app-icon [name]="IconName.ArrowRight" [cls]="'w-4 h-4 text-slate-400'" />
+        </a>
+        <a
           [routerLink]="routes.MEASUREMENTS"
           routerLinkActive="bg-emerald-50 text-emerald-700"
           (click)="showSidebar = false"

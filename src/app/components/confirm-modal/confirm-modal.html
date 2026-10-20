@@ -1,0 +1,28 @@
+<div
+  class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm"
+  (click)="cancelled.emit()">
+  <div
+    class="bg-white rounded-2xl shadow-xl w-full max-w-sm flex flex-col"
+    (click)="$event.stopPropagation()">
+    <!-- Header -->
+    <div class="px-6 py-5 border-b border-slate-100">
+      <h2 class="text-base font-bold text-slate-900">{{ title }}</h2>
+      @if (message) {
+        <p class="text-sm text-slate-500 mt-0.5">{{ message }}</p>
+      }
+    </div>
+    <!-- Footer -->
+    <div class="px-6 py-5 border-t border-slate-100 flex gap-3 [&>*]:flex-1">
+      <app-button
+        [label]="cancelLabel"
+        [variant]="ButtonVariant.Secondary"
+        [width]="ButtonWidth.Full"
+        (clicked)="cancelled.emit()" />
+      <app-button
+        [label]="confirmLabel"
+        [variant]="ButtonVariant.Danger"
+        [width]="ButtonWidth.Full"
+        (clicked)="confirmed.emit()" />
+    </div>
+  </div>
+</div>

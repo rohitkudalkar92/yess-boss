@@ -23,7 +23,7 @@ export class NewOrderModal {
   private orderService = inject(OrderService);
 
   get clients() {
-    return this.clientService.clients();
+    return this.clientService.clients().map(c => c.name);
   }
 
   readonly ButtonVariant = ButtonVariant;
@@ -52,7 +52,7 @@ export class NewOrderModal {
 
   async onCreateClient(name: string) {
     if (!name.trim()) return;
-    await this.clientService.add(name.trim());
+    await this.clientService.add({ name: name.trim(), phone: '', dob: '' });
     this.form.client = name.trim();
   }
 

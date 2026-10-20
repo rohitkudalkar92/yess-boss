@@ -9,8 +9,8 @@
     <!-- Header -->
     <div class="flex items-center justify-between px-6 py-5 border-b border-slate-100">
       <div>
-        <h2 class="text-base font-bold text-slate-900">New Client</h2>
-        <p class="text-xs text-slate-400 mt-0.5">Add a client to your directory</p>
+        <h2 class="text-base font-bold text-slate-900">{{ isEdit ? 'Edit Client' : 'New Client' }}</h2>
+        <p class="text-xs text-slate-400 mt-0.5">{{ isEdit ? 'Update client details' : 'Add a client to your directory' }}</p>
       </div>
       <button (click)="close()" class="text-slate-400 hover:text-slate-600 transition">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -35,17 +35,10 @@
         [(ngModel)]="form.phone"
         name="phone" />
       <app-input
-        label="Email"
-        placeholder="e.g. james@example.com"
-        [type]="InputType.Email"
-        [(ngModel)]="form.email"
-        name="email" />
-      <app-input
-        label="Age"
-        placeholder="e.g. 32"
-        [type]="InputType.Number"
-        [(ngModel)]="form.age"
-        name="age" />
+        label="Date of Birth"
+        [type]="InputType.Date"
+        [(ngModel)]="form.dob"
+        name="dob" />
     </form>
 
     <!-- Footer -->
@@ -56,7 +49,7 @@
         [width]="ButtonWidth.Full"
         (clicked)="close()" />
       <app-button
-        label="Add Client"
+        label="{{ isEdit ? 'Save Changes' : 'Add Client' }}"
         [width]="ButtonWidth.Full"
         [disabled]="!form.name.trim()"
         (clicked)="submit()" />
