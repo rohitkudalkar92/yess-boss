@@ -6,7 +6,23 @@
     </label>
   }
 
-  <input
+  @if (type === InputType.Select) {
+    <select
+      [(ngModel)]="value"
+      (ngModelChange)="onInput($event)"
+      (blur)="onBlur()"
+      [class]="'w-full bg-slate-100 text-sm px-4 py-2.5 rounded-xl border transition focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-800 '
+        + (errors.length ? 'border-red-400' : 'border-transparent')"
+    >
+      <option value="" disabled>{{ placeholder || 'Select...' }}</option>
+      @for (opt of options; track opt) {
+        <option [value]="opt">{{ opt }}</option>
+      }
+    </select>
+  }
+
+  @if (type !== InputType.Select) {
+    <input
     [type]="type"
     [placeholder]="placeholder"
     [(ngModel)]="value"
@@ -14,7 +30,8 @@
     (blur)="onBlur()"
     [class]="'w-full bg-slate-100 text-sm px-4 py-2.5 rounded-xl border transition focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-800 '
       + (errors.length ? 'border-red-400' : 'border-transparent')"
-  />
+    />
+  }
 
   <div class="flex justify-between items-start min-h-[1.25rem]">
     <div class="space-y-0.5">
@@ -22,8 +39,10 @@
         <p class="text-xs text-red-500">{{ err }}</p>
       }
     </div>
-    <span class="text-xs shrink-0 ml-2" [class]="charCount > maxLength ? 'text-red-500' : 'text-slate-400'">
-      {{ charCount }}/{{ maxLength }}
-    </span>
+    @if (type !== InputType.Date && type !== InputType.Select) {
+      <span class="text-xs shrink-0 ml-2" [class]="charCount > maxLength ? 'text-red-500' : 'text-slate-400'">
+        {{ charCount }}/{{ maxLength }}
+      </span>
+    }
   </div>
 </div>

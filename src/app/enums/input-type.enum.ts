@@ -4,4 +4,6 @@ export enum InputType {
   Email = 'email',
   Number = 'number',
   Tel = 'tel',
+  Date = 'date',
+  Select = 'select',
 }

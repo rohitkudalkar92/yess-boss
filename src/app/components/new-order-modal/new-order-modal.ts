@@ -1,13 +1,16 @@
 import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Garment, GarmentField, GARMENT_FIELDS } from '../../enums/garment.enum';
+import { OrderStep } from '../../enums/order-step.enum';
 import { ToastService } from '../../services/toast.service';
 import { AppButton } from '../button/button';
+import { AppInput } from '../input/input';
 import { ButtonVariant, ButtonWidth } from '../../enums/button.enum';
+import { InputType } from '../../enums/input-type.enum';
 
 @Component({
   selector: 'app-new-order-modal',
-  imports: [FormsModule, AppButton],
+  imports: [FormsModule, AppButton, AppInput],
   templateUrl: './new-order-modal.html',
 })
 export class NewOrderModal {
@@ -17,8 +20,10 @@ export class NewOrderModal {
 
   readonly ButtonVariant = ButtonVariant;
   readonly ButtonWidth = ButtonWidth;
+  readonly InputType = InputType;
+  readonly OrderStep = OrderStep;
 
-  step = 1;
+  step = OrderStep.Info;
 
   garments = Object.values(Garment);
   statuses = ['In Cutting', 'In Stitching', 'Fitting Ready', 'Delivered'];
@@ -43,7 +48,7 @@ export class NewOrderModal {
 
   nextStep() {
     if (!this.form.client || !this.form.garment || !this.form.dueDate) return;
-    this.step = 2;
+    this.step = OrderStep.Details;
   }
 
   submit() {
