@@ -1,12 +1,15 @@
 import { Component, inject } from '@angular/core';
 import { StatCard } from '../../components/stat-card/stat-card';
 import { DataTable, TableColumn } from '../../components/data-table/data-table';
+import { AppButton } from '../../components/button/button';
+import { NewOrderModal } from '../../components/new-order-modal/new-order-modal';
 import { IconName } from '../../enums/icon-name.enum';
-import { OrderService } from '../../services/order.service';
+import { ButtonVariant, ButtonSize } from '../../enums/button.enum';
+import { OrderService, Order } from '../../services/order.service';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [StatCard, DataTable],
+  imports: [StatCard, DataTable, AppButton, NewOrderModal],
   templateUrl: './dashboard.html',
 })
 export class Dashboard {
@@ -14,13 +17,26 @@ export class Dashboard {
 
   readonly IconName = IconName;
 
+  readonly ButtonVariant = ButtonVariant;
+  readonly ButtonSize = ButtonSize;
   readonly columns: TableColumn[] = [
-    { key: 'id', label: 'Order' },
+    { key: 'orderId', label: 'Order' },
     { key: 'client', label: 'Client' },
     { key: 'garment', label: 'Garment' },
     { key: 'status', label: 'Status' },
     { key: 'dueDate', label: 'Due Date' },
+    { key: 'actions', label: '' },
   ];
+
+  editingOrder: Order | null = null;
+
+  onEdit(order: Order) {
+    this.editingOrder = order;
+  }
+
+  onModalClosed() {
+    this.editingOrder = null;
+  }
 
   get orders() { return this.orderService.orders(); }
   get activeCount() { return this.orderService.activeCount(); }

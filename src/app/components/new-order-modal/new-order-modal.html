@@ -11,15 +11,11 @@
       class="flex items-center justify-between px-6 py-5 border-b border-slate-100 shrink-0">
       <div>
         <h2 class="text-base font-bold text-slate-900">
-          New Order
+          {{ mode === OrderMode.Edit ? 'Edit Order' : 'New Order' }}
         </h2>
         <p class="text-xs text-slate-400 mt-0.5">
           Step {{ step }} of 2 —
-          {{
-            step === OrderStep.Info
-              ? 'Order Info'
-              : form.garment + ' Details'
-          }}
+          {{ step === OrderStep.Info ? 'Order Info' : form.garment + ' Details' }}
         </p>
       </div>
       <button
@@ -172,7 +168,7 @@
           [width]="ButtonWidth.Full"
           (clicked)="step = OrderStep.Info" />
         <app-button
-          label="Create Order"
+          label="{{ mode === OrderMode.Edit ? 'Save Changes' : 'Create Order' }}"
           [width]="ButtonWidth.Full"
           (clicked)="submit()" />
       }

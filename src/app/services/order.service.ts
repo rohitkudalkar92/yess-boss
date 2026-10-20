@@ -9,16 +9,23 @@ import {
   doc,
   updateDoc,
   increment,
+  runTransaction,
+  Timestamp,
 } from 'firebase/firestore';
 import { db } from '../firebase';
 import { ClientService } from './client.service';
 
 export interface Order {
   id: string;
+  orderId: number;
   client: string;
+  phone: string;
   garment: string;
   status: string;
   dueDate: string;
+  isPaid: boolean;
+  createdAt: Timestamp | null;
+  modifiedAt: Timestamp | null;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -52,11 +59,30 @@ export class OrderService {
     });
   }
 
-  async add(order: Omit<Order, 'id'>) {
+  async add(order: Omit<Order, 'id' | 'orderId' | 'createdAt' | 'modifiedAt'>) {
     const clientDoc = this.clientService.clients().find(c => c.name === order.client);
-    await addDoc(collection(db, 'orders'), { ...order, createdAt: serverTimestamp() });
+    const counterRef = doc(db, 'meta', 'orderCounter');
+
+    const orderId = await runTransaction(db, async tx => {
+      const snap = await tx.get(counterRef);
+      const next = snap.exists() ? snap.data()['lastOrderId'] + 1 : 1001;
+      tx.set(counterRef, { lastOrderId: next }, { merge: true });
+      return next;
+    });
+
+    const ref = await addDoc(collection(db, 'orders'), {
+      ...order,
+      orderId,
+      createdAt: serverTimestamp(),
+      modifiedAt: serverTimestamp(),
+    });
+
     if (clientDoc) {
       await updateDoc(doc(db, 'clients', clientDoc.id), { orderCount: increment(1) });
     }
+  }
+
+  async update(id: string, changes: Partial<Omit<Order, 'id' | 'orderId' | 'createdAt'>>) {
+    await updateDoc(doc(db, 'orders', id), { ...changes, modifiedAt: serverTimestamp() });
   }
 }

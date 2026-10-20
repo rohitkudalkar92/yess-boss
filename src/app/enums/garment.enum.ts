@@ -20,12 +20,6 @@ export const GARMENT_FIELDS: Record<Garment, GarmentField[]> = {
     { key: 'sleeve', label: 'Sleeve (in)', type: 'number', placeholder: '25' },
     { key: 'length', label: 'Length (in)', type: 'number', placeholder: '30' },
     { key: 'cuff', label: 'Cuff (in)', type: 'number', placeholder: '9' },
-    {
-      key: 'fit',
-      label: 'Fit Style',
-      type: 'select',
-      options: ['Slim Fit', 'Regular Fit', 'Relaxed Fit'],
-    },
   ],
   [Garment.Pant]: [
     { key: 'waist', label: 'Waist (in)', type: 'number', placeholder: '34' },
@@ -35,11 +29,5 @@ export const GARMENT_FIELDS: Record<Garment, GarmentField[]> = {
     { key: 'knee', label: 'Knee (in)', type: 'number', placeholder: '18' },
     { key: 'bottom', label: 'Bottom (in)', type: 'number', placeholder: '16' },
     { key: 'rise', label: 'Rise (in)', type: 'number', placeholder: '11' },
-    {
-      key: 'fit',
-      label: 'Fit Style',
-      type: 'select',
-      options: ['Slim Fit', 'Regular Fit', 'Relaxed Fit'],
-    },
   ],
 };
