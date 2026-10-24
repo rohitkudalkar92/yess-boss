@@ -11,4 +11,5 @@ export const routes: Routes = [
   { path: APP_ROUTES.LANDING, component: Landing, canActivate: [guestGuard] },
   { path: APP_ROUTES.ORDERS, component: Orders, canActivate: [authGuard] },
   { path: APP_ROUTES.CLIENTS, component: Clients, canActivate: [authGuard] },
+  { path: '**', redirectTo: APP_ROUTES.LANDING },
 ];

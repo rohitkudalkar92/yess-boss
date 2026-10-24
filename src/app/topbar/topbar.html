@@ -3,37 +3,14 @@
   <div
     class="px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
     <div class="flex items-center space-x-3">
-      <button
-        (click)="showSidebar = true"
-        class="md:hidden p-2 text-slate-600 hover:text-slate-900 focus:outline-none">
-        <app-icon
-          [name]="IconName.Menu"
-          [cls]="'w-6 h-6'" />
-      </button>
       <a
         [routerLink]="routes.ORDERS"
         class="flex items-center space-x-3 cursor-pointer">
-        <div class="relative w-12 h-12 rounded-full bg-emerald-800 flex items-center justify-center shadow-lg"
-          style="background: radial-gradient(circle at 35% 35%, #065f46, #022c22); box-shadow: 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.1); outline: 2px solid #064e3b; outline-offset: 2px;">
-          <img src="logo.png" alt="Yes Boss" class="w-8 h-8 object-contain" />
-        </div>
-        <div class="flex flex-col leading-tight">
-          <span class="font-bold text-lg sm:text-xl text-slate-900 truncate">Yes Boss</span>
-          <span class="text-xs font-medium text-slate-400 tracking-widest uppercase">Men's Tailor</span>
-        </div>
+        <app-logo />
       </a>
     </div>
 
     <div class="flex items-center space-x-3">
-      <div class="md:hidden relative">
-        <app-button [icon]="IconName.Plus" label="" [size]="ButtonSize.Md" (clicked)="showMobileMenu = !showMobileMenu" />
-        @if (showMobileMenu) {
-          <div class="absolute right-0 mt-2 w-40 bg-white border border-slate-200 rounded-xl shadow-lg z-50 overflow-hidden">
-            <a [routerLink]="routes.ORDERS" (click)="showMobileMenu = false" class="block px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition">Orders</a>
-            <a [routerLink]="routes.CLIENTS" (click)="showMobileMenu = false" class="block px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition">Clients</a>
-          </div>
-        }
-      </div>
       <nav class="hidden md:flex items-center gap-1">
         <a
           [routerLink]="routes.ORDERS"
@@ -75,40 +52,3 @@
   </div>
 </header>
 
-@if (showSidebar) {
-  <div class="md:hidden fixed inset-0 z-40 flex">
-    <div
-      class="fixed inset-0 bg-black/40"
-      (click)="showSidebar = false"></div>
-    <div
-      class="relative w-72 bg-white h-full shadow-xl flex flex-col z-50">
-      <div
-        class="flex items-center justify-between px-5 py-4 border-b border-slate-200">
-        <span class="font-bold text-slate-800 text-base"
-          >Quick Directory</span
-        >
-        <app-button [icon]="IconName.Close" label="" [variant]="ButtonVariant.Ghost" [size]="ButtonSize.Sm" (clicked)="showSidebar = false" />
-      </div>
-      <nav class="flex-1 px-4 py-4 space-y-2">
-        <a
-          [routerLink]="routes.ORDERS"
-          routerLinkActive="bg-emerald-50 text-emerald-700"
-          (click)="showSidebar = false"
-          class="flex items-center justify-between px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition font-medium text-sm text-slate-700">
-          <span>Orders</span>
-          <app-icon
-            [name]="IconName.ArrowRight"
-            [cls]="'w-4 h-4 text-slate-400'" />
-        </a>
-        <a
-          [routerLink]="routes.CLIENTS"
-          routerLinkActive="bg-emerald-50 text-emerald-700"
-          (click)="showSidebar = false"
-          class="flex items-center justify-between px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition font-medium text-sm text-slate-700">
-          <span>Clients</span>
-          <app-icon [name]="IconName.ArrowRight" [cls]="'w-4 h-4 text-slate-400'" />
-        </a>
-      </nav>
-    </div>
-  </div>
-}

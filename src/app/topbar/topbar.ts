@@ -4,19 +4,18 @@ import { AuthService } from '../services/auth.service';
 import { APP_ROUTES } from '../constants/app-routes';
 import { AppIcon } from '../components/icon/icon';
 import { AppButton } from '../components/button/button';
+import { AppLogo } from '../components/logo/logo';
 import { IconName } from '../enums/icon-name.enum';
 import { ButtonVariant, ButtonSize, ButtonWidth } from '../enums/button.enum';
 import { UserRoleLabel } from '../enums/user-role.enum';
 
 @Component({
   selector: 'app-topbar',
-  imports: [RouterLink, RouterLinkActive, AppIcon, AppButton],
+  imports: [RouterLink, RouterLinkActive, AppIcon, AppButton, AppLogo],
   templateUrl: './topbar.html',
 })
 export class Topbar {
-  showSidebar = false;
   showUserMenu = false;
-  showMobileMenu = false;
   readonly IconName = IconName;
   readonly routes = APP_ROUTES;
   readonly ButtonSize = ButtonSize;

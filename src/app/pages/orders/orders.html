@@ -39,8 +39,10 @@
     [columns]="columns"
     [rows]="orders"
     searchable
-    searchPlaceholder="Search orders..."
+    searchPlaceholder="Search by order ID..."
+    [searchType]="InputType.Number"
     [filters]="filters()"
+    [initialFilters]="initialFilters()"
     (add)="onAdd()">
     <ng-template
       #cell

@@ -6,11 +6,12 @@
     [rows]="clients"
     [searchable]="true"
     searchPlaceholder="Search by name..."
+    [searchType]="InputType.Text"
     addLabel="+ New Client"
     [mobileFields]="mobileFields"
     (add)="showModal.set(true)"
     (edit)="editTarget.set($any($event))"
-    (delete)="deleteTarget.set($any($event))" />
+    (cellClick)="onCellClick($event)" />
 </div>
 
 @if (showModal() || editTarget()) {
@@ -19,11 +20,3 @@
     (closed)="showModal.set(false); editTarget.set(null)" />
 }
 
-@if (deleteTarget()) {
-  <app-confirm-modal
-    title="Delete Client"
-    [message]="'Are you sure you want to delete ' + deleteTarget()!.name + '? This action cannot be undone.'"
-    confirmLabel="Delete"
-    (confirmed)="confirmDelete()"
-    (cancelled)="deleteTarget.set(null)" />
-}

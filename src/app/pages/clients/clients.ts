@@ -1,20 +1,24 @@
 import { Component, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { ClientService, Client } from '../../services/client.service';
 import { ClientModal } from '../../components/client-modal/client-modal';
-import { ConfirmModal } from '../../components/confirm-modal/confirm-modal';
 import { DataTable, TableColumn, ColumnType } from '../../components/data-table/data-table';
+import { InputType } from '../../enums/input-type.enum';
+import { APP_ROUTES } from '../../constants/app-routes';
 
 @Component({
   selector: 'app-clients',
-  imports: [ClientModal, DataTable, ConfirmModal],
+  imports: [ClientModal, DataTable],
   templateUrl: './clients.html',
 })
 export class Clients {
   private clientService = inject(ClientService);
+  private router = inject(Router);
+
+  readonly InputType = InputType;
 
   showModal = signal(false);
   editTarget = signal<Client | null>(null);
-  deleteTarget = signal<Client | null>(null);
 
   readonly columns: TableColumn[] = [
     { key: 'name', label: 'Name' },
@@ -23,7 +27,7 @@ export class Clients {
     { key: 'orderCount', label: 'Orders', type: ColumnType.Number },
     { key: 'createdAt', label: 'Created At', type: ColumnType.Date },
     { key: 'modifiedAt', label: 'Modified At', type: ColumnType.Date },
-    { key: 'actions', label: 'Actions', type: ColumnType.Actions },
+    { key: 'actions', label: 'Actions', type: ColumnType.EditOnly },
   ];
 
   readonly mobileFields: { key: string; label?: string; type?: ColumnType }[] = [
@@ -34,9 +38,9 @@ export class Clients {
 
   get clients(): Client[] { return this.clientService.clients(); }
 
-  async confirmDelete() {
-    const client = this.deleteTarget();
-    if (client) await this.clientService.delete(client.id);
-    this.deleteTarget.set(null);
+  onCellClick({ row, col }: { row: Record<string, any>; col: string }) {
+    if (col === 'orderCount') {
+      this.router.navigate([APP_ROUTES.ORDERS], { queryParams: { client: row['name'] } });
+    }
   }
 }

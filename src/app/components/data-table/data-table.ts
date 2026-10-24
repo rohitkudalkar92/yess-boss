@@ -1,4 +1,4 @@
-import { Component, input, computed, signal, ContentChild, TemplateRef, booleanAttribute, output } from '@angular/core';
+import { Component, input, computed, signal, ContentChild, TemplateRef, booleanAttribute, output, effect } from '@angular/core';
 import { NgTemplateOutlet, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AppButton } from '../button/button';
@@ -13,6 +13,7 @@ export interface TableFilter {
   key: string;
   label: string;
   options: string[];
+  searchable?: boolean;
 }
 
 export interface TableColumn {
@@ -35,12 +36,14 @@ export class DataTable {
   rows = input.required<Record<string, any>[]>();
   searchable = input(false, { transform: booleanAttribute });
   searchPlaceholder = input('Search...');
+  searchType = input<InputType>(InputType.Text);
   pageSize = input(10);
   mobileTitle = input<string>('name');
   mobileFields = input<{ key: string; label?: string; type?: ColumnType }[]>([]);
   addLabel = input<string>();
   exportLabel = input<string>();
   filters = input<TableFilter[]>([]);
+  initialFilters = input<Record<string, string>>({});
 
   @ContentChild('actions') actionsRef?: TemplateRef<any>;
   @ContentChild('cell') cellRef?: TemplateRef<any>;
@@ -51,6 +54,7 @@ export class DataTable {
   export = output<void>();
   edit = output<Record<string, any>>();
   delete = output<Record<string, any>>();
+  cellClick = output<{ row: Record<string, any>; col: string }>();
 
   readonly ButtonVariant = ButtonVariant;
   readonly ButtonSize = ButtonSize;
@@ -61,6 +65,13 @@ export class DataTable {
   page = signal(1);
   activeFilters = signal<Record<string, string>>({});
   private debounceTimer: ReturnType<typeof setTimeout> | null = null;
+
+  constructor() {
+    effect(() => {
+      const init = this.initialFilters();
+      if (Object.keys(init).length) this.activeFilters.set(init);
+    });
+  }
 
   onSearch(val: string) {
     this.search.set(val);
@@ -99,7 +110,7 @@ export class DataTable {
   });
 
   exportRows() {
-    const cols = this.columns().filter(c => c.type !== ColumnType.Actions);
+    const cols = this.columns().filter(c => c.type !== ColumnType.Actions && c.type !== ColumnType.EditOnly);
     const header = cols.map(c => c.label).join(',');
     const rows = this.filtered().map(row =>
       cols.map(c => {

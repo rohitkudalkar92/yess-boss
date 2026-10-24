@@ -1,4 +1,5 @@
-import { Component, inject, computed } from '@angular/core';
+import { Component, inject, computed, signal } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { StatCard } from '../../components/stat-card/stat-card';
 import { DataTable, TableColumn, ColumnType, TableFilter } from '../../components/data-table/data-table';
 import { AppButton } from '../../components/button/button';
@@ -6,6 +7,7 @@ import { NewOrderModal } from '../../components/new-order-modal/new-order-modal'
 import { OrderDetailModal } from '../../components/order-detail-modal/order-detail-modal';
 import { IconName } from '../../enums/icon-name.enum';
 import { ButtonVariant, ButtonSize } from '../../enums/button.enum';
+import { InputType } from '../../enums/input-type.enum';
 import { OrderService, Order } from '../../services/order.service';
 import { OrderStatus } from '../../enums/order-status.enum';
 import { ClientService } from '../../services/client.service';
@@ -18,7 +20,16 @@ import { ClientService } from '../../services/client.service';
 export class Orders {
   private orderService = inject(OrderService);
   private clientService = inject(ClientService);
+  private route = inject(ActivatedRoute);
 
+  initialFilters = signal<Record<string, string>>({});
+
+  constructor() {
+    const client = this.route.snapshot.queryParamMap.get('client');
+    if (client) this.initialFilters.set({ client });
+  }
+
+  readonly InputType = InputType;
   readonly IconName = IconName;
   readonly ButtonVariant = ButtonVariant;
   readonly ButtonSize = ButtonSize;
@@ -34,7 +45,7 @@ export class Orders {
 
   filters = computed<TableFilter[]>(() => [
     { key: 'status', label: 'All Statuses', options: Object.values(OrderStatus) },
-    { key: 'client', label: 'All Clients', options: this.clientService.clients().map(c => c.name) },
+    { key: 'client', label: 'All Clients', options: this.clientService.clients().map(c => c.name), searchable: true },
   ]);
 
   showModal = false;
