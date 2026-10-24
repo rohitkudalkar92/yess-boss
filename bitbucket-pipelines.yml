@@ -1,0 +1,13 @@
+image: node:22
+
+pipelines:
+  branches:
+    main:
+      - step:
+          name: Build & Deploy to Bitbucket Pages
+          caches:
+            - node
+          script:
+            - npm ci
+            - npm run build -- --base-href /yess-boss/
+            - npx angular-cli-ghpages --dir=dist/yess-boss/browser --branch=gh-pages --no-silent

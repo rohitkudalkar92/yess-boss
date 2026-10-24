@@ -66,6 +66,7 @@
             [(ngModel)]="form.client"
             name="client"
             allowCreate
+            (ngModelChange)="onClientChange($event)"
             (createNew)="onCreateClient($event)"
             required />
 

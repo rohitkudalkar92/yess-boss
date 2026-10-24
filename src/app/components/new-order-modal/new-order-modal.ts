@@ -28,6 +28,11 @@ export class NewOrderModal implements OnChanges {
     return this.clientService.clients().map(c => c.name);
   }
 
+  onClientChange(name: string) {
+    const client = this.clientService.clients().find(c => c.name === name);
+    if (client?.phone) this.form.phone = client.phone;
+  }
+
   readonly ButtonVariant = ButtonVariant;
   readonly ButtonWidth = ButtonWidth;
   readonly InputType = InputType;
