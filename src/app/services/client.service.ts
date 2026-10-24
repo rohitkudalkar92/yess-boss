@@ -37,7 +37,8 @@ export class ClientService {
 
   async add(client: Omit<Client, 'id' | 'createdAt' | 'modifiedAt'>) {
     const now = new Date().toISOString();
-    await addDoc(collection(db, 'clients'), { ...client, createdAt: now, modifiedAt: now });
+    const ref = await addDoc(collection(db, 'clients'), { ...client, createdAt: now, modifiedAt: now });
+    return ref.id;
   }
 
   async update(id: string, data: Omit<Client, 'id' | 'createdAt' | 'modifiedAt'>) {

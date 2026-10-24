@@ -85,9 +85,9 @@ export class NewOrderModal implements OnChanges {
   async onCreateClient(name: string) {
     if (!name.trim()) return;
     try {
-      await this.clientService.add({ name: name.trim(), phone: '', dob: '', shopId: this.auth.currentUser()!.shopId });
-      const created = this.clientService.clients().find(c => c.name === name.trim());
-      this.form.clientId = created?.id ?? '';
+      const id = await this.clientService.add({ name: name.trim(), phone: '', dob: '', shopId: this.auth.currentUser()!.shopId });
+      this.form.clientId = id;
+      this.selectedClientName = name.trim();
       this.toast.show(`Client "${name.trim()}" created`);
     } catch {
       this.toast.show('Failed to create client', 'error');
