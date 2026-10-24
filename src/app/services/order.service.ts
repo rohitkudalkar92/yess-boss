@@ -9,6 +9,8 @@ import {
   increment,
   runTransaction,
   Timestamp,
+  query,
+  where,
 } from 'firebase/firestore';
 import { db } from '../firebase';
 
@@ -58,9 +60,10 @@ export class OrderService {
 
   constructor() {}
 
-  fetch(_shopId: string) {
+  fetch(shopId: string) {
     this.unsubscribe?.();
-    this.unsubscribe = onSnapshot(collection(db, 'orders'), snapshot => {
+    const q = query(collection(db, 'orders'), where('shopId', '==', shopId));
+    this.unsubscribe = onSnapshot(q, snapshot => {
       this.orders.set(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Order)));
     });
   }

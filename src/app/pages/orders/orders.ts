@@ -26,11 +26,16 @@ export class Orders {
   initialFilters = signal<Record<string, string>>({});
 
   constructor() {
-    const clientId = this.route.snapshot.queryParamMap.get('clientId');
+    const params = this.route.snapshot.queryParamMap;
+    const filters: Record<string, string> = {};
+    const clientId = params.get('clientId');
     if (clientId) {
       const name = this.clientService.clients().find(c => c.id === clientId)?.name;
-      if (name) this.initialFilters.set({ clientId: name });
+      if (name) filters['clientId'] = name;
     }
+    const shopId = params.get('shopId');
+    if (shopId) filters['shopId'] = shopId;
+    if (Object.keys(filters).length) this.initialFilters.set(filters);
   }
 
   readonly InputType = InputType;

@@ -94,7 +94,10 @@ export class DataTable {
   }
 
   clearFilters() {
-    this.activeFilters.set({});
+    const hidden = Object.fromEntries(
+      Object.entries(this.activeFilters()).filter(([k]) => !this.filters().some(f => f.key === k))
+    );
+    this.activeFilters.set(hidden);
     this.page.set(1);
   }
 
