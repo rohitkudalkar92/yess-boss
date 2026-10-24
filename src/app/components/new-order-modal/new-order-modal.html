@@ -63,7 +63,7 @@
             [type]="InputType.Select"
             [options]="clients"
             placeholder="Select client..."
-            [(ngModel)]="form.client"
+            [(ngModel)]="selectedClientName"
             name="client"
             allowCreate
             (ngModelChange)="onClientChange($event)"
@@ -76,7 +76,9 @@
               placeholder="e.g. +1-202-555-0141"
               [type]="InputType.Tel"
               [(ngModel)]="form.phone"
-              name="phone" />
+              name="phone"
+              [maxLength]="12"
+              showCharCount />
 
             <app-input
               label="Garment"
@@ -100,49 +102,52 @@
               name="status" />
             <app-input
               label="Due Date"
-              disablePast 
+              disablePast
               [type]="InputType.Date"
               [(ngModel)]="form.dueDate"
-              name="dueDate"
-              required />
+              name="dueDate" />
           </div>
         </form>
       }
 
       <!-- Step 2 -->
       @if (step === OrderStep.Details) {
-        <p
-          class="text-xs text-slate-500 bg-slate-50 rounded-xl px-4 py-3 border border-slate-200">
-          Enter measurements for
-          <span class="font-semibold text-slate-700">{{
-            form.garment
-          }}</span>
-        </p>
+        <form #detailsForm="ngForm" class="space-y-4">
+          <p
+            class="text-xs text-slate-500 bg-slate-50 rounded-xl px-4 py-3 border border-slate-200">
+            Enter measurements for
+            <span class="font-semibold text-slate-700">{{
+              form.garment
+            }}</span> (inches)
+          </p>
 
-        <div class="grid grid-cols-2 gap-4">
-          @for (field of fields; track field.key) {
-            <div
-              [class]="
-                field.type === 'select' ? 'col-span-2' : ''
-              ">
-              @if (field.type === 'number') {
-                <app-input
-                  [label]="field.label"
-                  [type]="InputType.Number"
-                  [(ngModel)]="garmentDetails[field.key]"
-                  [name]="field.key" />
-              }
-              @if (field.type === 'select') {
-                <app-input
-                  [label]="field.label"
-                  [type]="InputType.Select"
-                  [options]="field.options || []"
-                  [(ngModel)]="garmentDetails[field.key]"
-                  [name]="field.key" />
-              }
-            </div>
-          }
-        </div>
+          <div class="grid grid-cols-2 gap-4">
+            @for (field of fields; track field.key) {
+              <div
+                [class]="
+                  field.type === 'select' ? 'col-span-2' : ''
+                ">
+                @if (field.type === 'number') {
+                  <app-input
+                    [label]="field.label"
+                    [type]="InputType.Number"
+                    [(ngModel)]="garmentDetails[field.key]"
+                    [name]="field.key"
+                    [maxLength]="field.maxLength ?? 3"
+                    showCharCount />
+                }
+                @if (field.type === 'select') {
+                  <app-input
+                    [label]="field.label"
+                    [type]="InputType.Select"
+                    [options]="field.options || []"
+                    [(ngModel)]="garmentDetails[field.key]"
+                    [name]="field.key" />
+                }
+              </div>
+            }
+          </div>
+        </form>
       }
     </div>
 
@@ -158,9 +163,7 @@
         <app-button
           label="Next →"
           [width]="ButtonWidth.Full"
-          [disabled]="
-            !form.client || !form.garment || !form.dueDate
-          "
+          [disabled]="!form.clientId || !form.garment"
           (clicked)="nextStep()" />
       }
       @if (step === OrderStep.Details) {
@@ -172,6 +175,7 @@
         <app-button
           label="{{ mode === OrderMode.Edit ? 'Save Changes' : 'Create Order' }}"
           [width]="ButtonWidth.Full"
+          [disabled]="detailsForm?.invalid"
           (clicked)="submit()" />
       }
     </div>

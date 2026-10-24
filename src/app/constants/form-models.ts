@@ -7,7 +7,7 @@ export interface ClientForm {
 }
 
 export interface OrderForm {
-  client: string;
+  clientId: string;
   phone: string;
   garment: Garment | '';
   status: string;
@@ -18,7 +18,7 @@ export interface OrderForm {
 export const defaultClientForm = (): ClientForm => ({ name: '', phone: '', dob: '' });
 
 export const defaultOrderForm = (): OrderForm => ({
-  client: '',
+  clientId: '',
   phone: '',
   garment: '',
   status: 'In Cutting',

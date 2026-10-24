@@ -7,6 +7,7 @@
   @if (viewingOrder) {
     <app-order-detail-modal
       [order]="viewingOrder"
+      [clientName]="clientName(viewingOrder.clientId)"
       (closed)="onModalClosed()" />
   }
   <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
@@ -51,6 +52,8 @@
       let-col="col">
       @if (col === 'orderId') {
         <span class="font-semibold text-slate-900">{{ row[col] }}</span>
+      } @else if (col === 'clientId') {
+        <span class="text-slate-600">{{ clientName(row['clientId']) }}</span>
       } @else if (col === 'actions') {
         <div class="flex items-center gap-2">
           <app-button
@@ -79,7 +82,7 @@
               >              {{ order.orderId }}</span
             >
             <h3 class="font-bold text-slate-900">
-              {{ order.client }}
+              {{ clientName(order.clientId) }}
             </h3>
           </div>
           <span

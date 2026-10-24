@@ -13,6 +13,7 @@ export interface TableFilter {
   key: string;
   label: string;
   options: string[];
+  optionLabels?: string[];
   searchable?: boolean;
 }
 
@@ -95,9 +96,18 @@ export class DataTable {
   filtered = computed(() => {
     const q = this.search().toLowerCase().trim();
     const af = this.activeFilters();
+    const filterDefs = this.filters();
     return this.rows().filter(row => {
       if (q && !Object.values(row).some(v => String(v).toLowerCase().includes(q))) return false;
-      return Object.entries(af).every(([k, v]) => !v || row[k] === v);
+      return Object.entries(af).every(([k, v]) => {
+        if (!v) return true;
+        const def = filterDefs.find(f => f.key === k);
+        if (def?.optionLabels) {
+          const idx = def.optionLabels.indexOf(v);
+          return idx !== -1 && row[k] === def.options[idx];
+        }
+        return row[k] === v;
+      });
     });
   });
 

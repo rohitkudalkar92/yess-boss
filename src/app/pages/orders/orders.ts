@@ -25,8 +25,8 @@ export class Orders {
   initialFilters = signal<Record<string, string>>({});
 
   constructor() {
-    const client = this.route.snapshot.queryParamMap.get('client');
-    if (client) this.initialFilters.set({ client });
+    const clientId = this.route.snapshot.queryParamMap.get('client');
+    if (clientId) this.initialFilters.set({ clientId });
   }
 
   readonly InputType = InputType;
@@ -36,7 +36,7 @@ export class Orders {
 
   readonly columns: TableColumn[] = [
     { key: 'orderId', label: 'Order' },
-    { key: 'client', label: 'Client' },
+    { key: 'clientId', label: 'Client' },
     { key: 'garment', label: 'Garment' },
     { key: 'status', label: 'Status', type: ColumnType.Status },
     { key: 'dueDate', label: 'Due Date', type: ColumnType.Date },
@@ -45,8 +45,18 @@ export class Orders {
 
   filters = computed<TableFilter[]>(() => [
     { key: 'status', label: 'All Statuses', options: Object.values(OrderStatus) },
-    { key: 'client', label: 'All Clients', options: this.clientService.clients().map(c => c.name), searchable: true },
+    {
+      key: 'clientId',
+      label: 'All Clients',
+      options: this.clientService.clients().map(c => c.id),
+      optionLabels: this.clientService.clients().map(c => c.name),
+      searchable: true,
+    },
   ]);
+
+  clientName(clientId: string) {
+    return this.clientService.clients().find(c => c.id === clientId)?.name ?? clientId;
+  }
 
   showModal = false;
   editingOrder: Order | null = null;

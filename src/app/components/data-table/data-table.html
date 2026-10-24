@@ -8,12 +8,20 @@
       }
     </div>
     <div class="flex items-center gap-2">
-      <app-button
-        label="Export"
-        [variant]="ButtonVariant.Secondary"
-        [size]="ButtonSize.Sm"
-        [icon]="IconName.Download"
-        (clicked)="exportRows()" />
+      <div class="relative group">
+        <app-button
+          label="Export"
+          [variant]="ButtonVariant.Secondary"
+          [size]="ButtonSize.Sm"
+          [icon]="IconName.Download"
+          [disabled]="!filtered().length"
+          (clicked)="exportRows()" />
+        @if (!filtered().length) {
+          <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 whitespace-nowrap rounded-lg bg-slate-800 px-2.5 py-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
+            No records to export
+          </div>
+        }
+      </div>
       @if (addLabel()) {
         <app-button [label]="addLabel()!" [size]="ButtonSize.Sm" (clicked)="add.emit()" />
       }
@@ -55,7 +63,7 @@
             [type]="InputType.Select"
             [label]="filter.label"
             [placeholder]="filter.label"
-            [options]="filter.options"
+            [options]="filter.optionLabels ?? filter.options"
             [ngModel]="activeFilters()[filter.key]"
             (ngModelChange)="setFilter(filter.key, $event)" />
         </div>
@@ -94,7 +102,7 @@
   <div class="hidden sm:flex flex-col flex-1 min-h-0 overflow-hidden rounded-b-2xl">
   <div class="overflow-x-auto overflow-y-auto flex-1">
     <table class="w-full text-left text-sm">
-      <thead class="bg-slate-50 text-slate-400 uppercase text-xs">
+      <thead class="bg-slate-50 text-slate-400 uppercase text-xs sticky top-0 z-10">
         <tr>
           @for (col of columns(); track col.key) {
             <th class="px-6 py-3 font-semibold">{{ col.label }}</th>

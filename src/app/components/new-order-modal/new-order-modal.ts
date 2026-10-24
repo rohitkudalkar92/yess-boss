@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnChanges, Output, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output, ViewChild, inject } from '@angular/core';
+import { FormsModule, NgForm } from '@angular/forms';
 import { Garment, GarmentField, GARMENT_FIELDS } from '../../enums/garment.enum';
 import { OrderStep } from '../../enums/order-step.enum';
 import { OrderStatus } from '../../enums/order-status.enum';
@@ -26,13 +26,20 @@ export class NewOrderModal implements OnChanges {
   private clientService = inject(ClientService);
   private orderService = inject(OrderService);
 
+  @ViewChild('detailsForm') detailsForm?: NgForm;
+
   get clients() {
     return this.clientService.clients().map(c => c.name);
   }
 
+  selectedClientName = '';
+
   onClientChange(name: string) {
     const client = this.clientService.clients().find(c => c.name === name);
-    if (client?.phone) this.form.phone = client.phone;
+    if (client) {
+      this.form.clientId = client.id;
+      if (client.phone) this.form.phone = client.phone;
+    }
   }
 
   readonly ButtonVariant = ButtonVariant;
@@ -61,8 +68,9 @@ export class NewOrderModal implements OnChanges {
 
   ngOnChanges() {
     if (this.order) {
+      this.selectedClientName = this.clientService.clients().find(c => c.id === this.order!.clientId)?.name ?? '';
       this.form = {
-        client: this.order.client,
+        clientId: this.order.clientId,
         phone: this.order.phone,
         garment: this.order.garment as Garment,
         status: this.order.status,
@@ -76,7 +84,8 @@ export class NewOrderModal implements OnChanges {
     if (!name.trim()) return;
     try {
       await this.clientService.add({ name: name.trim(), phone: '', dob: '' } satisfies ClientForm);
-      this.form.client = name.trim();
+      const created = this.clientService.clients().find(c => c.name === name.trim());
+      this.form.clientId = created?.id ?? '';
       this.toast.show(`Client "${name.trim()}" created`);
     } catch {
       this.toast.show('Failed to create client', 'error');
@@ -88,31 +97,31 @@ export class NewOrderModal implements OnChanges {
   }
 
   nextStep() {
-    if (!this.form.client || !this.form.garment || !this.form.dueDate) return;
+    if (!this.form.clientId || !this.form.garment) return;
     this.step = OrderStep.Details;
   }
 
   async submit() {
     if (this.mode === OrderMode.Edit && this.order) {
       await this.orderService.update(this.order.id, {
-        client: this.form.client,
+        clientId: this.form.clientId,
         phone: this.form.phone,
         garment: this.form.garment as string,
         status: this.form.status,
         dueDate: this.form.dueDate,
         isPaid: this.form.isPaid,
       });
-      this.toast.show(`Order updated for ${this.form.client} — ${this.form.garment}`);
+      this.toast.show(`Order updated — ${this.form.garment}`);
     } else {
       await this.orderService.add({
-        client: this.form.client,
+        clientId: this.form.clientId,
         phone: this.form.phone,
         garment: this.form.garment as string,
         status: this.form.status,
         dueDate: this.form.dueDate,
         isPaid: this.form.isPaid,
       });
-      this.toast.show(`Order created for ${this.form.client} — ${this.form.garment}`);
+      this.toast.show(`Order created — ${this.form.garment}`);
     }
     this.close();
   }
@@ -120,6 +129,7 @@ export class NewOrderModal implements OnChanges {
   close() {
     this.step = OrderStep.Info;
     this.form = defaultOrderForm();
+    this.selectedClientName = '';
     this.garmentDetails = {};
     this.closed.emit();
   }

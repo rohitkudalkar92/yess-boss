@@ -85,8 +85,6 @@ export class AppInput implements ControlValueAccessor, Validator {
         this.charCount < this.minLength
       )
         errs.push(`Minimum ${this.minLength} characters required.`);
-      if (this.charCount > this.maxLength)
-        errs.push(`Maximum ${this.maxLength} characters allowed.`);
     }
     return errs;
   }
@@ -97,8 +95,12 @@ export class AppInput implements ControlValueAccessor, Validator {
   }
 
   onInput(val: string) {
+    if (this.type === InputType.Number) {
+      val = val.replace(/[^0-9]/g, '');
+    }
     this.value = val;
     this.onChange(val);
+    this.onValidatorChange();
   }
 
   onBlur() {
@@ -135,12 +137,17 @@ export class AppInput implements ControlValueAccessor, Validator {
     this.onTouched = fn;
   }
 
+  private onValidatorChange = () => {};
+
+  registerOnValidatorChange(fn: () => void) {
+    this.onValidatorChange = fn;
+  }
+
   validate(_: AbstractControl): ValidationErrors | null {
     if (this.required && !this.value) return { required: true };
     if (this.type !== InputType.Date && this.type !== InputType.Select) {
       if (this.minLength > 0 && this.charCount > 0 && this.charCount < this.minLength)
         return { minLength: true };
-      if (this.charCount > this.maxLength) return { maxLength: true };
     }
     return null;
   }

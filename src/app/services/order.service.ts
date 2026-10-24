@@ -1,4 +1,4 @@
-import { Injectable, signal, computed, inject } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 import {
   collection,
   onSnapshot,
@@ -13,12 +13,11 @@ import {
   Timestamp,
 } from 'firebase/firestore';
 import { db } from '../firebase';
-import { ClientService } from './client.service';
 
 export interface Order {
   id: string;
   orderId: number;
-  client: string;
+  clientId: string;
   phone: string;
   garment: string;
   status: string;
@@ -31,7 +30,6 @@ export interface Order {
 @Injectable({ providedIn: 'root' })
 export class OrderService {
   readonly orders = signal<Order[]>([]);
-  private clientService = inject(ClientService);
 
   readonly activeCount = computed(() =>
     this.orders().filter(o => o.status !== 'Delivered').length
@@ -68,7 +66,6 @@ export class OrderService {
   }
 
   async add(order: Omit<Order, 'id' | 'orderId' | 'createdAt' | 'modifiedAt'>) {
-    const clientDoc = this.clientService.clients().find(c => c.name === order.client);
     const counterRef = doc(db, 'meta', 'orderCounter');
 
     const orderId = await runTransaction(db, async tx => {
@@ -78,15 +75,15 @@ export class OrderService {
       return next;
     });
 
-    const ref = await addDoc(collection(db, 'orders'), {
+    await addDoc(collection(db, 'orders'), {
       ...order,
       orderId,
       createdAt: serverTimestamp(),
       modifiedAt: serverTimestamp(),
     });
 
-    if (clientDoc) {
-      await updateDoc(doc(db, 'clients', clientDoc.id), { orderCount: increment(1) });
+    if (order.clientId) {
+      await updateDoc(doc(db, 'clients', order.clientId), { orderCount: increment(1) });
     }
   }
 
