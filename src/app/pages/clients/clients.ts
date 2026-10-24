@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ClientService, Client } from '../../services/client.service';
-import { NewUserModal } from '../../components/new-user-modal/new-user-modal';
+import { ClientModal } from '../../components/client-modal/client-modal';
 import { ConfirmModal } from '../../components/confirm-modal/confirm-modal';
 import { AppButton } from '../../components/button/button';
 import { DataTable, TableColumn } from '../../components/data-table/data-table';
@@ -9,7 +9,7 @@ import { ButtonVariant, ButtonSize } from '../../enums/button.enum';
 
 @Component({
   selector: 'app-clients',
-  imports: [NewUserModal, AppButton, DataTable, DatePipe, ConfirmModal],
+  imports: [ClientModal, AppButton, DataTable, DatePipe, ConfirmModal],
   templateUrl: './clients.html',
 })
 export class Clients {
@@ -33,8 +33,6 @@ export class Clients {
   ];
 
   get clients(): Client[] { return this.clientService.clients(); }
-
-  onSearch(q: string) { this.clientService.fetch(q); }
 
   async confirmDelete() {
     const client = this.deleteTarget();

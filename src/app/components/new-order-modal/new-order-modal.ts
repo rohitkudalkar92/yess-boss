@@ -10,6 +10,7 @@ import { AppButton } from '../button/button';
 import { AppInput } from '../input/input';
 import { ButtonVariant, ButtonWidth } from '../../enums/button.enum';
 import { InputType } from '../../enums/input-type.enum';
+import { OrderForm, defaultOrderForm, ClientForm } from '../../constants/form-models';
 
 @Component({
   selector: 'app-new-order-modal',
@@ -48,14 +49,7 @@ export class NewOrderModal implements OnChanges {
   garments = Object.values(Garment);
   statuses = ['In Cutting', 'In Stitching', 'Fitting Ready', 'Delivered'];
 
-  form = {
-    client: '',
-    phone: '',
-    garment: '' as Garment | '',
-    status: 'In Cutting',
-    dueDate: '',
-    isPaid: false,
-  };
+  form: OrderForm = defaultOrderForm();
 
   garmentDetails: Record<string, string> = {};
 
@@ -72,14 +66,14 @@ export class NewOrderModal implements OnChanges {
         status: this.order.status,
         dueDate: this.order.dueDate,
         isPaid: this.order.isPaid,
-      };
+      } satisfies OrderForm;
     }
   }
 
   async onCreateClient(name: string) {
     if (!name.trim()) return;
     try {
-      await this.clientService.add({ name: name.trim(), phone: '', dob: '' });
+      await this.clientService.add({ name: name.trim(), phone: '', dob: '' } satisfies ClientForm);
       this.form.client = name.trim();
       this.toast.show(`Client "${name.trim()}" created`);
     } catch {
@@ -123,14 +117,7 @@ export class NewOrderModal implements OnChanges {
 
   close() {
     this.step = OrderStep.Info;
-    this.form = {
-      client: '',
-      phone: '',
-      garment: '' as Garment | '',
-      status: 'In Cutting',
-      dueDate: '',
-      isPaid: false,
-    };
+    this.form = defaultOrderForm();
     this.garmentDetails = {};
     this.closed.emit();
   }

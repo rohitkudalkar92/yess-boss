@@ -6,13 +6,14 @@ import { ButtonVariant, ButtonWidth } from '../../enums/button.enum';
 import { InputType } from '../../enums/input-type.enum';
 import { ClientService, Client } from '../../services/client.service';
 import { ToastService } from '../../services/toast.service';
+import { ClientForm, defaultClientForm } from '../../constants/form-models';
 
 @Component({
-  selector: 'app-new-user-modal',
+  selector: 'app-client-modal',
   imports: [FormsModule, AppButton, AppInput],
-  templateUrl: './new-user-modal.html',
+  templateUrl: './client-modal.html',
 })
-export class NewUserModal implements OnChanges {
+export class ClientModal implements OnChanges {
   @Input() client: Client | null = null;
   @Output() closed = new EventEmitter<void>();
 
@@ -23,13 +24,13 @@ export class NewUserModal implements OnChanges {
   readonly ButtonWidth = ButtonWidth;
   readonly InputType = InputType;
 
-  form = { name: '', phone: '', dob: '' };
+  form: ClientForm = defaultClientForm();
 
   get isEdit() { return !!this.client; }
 
   ngOnChanges() {
     if (this.client) {
-      this.form = { name: this.client.name, phone: this.client.phone, dob: this.client.dob };
+      this.form = { name: this.client.name, phone: this.client.phone, dob: this.client.dob } satisfies ClientForm;
     }
   }
 
@@ -53,7 +54,7 @@ export class NewUserModal implements OnChanges {
   }
 
   close() {
-    this.form = { name: '', phone: '', dob: '' };
+    this.form = defaultClientForm();
     this.closed.emit();
   }
 }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { NewOrderModal } from '../components/new-order-modal/new-order-modal';
-import { NewUserModal } from '../components/new-user-modal/new-user-modal';
+import { ClientModal } from '../components/client-modal/client-modal';
 import { AuthService } from '../services/auth.service';
 import { APP_ROUTES } from '../constants/app-routes';
 import { AppIcon } from '../components/icon/icon';
@@ -12,7 +12,7 @@ import { UserRoleLabel } from '../enums/user-role.enum';
 
 @Component({
   selector: 'app-topbar',
-  imports: [NewOrderModal, NewUserModal, RouterLink, RouterLinkActive, AppIcon, AppButton],
+  imports: [NewOrderModal, ClientModal, RouterLink, RouterLinkActive, AppIcon, AppButton],
   templateUrl: './topbar.html',
 })
 export class Topbar {

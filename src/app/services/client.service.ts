@@ -8,8 +8,6 @@ import {
   doc,
   query,
   orderBy,
-  where,
-  QueryConstraint,
 } from 'firebase/firestore';
 import { db } from '../firebase';
 
@@ -32,15 +30,10 @@ export class ClientService {
     this.fetch();
   }
 
-  fetch(search = '') {
+  fetch() {
     this.unsubscribe?.();
-    const constraints: QueryConstraint[] = [orderBy('name')];
-    if (search.trim()) {
-      const q = search.trim();
-      constraints.push(where('name', '>=', q), where('name', '<=', q + '\uf8ff'));
-    }
     this.unsubscribe = onSnapshot(
-      query(collection(db, 'clients'), ...constraints),
+      query(collection(db, 'clients'), orderBy('name')),
       snapshot => this.clients.set(snapshot.docs.map(d => ({ id: d.id, ...d.data() } as Client)))
     );
   }

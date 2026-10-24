@@ -28,11 +28,13 @@ export class DataTable {
 
   search = signal('');
   page = signal(1);
+  private debounceTimer: ReturnType<typeof setTimeout> | null = null;
 
   onSearch(val: string) {
     this.search.set(val);
     this.page.set(1);
-    this.searchChange.emit(val);
+    if (this.debounceTimer) clearTimeout(this.debounceTimer);
+    this.debounceTimer = setTimeout(() => this.searchChange.emit(val), 400);
   }
 
   filtered = computed(() => {

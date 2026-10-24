@@ -12,8 +12,7 @@
     [columns]="columns"
     [rows]="clients"
     [searchable]="true"
-    searchPlaceholder="Search by name..."
-    (searchChange)="onSearch($event)">
+    searchPlaceholder="Search by name...">
     <ng-template #mobileRow let-row>
       <div class="px-4 py-4 space-y-2">
         <div class="flex items-center justify-between">
@@ -44,7 +43,7 @@
 </div>
 
 @if (showModal() || editTarget()) {
-  <app-new-user-modal
+  <app-client-modal
     [client]="editTarget()"
     (closed)="showModal.set(false); editTarget.set(null)" />
 }
