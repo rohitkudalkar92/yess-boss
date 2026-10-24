@@ -41,7 +41,7 @@ export class Orders {
   readonly columns: TableColumn[] = [
     { key: 'orderId', label: 'Order' },
     { key: 'shopId', label: 'Shop' },
-    { key: 'clientName', label: 'Client', type: ColumnType.Client },
+    { key: 'clientId', label: 'Client', type: ColumnType.Client },
     { key: 'garment', label: 'Garment' },
     { key: 'status', label: 'Status', type: ColumnType.Status },
     { key: 'dueDate', label: 'Due Date', type: ColumnType.Date },
@@ -87,10 +87,7 @@ export class Orders {
     this.viewingOrder = null;
   }
 
-  get orders() {
-    const clientMap = Object.fromEntries(this.clientService.clients().map(c => [c.id, c.name]));
-    return this.orderService.orders().map(o => ({ ...o, clientName: clientMap[o.clientId] ?? o.clientId }));
-  }
+  get orders() { return this.orderService.orders(); }
   get activeCount() { return this.orderService.activeCount(); }
   get pendingFittingsCount() { return this.orderService.pendingFittingsCount(); }
   get deliveredThisMonth(): number { return this.orderService.deliveredThisMonth(); }

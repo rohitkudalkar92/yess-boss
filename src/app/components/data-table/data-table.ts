@@ -161,6 +161,10 @@ export class DataTable {
     [OrderStatus.InCutting]: 'text-purple-700 bg-purple-50 border-purple-200',
   };
 
+  resolveClient(id: string): string {
+    return this.clientMap()[id] ?? id;
+  }
+
   statusClass(status: string): string {
     return this.statusMap[status as OrderStatus] ?? 'text-slate-700 bg-slate-50 border-slate-200';
   }

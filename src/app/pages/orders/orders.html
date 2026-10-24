@@ -82,7 +82,7 @@
               >              {{ order.orderId }}</span
             >
             <h3 class="font-bold text-slate-900">
-              {{ order.clientName ?? order.clientId }}
+              {{ clientName(order.clientId) }}
             </h3>
           </div>
           <span
