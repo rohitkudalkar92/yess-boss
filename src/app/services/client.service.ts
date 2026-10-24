@@ -6,6 +6,8 @@ import {
   deleteDoc,
   updateDoc,
   doc,
+  query,
+  where,
 } from 'firebase/firestore';
 import { db } from '../firebase';
 
@@ -25,9 +27,10 @@ export class ClientService {
   readonly clients = signal<Client[]>([]);
   private unsubscribe?: () => void;
 
-  fetch(_shopId: string) {
+  fetch(shopId: string) {
     this.unsubscribe?.();
-    this.unsubscribe = onSnapshot(collection(db, 'clients'), snapshot =>
+    const q = query(collection(db, 'clients'), where('shopId', '==', shopId));
+    this.unsubscribe = onSnapshot(q, snapshot =>
       this.clients.set(snapshot.docs.map(d => ({ id: d.id, ...d.data() } as Client)))
     );
   }

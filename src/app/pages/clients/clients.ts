@@ -22,6 +22,7 @@ export class Clients {
 
   readonly columns: TableColumn[] = [
     { key: 'name', label: 'Name' },
+    { key: 'shopId', label: 'Shop' },
     { key: 'phone', label: 'Phone' },
     { key: 'dob', label: 'Date of Birth', type: ColumnType.Date},
     { key: 'orderCount', label: 'Orders', type: ColumnType.Number },

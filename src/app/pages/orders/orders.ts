@@ -26,7 +26,10 @@ export class Orders {
 
   constructor() {
     const clientId = this.route.snapshot.queryParamMap.get('clientId');
-    if (clientId) this.initialFilters.set({ clientId });
+    if (clientId) {
+      const name = this.clientService.clients().find(c => c.id === clientId)?.name;
+      if (name) this.initialFilters.set({ clientId: name });
+    }
   }
 
   readonly InputType = InputType;
@@ -36,6 +39,7 @@ export class Orders {
 
   readonly columns: TableColumn[] = [
     { key: 'orderId', label: 'Order' },
+    { key: 'shopId', label: 'Shop' },
     { key: 'clientId', label: 'Client' },
     { key: 'garment', label: 'Garment' },
     { key: 'status', label: 'Status', type: ColumnType.Status },
