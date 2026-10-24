@@ -4,6 +4,11 @@
       [order]="editingOrder"
       (closed)="onModalClosed()" />
   }
+  @if (viewingOrder) {
+    <app-order-detail-modal
+      [order]="viewingOrder"
+      (closed)="onModalClosed()" />
+  }
   <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
     <app-stat-card
       label="Active Orders"
@@ -46,6 +51,11 @@
         <span class="font-semibold text-slate-900">{{ row[col] }}</span>
       } @else if (col === 'actions') {
         <div class="flex items-center gap-2">
+          <app-button
+            label="Details"
+            [variant]="ButtonVariant.Secondary"
+            [size]="ButtonSize.Sm"
+            (clicked)="onDetails(row)" />
           <app-button
             label="Edit"
             [variant]="ButtonVariant.Ghost"

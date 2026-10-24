@@ -3,6 +3,7 @@ import { StatCard } from '../../components/stat-card/stat-card';
 import { DataTable, TableColumn, ColumnType, TableFilter } from '../../components/data-table/data-table';
 import { AppButton } from '../../components/button/button';
 import { NewOrderModal } from '../../components/new-order-modal/new-order-modal';
+import { OrderDetailModal } from '../../components/order-detail-modal/order-detail-modal';
 import { IconName } from '../../enums/icon-name.enum';
 import { ButtonVariant, ButtonSize } from '../../enums/button.enum';
 import { OrderService, Order } from '../../services/order.service';
@@ -11,7 +12,7 @@ import { ClientService } from '../../services/client.service';
 
 @Component({
   selector: 'app-orders',
-  imports: [StatCard, DataTable, AppButton, NewOrderModal],
+  imports: [StatCard, DataTable, AppButton, NewOrderModal, OrderDetailModal],
   templateUrl: './orders.html',
 })
 export class Orders {
@@ -38,6 +39,7 @@ export class Orders {
 
   showModal = false;
   editingOrder: Order | null = null;
+  viewingOrder: Order | null = null;
 
   onAdd() {
     this.showModal = true;
@@ -47,9 +49,14 @@ export class Orders {
     this.editingOrder = order;
   }
 
+  onDetails(order: Order) {
+    this.viewingOrder = order;
+  }
+
   onModalClosed() {
     this.showModal = false;
     this.editingOrder = null;
+    this.viewingOrder = null;
   }
 
   get orders() { return this.orderService.orders(); }

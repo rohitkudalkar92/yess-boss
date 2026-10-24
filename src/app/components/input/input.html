@@ -14,13 +14,12 @@
       (keydown.escape)="closeDropdown()">
       <button
         type="button"
-        (click)="toggleOpen()"
+        (click)="!disabled && toggleOpen()"
         (blur)="!open && onBlur()"
         [class]="
           'w-full bg-slate-100 text-sm px-4 py-2.5 rounded-xl border transition focus:outline-none focus:ring-2 focus:ring-emerald-500 text-left flex items-center justify-between ' +
-          (errors.length
-            ? 'border-red-400'
-            : 'border-transparent')
+          (disabled ? 'opacity-50 cursor-not-allowed ' : '') +
+          (errors.length ? 'border-red-400' : 'border-transparent')
         ">
         <span
           [class]="
@@ -110,12 +109,12 @@
       [(ngModel)]="value"
       (ngModelChange)="onInput($event)"
       (blur)="onBlur()"
+      [disabled]="disabled"
       [min]="type === InputType.Date && disablePast ? todayStr : null"
       [class]="
         'w-full bg-slate-100 text-sm px-4 py-2.5 rounded-xl border transition focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-800 ' +
-        (errors.length
-          ? 'border-red-400'
-          : 'border-transparent')
+        (disabled ? 'opacity-50 cursor-not-allowed ' : '') +
+        (errors.length ? 'border-red-400' : 'border-transparent')
       " />
   }
 
