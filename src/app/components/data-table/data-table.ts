@@ -1,4 +1,4 @@
-import { Component, input, computed, signal, ContentChild, TemplateRef, booleanAttribute, output, effect } from '@angular/core';
+import { Component, input, computed, signal, ContentChild, TemplateRef, booleanAttribute, output, effect, inject } from '@angular/core';
 import { NgTemplateOutlet, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AppButton } from '../button/button';
@@ -8,6 +8,7 @@ import { ColumnType } from '../../enums/column-type.enum';
 import { InputType } from '../../enums/input-type.enum';
 import { IconName } from '../../enums/icon-name.enum';
 import { OrderStatus } from '../../enums/order-status.enum';
+import { ClientService } from '../../services/client.service';
 
 export interface TableFilter {
   key: string;
@@ -61,6 +62,12 @@ export class DataTable {
   readonly ButtonSize = ButtonSize;
   readonly InputType = InputType;
   readonly IconName = IconName;
+
+  private clientService = inject(ClientService);
+
+  readonly clientMap = computed(() =>
+    Object.fromEntries(this.clientService.clients().map(c => [c.id, c.name]))
+  );
 
   search = signal('');
   page = signal(1);

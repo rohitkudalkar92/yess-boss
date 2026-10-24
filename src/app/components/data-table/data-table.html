@@ -131,6 +131,8 @@
                   <span
                     class="tabular-nums cursor-pointer hover:text-emerald-600 hover:underline"
                     (click)="cellClick.emit({ row, col: col.key })">{{ row[col.key] ?? '—' }}</span>
+                } @else if (col.type === 'client') {
+                  {{ clientMap()[row[col.key]] ?? row[col.key] }}
                 } @else {
                   {{ row[col.key] || '—' }}
                 }

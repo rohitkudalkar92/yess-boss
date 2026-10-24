@@ -1,4 +1,4 @@
-import { Component, inject, computed, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { StatCard } from '../../components/stat-card/stat-card';
 import { DataTable, TableColumn, ColumnType, TableFilter } from '../../components/data-table/data-table';
@@ -40,26 +40,28 @@ export class Orders {
   readonly columns: TableColumn[] = [
     { key: 'orderId', label: 'Order' },
     { key: 'shopId', label: 'Shop' },
-    { key: 'clientId', label: 'Client' },
+    { key: 'clientName', label: 'Client', type: ColumnType.Client },
     { key: 'garment', label: 'Garment' },
     { key: 'status', label: 'Status', type: ColumnType.Status },
     { key: 'dueDate', label: 'Due Date', type: ColumnType.Date },
     { key: 'actions', label: '' },
   ];
 
-  filters = computed<TableFilter[]>(() => [
-    { key: 'status', label: 'All Statuses', options: Object.values(OrderStatus) },
-    {
-      key: 'clientId',
-      label: 'All Clients',
-      options: this.clientService.clients().map(c => c.id),
-      optionLabels: this.clientService.clients().map(c => c.name),
-      searchable: true,
-    },
-  ]);
+  get filters(): TableFilter[] {
+    return [
+      { key: 'status', label: 'All Statuses', options: Object.values(OrderStatus) },
+      {
+        key: 'clientId',
+        label: 'All Clients',
+        options: this.clientService.clients().map(c => c.id),
+        optionLabels: this.clientService.clients().map(c => c.name),
+        searchable: true,
+      },
+    ];
+  }
 
-  clientName(clientId: string) {
-    return this.clientService.clients().find(c => c.id === clientId)?.name ?? clientId;
+  clientName(id: string) {
+    return this.clientService.clients().find(c => c.id === id)?.name ?? id;
   }
 
   showModal = false;
@@ -84,7 +86,10 @@ export class Orders {
     this.viewingOrder = null;
   }
 
-  get orders() { return this.orderService.orders(); }
+  get orders() {
+    const clientMap = Object.fromEntries(this.clientService.clients().map(c => [c.id, c.name]));
+    return this.orderService.orders().map(o => ({ ...o, clientName: clientMap[o.clientId] ?? o.clientId }));
+  }
   get activeCount() { return this.orderService.activeCount(); }
   get pendingFittingsCount() { return this.orderService.pendingFittingsCount(); }
   get deliveredThisMonth(): number { return this.orderService.deliveredThisMonth(); }
