@@ -43,15 +43,17 @@
       @if (open) {
         <div
           class="absolute z-[60] mt-1 w-full bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden">
-          <div class="p-2 border-b border-slate-100">
-            <input
-              type="text"
-              [value]="search"
-              (input)="search = $any($event.target).value"
-              placeholder="Search..."
-              autofocus
-              class="w-full bg-slate-50 text-sm px-3 py-1.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
-          </div>
+          @if (showSearch) {
+            <div class="p-2 border-b border-slate-100">
+              <input
+                type="text"
+                [value]="search"
+                (input)="search = $any($event.target).value"
+                placeholder="Search..."
+                autofocus
+                class="w-full bg-slate-50 text-sm px-3 py-1.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+            </div>
+          }
           <ul class="max-h-48 overflow-y-auto">
             @for (opt of filtered; track opt) {
               <li

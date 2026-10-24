@@ -82,6 +82,7 @@
               label="Garment"
               [type]="InputType.Select"
               [options]="garments"
+              [showSearch]="false"
               placeholder="Select garment..."
               [(ngModel)]="form.garment"
               name="garment"
@@ -94,6 +95,7 @@
               label="Status"
               [type]="InputType.Select"
               [options]="statuses"
+              [showSearch]="false"
               [(ngModel)]="form.status"
               name="status" />
             <app-input
@@ -128,8 +130,7 @@
                   [label]="field.label"
                   [type]="InputType.Number"
                   [(ngModel)]="garmentDetails[field.key]"
-                  [name]="field.key"
-                  [placeholder]="field.placeholder || ''" />
+                  [name]="field.key" />
               }
               @if (field.type === 'select') {
                 <app-input
