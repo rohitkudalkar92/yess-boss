@@ -7,6 +7,7 @@ export const ICONS = {
   menu: 'M4 6h16M4 12h16M4 18h16',
   plus: 'M12 4v16m8-8H4',
   close: 'M6 18L18 6M6 6l12 12',
+  download: 'M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4',
 } as const;
 
 export type IconName = keyof typeof ICONS;

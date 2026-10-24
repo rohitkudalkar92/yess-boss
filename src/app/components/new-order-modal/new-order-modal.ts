@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, inject } from '@angu
 import { FormsModule } from '@angular/forms';
 import { Garment, GarmentField, GARMENT_FIELDS } from '../../enums/garment.enum';
 import { OrderStep } from '../../enums/order-step.enum';
+import { OrderStatus } from '../../enums/order-status.enum';
 import { OrderMode } from '../../enums/order-mode.enum';
 import { ToastService } from '../../services/toast.service';
 import { ClientService } from '../../services/client.service';
@@ -39,6 +40,7 @@ export class NewOrderModal implements OnChanges {
   readonly InputType = InputType;
   readonly OrderStep = OrderStep;
   readonly OrderMode = OrderMode;
+  readonly OrderStatus = OrderStatus;
 
   get mode(): OrderMode {
     return this.order ? OrderMode.Edit : OrderMode.Create;
@@ -47,7 +49,7 @@ export class NewOrderModal implements OnChanges {
   step = OrderStep.Info;
 
   garments = Object.values(Garment);
-  statuses = ['In Cutting', 'In Stitching', 'Fitting Ready', 'Delivered'];
+  statuses = Object.values(OrderStatus);
 
   form: OrderForm = defaultOrderForm();
 

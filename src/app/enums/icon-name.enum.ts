@@ -7,4 +7,5 @@ export enum IconName {
   Menu = 'menu',
   Plus = 'plus',
   Close = 'close',
+  Download = 'download',
 }

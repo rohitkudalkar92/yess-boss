@@ -1,22 +1,16 @@
 import { Component, inject, signal } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { ClientService, Client } from '../../services/client.service';
 import { ClientModal } from '../../components/client-modal/client-modal';
 import { ConfirmModal } from '../../components/confirm-modal/confirm-modal';
-import { AppButton } from '../../components/button/button';
-import { DataTable, TableColumn } from '../../components/data-table/data-table';
-import { ButtonVariant, ButtonSize } from '../../enums/button.enum';
+import { DataTable, TableColumn, ColumnType } from '../../components/data-table/data-table';
 
 @Component({
   selector: 'app-clients',
-  imports: [ClientModal, AppButton, DataTable, DatePipe, ConfirmModal],
+  imports: [ClientModal, DataTable, ConfirmModal],
   templateUrl: './clients.html',
 })
 export class Clients {
   private clientService = inject(ClientService);
-
-  readonly ButtonVariant = ButtonVariant;
-  readonly ButtonSize = ButtonSize;
 
   showModal = signal(false);
   editTarget = signal<Client | null>(null);
@@ -25,11 +19,17 @@ export class Clients {
   readonly columns: TableColumn[] = [
     { key: 'name', label: 'Name' },
     { key: 'phone', label: 'Phone' },
-    { key: 'dob', label: 'Date of Birth' },
-    { key: 'orderCount', label: 'Orders' },
-    { key: 'createdAt', label: 'Created At' },
-    { key: 'modifiedAt', label: 'Modified At' },
-    { key: 'actions', label: 'Actions' },
+    { key: 'dob', label: 'Date of Birth', type: ColumnType.Date},
+    { key: 'orderCount', label: 'Orders', type: ColumnType.Number },
+    { key: 'createdAt', label: 'Created At', type: ColumnType.Date },
+    { key: 'modifiedAt', label: 'Modified At', type: ColumnType.Date },
+    { key: 'actions', label: 'Actions', type: ColumnType.Actions },
+  ];
+
+  readonly mobileFields: { key: string; label?: string; type?: ColumnType }[] = [
+    { key: 'phone' },
+    { key: 'dob', label: 'DOB' },
+    { key: 'createdAt', label: 'Created', type: ColumnType.Date },
   ];
 
   get clients(): Client[] { return this.clientService.clients(); }

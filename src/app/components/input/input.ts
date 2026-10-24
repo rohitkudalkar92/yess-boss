@@ -5,6 +5,9 @@ import {
   EventEmitter,
   forwardRef,
   booleanAttribute,
+  HostListener,
+  ElementRef,
+  inject,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -27,6 +30,13 @@ import { InputType } from '../../enums/input-type.enum';
   ],
 })
 export class AppInput implements ControlValueAccessor, Validator {
+  private el = inject(ElementRef);
+
+  @HostListener('document:click', ['$event.target'])
+  onDocumentClick(target: EventTarget | null) {
+    if (this.open && !this.el.nativeElement.contains(target)) this.closeDropdown();
+  }
+
   @Input() label = '';
   @Input() placeholder = '';
   @Input() type: InputType = InputType.Text;
@@ -39,6 +49,8 @@ export class AppInput implements ControlValueAccessor, Validator {
   @Input() minLength = 0;
   @Input() maxLength = 64;
   @Input({ transform: booleanAttribute }) showCharCount = false;
+  @Input({ transform: booleanAttribute }) compact = false;
+  @Input({ transform: booleanAttribute }) hideLabel = false;
 
   get todayStr() {
     return new Date().toISOString().split('T')[0];

@@ -29,17 +29,25 @@
         <app-button [icon]="IconName.Plus" label="" [size]="ButtonSize.Md" (clicked)="showMobileMenu = !showMobileMenu" />
         @if (showMobileMenu) {
           <div class="absolute right-0 mt-2 w-40 bg-white border border-slate-200 rounded-xl shadow-lg z-50 overflow-hidden">
-            <app-button label="+ New Order" [width]="ButtonWidth.Full" (clicked)="showModal = true; showMobileMenu = false" />
-            <app-button label="+ New User" [variant]="ButtonVariant.Secondary" [width]="ButtonWidth.Full" (clicked)="showUserModal = true; showMobileMenu = false" />
+            <a [routerLink]="routes.ORDERS" (click)="showMobileMenu = false" class="block px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition">Orders</a>
+            <a [routerLink]="routes.CLIENTS" (click)="showMobileMenu = false" class="block px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition">Clients</a>
           </div>
         }
       </div>
-      <span class="hidden md:inline-flex">
-        <app-button label="+ New Order" (clicked)="showModal = true" />
-      </span>
-      <span class="hidden md:inline-flex">
-        <app-button label="+ New User" [variant]="ButtonVariant.Secondary" (clicked)="showUserModal = true" />
-      </span>
+      <nav class="hidden md:flex items-center gap-1">
+        <a
+          [routerLink]="routes.ORDERS"
+          routerLinkActive="text-emerald-700 bg-emerald-50"
+          class="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition">
+          Orders
+        </a>
+        <a
+          [routerLink]="routes.CLIENTS"
+          routerLinkActive="text-emerald-700 bg-emerald-50"
+          class="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition">
+          Clients
+        </a>
+      </nav>
       <div class="relative">
         <button
           (click)="showUserMenu = !showUserMenu"
@@ -66,14 +74,6 @@
     </div>
   </div>
 </header>
-
-@if (showModal) {
-  <app-new-order-modal (closed)="showModal = false" />
-}
-
-@if (showUserModal) {
-  <app-client-modal (closed)="showUserModal = false" />
-}
 
 @if (showSidebar) {
   <div class="md:hidden fixed inset-0 z-40 flex">

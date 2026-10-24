@@ -1,8 +1,28 @@
-<div
-  class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-  @if (title() || actionsRef || searchable()) {
-    <div
-      class="px-6 py-4 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center gap-3">
+<div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col flex-1 min-h-0">
+  <!-- Header row: title + export -->
+  <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between gap-4">
+    <div>
+      <h2 class="text-base font-semibold text-slate-900">{{ title() }}</h2>
+      @if (subtitle()) {
+        <p class="text-xs text-slate-400 mt-0.5">{{ subtitle() }}</p>
+      }
+    </div>
+    <div class="flex items-center gap-2">
+      <app-button
+        label="Export"
+        [variant]="ButtonVariant.Secondary"
+        [size]="ButtonSize.Sm"
+        [icon]="IconName.Download"
+        (clicked)="exportRows()" />
+      @if (addLabel()) {
+        <app-button [label]="addLabel()!" [size]="ButtonSize.Sm" (clicked)="add.emit()" />
+      }
+    </div>
+  </div>
+
+  <!-- Toolbar row: search + filters + pagination + add -->
+  <div class="px-6 py-3 border-b border-slate-100 bg-slate-50/60 flex items-center justify-between gap-4 relative z-10">
+    <div class="flex items-center gap-2">
       @if (searchable()) {
         <div class="relative">
           <svg
@@ -21,48 +41,62 @@
             [value]="search()"
             (input)="onSearch($any($event.target).value)"
             placeholder="{{ searchPlaceholder() }}"
-            autofocus
             class="bg-slate-100 text-sm pl-9 pr-4 py-2 rounded-xl border border-transparent focus:outline-none focus:ring-2 focus:ring-emerald-500 transition w-full sm:w-56" />
         </div>
       }
-      <div class="flex-1 flex justify-between items-center">
-        <h2 class="text-base font-bold text-slate-900">{{ title() }}</h2>
-        <div class="flex items-center gap-3">
-          @if (totalPages() > 1) {
-            <div class="flex items-center gap-1">
-              <button
-                (click)="setPage(page() - 1)"
-                [disabled]="page() === 1"
-                class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed transition text-sm">
-                ‹
-              </button>
-              <span class="text-xs text-slate-500 px-1">{{ page() }} / {{ totalPages() }}</span>
-              <button
-                (click)="setPage(page() + 1)"
-                [disabled]="page() === totalPages()"
-                class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed transition text-sm">
-                ›
-              </button>
-            </div>
-          }
-          @if (actionsRef) {
-            <ng-container *ngTemplateOutlet="actionsRef" />
-          }
+      @for (filter of filters(); track filter.key) {
+        <div class="w-44">
+          <app-input
+            compact
+            hideLabel
+            [type]="InputType.Select"
+            [label]="filter.label"
+            [placeholder]="filter.label"
+            [options]="filter.options"
+            [ngModel]="activeFilters()[filter.key]"
+            (ngModelChange)="setFilter(filter.key, $event)" />
         </div>
-      </div>
+      }
+      @if (hasActiveFilters()) {
+        <button
+          (click)="clearFilters()"
+          class="text-xs text-slate-400 hover:text-slate-600 transition">
+          Clear
+        </button>
+      }
     </div>
-  }
+    <div class="flex items-center gap-3">
+      @if (totalPages() > 1) {
+        <div class="flex items-center gap-1">
+          <button
+            (click)="setPage(page() - 1)"
+            [disabled]="page() === 1"
+            class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed transition text-sm">
+            ‹
+          </button>
+          <span class="text-xs text-slate-500 px-1">{{ page() }} / {{ totalPages() }}</span>
+          <button
+            (click)="setPage(page() + 1)"
+            [disabled]="page() === totalPages()"
+            class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed transition text-sm">
+            ›
+          </button>
+        </div>
+      }
+      @if (actionsRef) {
+        <ng-container *ngTemplateOutlet="actionsRef" />
+      }
+    </div>
+  </div>
 
   <!-- Desktop -->
-  <div class="hidden sm:block overflow-x-auto">
+  <div class="hidden sm:flex flex-col flex-1 min-h-0 overflow-hidden rounded-b-2xl">
+  <div class="overflow-x-auto overflow-y-auto flex-1">
     <table class="w-full text-left text-sm">
-      <thead
-        class="bg-slate-50 text-slate-400 uppercase text-xs">
+      <thead class="bg-slate-50 text-slate-400 uppercase text-xs">
         <tr>
           @for (col of columns(); track col.key) {
-            <th class="px-6 py-3 font-semibold">
-              {{ col.label }}
-            </th>
+            <th class="px-6 py-3 font-semibold">{{ col.label }}</th>
           }
         </tr>
       </thead>
@@ -72,18 +106,20 @@
             @for (col of columns(); track col.key) {
               <td class="px-6 py-3.5">
                 @if (cellRef) {
-                  <ng-container
-                    *ngTemplateOutlet="
-                      cellRef;
-                      context: {
-                        $implicit: row,
-                        col: col.key,
-                      }
-                    " />
+                  <ng-container *ngTemplateOutlet="cellRef; context: { $implicit: row, col: col.key }" />
+                } @else if (col.type === 'actions') {
+                  <div class="flex gap-2">
+                    <app-button label="Edit" [variant]="ButtonVariant.Secondary" [size]="ButtonSize.Sm" (clicked)="edit.emit(row)" />
+                    <app-button label="Delete" [variant]="ButtonVariant.Danger" [size]="ButtonSize.Sm" (clicked)="delete.emit(row)" />
+                  </div>
+                } @else if (col.type === 'date') {
+                  {{ row[col.key] | date:'dd MMM yyyy, HH:mm' }}
+                } @else if (col.type === 'status') {
+                  <span class="px-2.5 py-1 text-xs font-semibold rounded-full border {{ statusClass(row[col.key]) }}">{{ row[col.key] }}</span>
+                } @else if (col.type === 'number') {
+                  <span class="tabular-nums">{{ row[col.key] ?? '—' }}</span>
                 } @else {
-                  <span class="text-slate-700">{{
-                    row[col.key]
-                  }}</span>
+                  {{ row[col.key] || '—' }}
                 }
               </td>
             }
@@ -103,16 +139,33 @@
       </tbody>
     </table>
   </div>
+  </div>
 
   <!-- Mobile -->
-  <div class="sm:hidden divide-y divide-slate-100">
+  <div class="sm:hidden divide-y divide-slate-100 overflow-y-auto flex-1 rounded-b-2xl">
     @for (row of paginated(); track $index) {
       @if (mobileRowRef) {
-        <ng-container
-          *ngTemplateOutlet="
-            mobileRowRef;
-            context: { $implicit: row }
-          " />
+        <ng-container *ngTemplateOutlet="mobileRowRef; context: { $implicit: row }" />
+      } @else {
+        <div class="px-4 py-4 space-y-2">
+          <div class="flex items-center justify-between">
+            <p class="font-semibold text-slate-900">{{ row[mobileTitle()] }}</p>
+            <div class="flex gap-2">
+              <app-button label="Edit" [variant]="ButtonVariant.Secondary" [size]="ButtonSize.Sm" (clicked)="edit.emit(row)" />
+              <app-button label="Delete" [variant]="ButtonVariant.Danger" [size]="ButtonSize.Sm" (clicked)="delete.emit(row)" />
+            </div>
+          </div>
+          @for (field of mobileFields(); track field.key) {
+            <p class="text-sm text-slate-500">
+              @if (field.label) { <span class="text-slate-400 text-xs">{{ field.label }}: </span> }
+              @if (field.type === 'date') {
+                {{ row[field.key] | date:'dd MMM yyyy, HH:mm' }}
+              } @else {
+                {{ row[field.key] || '—' }}
+              }
+            </p>
+          }
+        </div>
       }
     } @empty {
       <div class="py-16 text-center">
