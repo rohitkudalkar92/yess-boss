@@ -25,7 +25,7 @@ export class Orders {
   initialFilters = signal<Record<string, string>>({});
 
   constructor() {
-    const clientId = this.route.snapshot.queryParamMap.get('client');
+    const clientId = this.route.snapshot.queryParamMap.get('clientId');
     if (clientId) this.initialFilters.set({ clientId });
   }
 

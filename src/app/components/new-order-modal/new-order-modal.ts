@@ -7,6 +7,7 @@ import { OrderMode } from '../../enums/order-mode.enum';
 import { ToastService } from '../../services/toast.service';
 import { ClientService } from '../../services/client.service';
 import { OrderService, Order } from '../../services/order.service';
+import { AuthService } from '../../services/auth.service';
 import { AppButton } from '../button/button';
 import { AppInput } from '../input/input';
 import { ButtonVariant, ButtonWidth } from '../../enums/button.enum';
@@ -25,6 +26,7 @@ export class NewOrderModal implements OnChanges {
   private toast = inject(ToastService);
   private clientService = inject(ClientService);
   private orderService = inject(OrderService);
+  private auth = inject(AuthService);
 
   @ViewChild('detailsForm') detailsForm?: NgForm;
 
@@ -83,7 +85,7 @@ export class NewOrderModal implements OnChanges {
   async onCreateClient(name: string) {
     if (!name.trim()) return;
     try {
-      await this.clientService.add({ name: name.trim(), phone: '', dob: '' } satisfies ClientForm);
+      await this.clientService.add({ name: name.trim(), phone: '', dob: '', shopId: this.auth.currentUser()!.shopId });
       const created = this.clientService.clients().find(c => c.name === name.trim());
       this.form.clientId = created?.id ?? '';
       this.toast.show(`Client "${name.trim()}" created`);
@@ -114,6 +116,7 @@ export class NewOrderModal implements OnChanges {
       this.toast.show(`Order updated — ${this.form.garment}`);
     } else {
       await this.orderService.add({
+        shopId: this.auth.currentUser()!.shopId,
         clientId: this.form.clientId,
         phone: this.form.phone,
         garment: this.form.garment as string,

@@ -6,6 +6,7 @@ import { ButtonVariant, ButtonWidth } from '../../enums/button.enum';
 import { InputType } from '../../enums/input-type.enum';
 import { ClientService, Client } from '../../services/client.service';
 import { ToastService } from '../../services/toast.service';
+import { AuthService } from '../../services/auth.service';
 import { ClientForm, defaultClientForm } from '../../constants/form-models';
 
 @Component({
@@ -19,6 +20,7 @@ export class ClientModal implements OnChanges {
 
   private clientService = inject(ClientService);
   private toast = inject(ToastService);
+  private auth = inject(AuthService);
 
   readonly ButtonVariant = ButtonVariant;
   readonly ButtonWidth = ButtonWidth;
@@ -30,7 +32,7 @@ export class ClientModal implements OnChanges {
 
   ngOnChanges() {
     if (this.client) {
-      this.form = { name: this.client.name, phone: this.client.phone, dob: this.client.dob } satisfies ClientForm;
+      this.form = { name: this.client.name, phone: this.client.phone, dob: this.client.dob };
     }
   }
 
@@ -44,10 +46,10 @@ export class ClientModal implements OnChanges {
       return;
     }
     if (this.isEdit) {
-      await this.clientService.update(this.client!.id, this.form);
+      await this.clientService.update(this.client!.id, { ...this.form, shopId: this.client!.shopId });
       this.toast.show(`Client "${trimmed}" updated`);
     } else {
-      await this.clientService.add(this.form);
+      await this.clientService.add({ ...this.form, shopId: this.auth.currentUser()!.shopId });
       this.toast.show(`Client "${trimmed}" added`);
     }
     this.close();

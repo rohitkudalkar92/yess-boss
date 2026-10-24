@@ -40,7 +40,7 @@ export class Clients {
 
   onCellClick({ row, col }: { row: Record<string, any>; col: string }) {
     if (col === 'orderCount') {
-      this.router.navigate([APP_ROUTES.ORDERS], { queryParams: { client: row['name'] } });
+      this.router.navigate([APP_ROUTES.ORDERS], { queryParams: { clientId: row['id'] } });
     }
   }
 }

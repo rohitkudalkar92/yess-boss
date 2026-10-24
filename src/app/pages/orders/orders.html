@@ -10,6 +10,7 @@
       [clientName]="clientName(viewingOrder.clientId)"
       (closed)="onModalClosed()" />
   }
+  @if (orders.length) {
   <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
     <app-stat-card
       label="Active Orders"
@@ -32,6 +33,7 @@
       badgeClass="text-red-500"
       [icon]="IconName.Clock" />
   </div>
+  }
 
   <app-data-table
     class="flex-1 min-h-0 flex flex-col"
@@ -48,7 +50,6 @@
     <ng-template
       #cell
       let-row
-      [ngTemplateOutletContext]="{}"
       let-col="col">
       @if (col === 'orderId') {
         <span class="font-semibold text-slate-900">{{ row[col] }}</span>

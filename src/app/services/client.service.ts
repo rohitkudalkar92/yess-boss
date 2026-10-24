@@ -6,13 +6,12 @@ import {
   deleteDoc,
   updateDoc,
   doc,
-  query,
-  orderBy,
 } from 'firebase/firestore';
 import { db } from '../firebase';
 
 export interface Client {
   id: string;
+  shopId: string;
   name: string;
   phone: string;
   dob: string;
@@ -26,15 +25,10 @@ export class ClientService {
   readonly clients = signal<Client[]>([]);
   private unsubscribe?: () => void;
 
-  constructor() {
-    this.fetch();
-  }
-
-  fetch() {
+  fetch(_shopId: string) {
     this.unsubscribe?.();
-    this.unsubscribe = onSnapshot(
-      query(collection(db, 'clients'), orderBy('name')),
-      snapshot => this.clients.set(snapshot.docs.map(d => ({ id: d.id, ...d.data() } as Client)))
+    this.unsubscribe = onSnapshot(collection(db, 'clients'), snapshot =>
+      this.clients.set(snapshot.docs.map(d => ({ id: d.id, ...d.data() } as Client)))
     );
   }
 

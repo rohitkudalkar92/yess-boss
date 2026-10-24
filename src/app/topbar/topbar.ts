@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { APP_ROUTES } from '../constants/app-routes';
-import { AppIcon } from '../components/icon/icon';
 import { AppButton } from '../components/button/button';
 import { AppLogo } from '../components/logo/logo';
 import { IconName } from '../enums/icon-name.enum';
@@ -11,7 +10,7 @@ import { UserRoleLabel } from '../enums/user-role.enum';
 
 @Component({
   selector: 'app-topbar',
-  imports: [RouterLink, RouterLinkActive, AppIcon, AppButton, AppLogo],
+  imports: [RouterLink, RouterLinkActive, AppButton, AppLogo],
   templateUrl: './topbar.html',
 })
 export class Topbar {
@@ -27,6 +26,13 @@ export class Topbar {
     public auth: AuthService,
     private router: Router,
   ) {}
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    if (!(event.target as HTMLElement).closest('.relative')) {
+      this.showUserMenu = false;
+    }
+  }
 
   logout() {
     this.auth.logout();

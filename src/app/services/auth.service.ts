@@ -1,6 +1,8 @@
 import { Injectable, signal, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService, User } from './user.service';
+import { ClientService } from './client.service';
+import { OrderService } from './order.service';
 import { ToastService } from './toast.service';
 import { APP_ROUTES } from '../constants/app-routes';
 
@@ -13,10 +15,22 @@ export class AuthService {
   private userService = inject(UserService);
   private router = inject(Router);
   private toast = inject(ToastService);
+  private clientService = inject(ClientService);
+  private orderService = inject(OrderService);
+
+  private fetchShopData() {
+    const shopId = this.currentUser()!.shopId;
+    this.clientService.fetch(shopId);
+    this.orderService.fetch(shopId);
+  }
 
   readonly currentUser = signal<User | null>(
     JSON.parse(sessionStorage.getItem(SESSION_KEY) ?? 'null')
   );
+
+  constructor() {
+    if (this.currentUser()) this.fetchShopData();
+  }
 
   username() {
     return this.currentUser()?.fullName ?? '';
@@ -46,6 +60,7 @@ export class AuthService {
     sessionStorage.setItem(SESSION_KEY, JSON.stringify(sessionUser));
     sessionStorage.setItem(TOKEN_KEY, token);
     this.currentUser.set(sessionUser);
+    this.fetchShopData();
     return true;
   }
 
@@ -65,6 +80,7 @@ export class AuthService {
     }
 
     this.currentUser.set(user);
+    this.fetchShopData();
     return true;
   }
 

@@ -4,8 +4,6 @@ import {
   onSnapshot,
   addDoc,
   serverTimestamp,
-  query,
-  orderBy,
   doc,
   updateDoc,
   increment,
@@ -17,6 +15,7 @@ import { db } from '../firebase';
 export interface Order {
   id: string;
   orderId: number;
+  shopId: string;
   clientId: string;
   phone: string;
   garment: string;
@@ -30,6 +29,7 @@ export interface Order {
 @Injectable({ providedIn: 'root' })
 export class OrderService {
   readonly orders = signal<Order[]>([]);
+  private unsubscribe?: () => void;
 
   readonly activeCount = computed(() =>
     this.orders().filter(o => o.status !== 'Delivered').length
@@ -56,12 +56,12 @@ export class OrderService {
     }).length;
   });
 
-  constructor() {
-    const q = query(collection(db, 'orders'), orderBy('createdAt', 'desc'));
-    onSnapshot(q, snapshot => {
-      this.orders.set(
-        snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Order))
-      );
+  constructor() {}
+
+  fetch(_shopId: string) {
+    this.unsubscribe?.();
+    this.unsubscribe = onSnapshot(collection(db, 'orders'), snapshot => {
+      this.orders.set(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Order)));
     });
   }
 
