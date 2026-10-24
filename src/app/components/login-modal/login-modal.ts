@@ -40,7 +40,7 @@ export class LoginModal {
         this.toast.show('Invalid username or password.', 'error');
         return;
       }
-      this.router.navigate([APP_ROUTES.DASHBOARD]);
+      this.router.navigate([APP_ROUTES.ORDERS]);
     } catch {
       this.toast.show('Something went wrong. Please try again.', 'error');
     } finally {

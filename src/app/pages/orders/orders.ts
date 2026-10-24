@@ -8,11 +8,11 @@ import { ButtonVariant, ButtonSize } from '../../enums/button.enum';
 import { OrderService, Order } from '../../services/order.service';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-orders',
   imports: [StatCard, DataTable, AppButton, NewOrderModal],
-  templateUrl: './dashboard.html',
+  templateUrl: './orders.html',
 })
-export class Dashboard {
+export class Orders {
   private orderService = inject(OrderService);
 
   readonly IconName = IconName;

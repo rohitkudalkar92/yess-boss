@@ -1,6 +1,5 @@
 export const APP_ROUTES = {
   LANDING: 'landing',
-  DASHBOARD: 'dashboard',
-  MEASUREMENTS: 'measurements',
+  ORDERS: 'orders',
   CLIENTS: 'clients',
 } as const;

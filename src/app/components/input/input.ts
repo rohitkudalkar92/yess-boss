@@ -38,6 +38,7 @@ export class AppInput implements ControlValueAccessor, Validator {
   @Input({ transform: booleanAttribute }) disablePast = false;
   @Input() minLength = 0;
   @Input() maxLength = 64;
+  @Input({ transform: booleanAttribute }) showCharCount = false;
 
   get todayStr() {
     return new Date().toISOString().split('T')[0];
