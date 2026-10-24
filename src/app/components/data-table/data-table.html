@@ -105,7 +105,9 @@
       <thead class="bg-slate-50 text-slate-400 uppercase text-xs sticky top-0 z-[1]">
         <tr>
           @for (col of columns(); track col.key) {
-            <th class="px-6 py-3 font-semibold">{{ col.label }}</th>
+            @if (col.type !== 'hidden') {
+              <th class="px-6 py-3 font-semibold">{{ col.label }}</th>
+            }
           }
         </tr>
       </thead>
@@ -113,30 +115,32 @@
         @for (row of paginated(); track $index) {
           <tr class="hover:bg-slate-50/60 transition">
             @for (col of columns(); track col.key) {
-              <td class="px-6 py-3.5">
-                @if (col.type === 'date') {
-                  {{ row[col.key] | date:'longDate' }}
-                } @else if (col.type === 'status') {
-                  <span class="px-2.5 py-1 text-xs font-semibold rounded-full border {{ statusClass(row[col.key]) }}">{{ row[col.key] }}</span>
-                } @else if (col.type === 'number') {
-                  <span
-                    class="tabular-nums cursor-pointer hover:text-emerald-600 hover:underline"
-                    (click)="cellClick.emit({ row, col: col.key })">{{ row[col.key] ?? '—' }}</span>
-                } @else if (col.type === 'client') {
-                  {{ resolveClient(row[col.key]) }}
-                } @else if (cellRef) {
-                  <ng-container *ngTemplateOutlet="cellRef; context: { $implicit: row, col: col.key, colType: col.type }" />
-                } @else if (col.type === 'actions') {
-                  <div class="flex gap-2">
+              @if (col.type !== 'hidden') {
+                <td class="px-6 py-3.5">
+                  @if (col.type === 'date') {
+                    {{ row[col.key] | date:'longDate' }}
+                  } @else if (col.type === 'status') {
+                    <span class="px-2.5 py-1 text-xs font-semibold rounded-full border {{ statusClass(row[col.key]) }}">{{ row[col.key] }}</span>
+                  } @else if (col.type === 'number') {
+                    <span
+                      class="tabular-nums cursor-pointer hover:text-emerald-600 hover:underline"
+                      (click)="cellClick.emit({ row, col: col.key })">{{ row[col.key] ?? '—' }}</span>
+                  } @else if (col.type === 'client') {
+                    {{ resolveClient(row[col.key]) }}
+                  } @else if (cellRef) {
+                    <ng-container *ngTemplateOutlet="cellRef; context: { $implicit: row, col: col.key, colType: col.type }" />
+                  } @else if (col.type === 'actions') {
+                    <div class="flex gap-2">
+                      <app-button label="Edit" [variant]="ButtonVariant.Secondary" [size]="ButtonSize.Sm" (clicked)="edit.emit(row)" />
+                      <app-button label="Delete" [variant]="ButtonVariant.Danger" [size]="ButtonSize.Sm" (clicked)="delete.emit(row)" />
+                    </div>
+                  } @else if (col.type === 'editOnly') {
                     <app-button label="Edit" [variant]="ButtonVariant.Secondary" [size]="ButtonSize.Sm" (clicked)="edit.emit(row)" />
-                    <app-button label="Delete" [variant]="ButtonVariant.Danger" [size]="ButtonSize.Sm" (clicked)="delete.emit(row)" />
-                  </div>
-                } @else if (col.type === 'editOnly') {
-                  <app-button label="Edit" [variant]="ButtonVariant.Secondary" [size]="ButtonSize.Sm" (clicked)="edit.emit(row)" />
-                } @else {
-                  {{ row[col.key] || '—' }}
-                }
-              </td>
+                  } @else {
+                    {{ row[col.key] || '—' }}
+                  }
+                </td>
+              }
             }
           </tr>
         } @empty {

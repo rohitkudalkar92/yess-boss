@@ -5,5 +5,6 @@ export enum ColumnType {
   Status = 'status',
   Actions = 'actions',
   EditOnly = 'editOnly',
+  Hidden = 'hidden',
   Client = 'client',
 }

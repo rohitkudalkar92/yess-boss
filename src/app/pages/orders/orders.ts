@@ -45,7 +45,7 @@ export class Orders {
 
   readonly columns: TableColumn[] = [
     { key: 'orderId', label: 'Order' },
-    { key: 'shopId', label: 'Shop' },
+    { key: 'shopId', label: 'Shop', type: ColumnType.Hidden },
     { key: 'clientId', label: 'Client', type: ColumnType.Client },
     { key: 'garment', label: 'Garment' },
     { key: 'status', label: 'Status', type: ColumnType.Status },

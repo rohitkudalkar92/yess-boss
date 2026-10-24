@@ -26,6 +26,9 @@
         placeholder="e.g. James Patel"
         [type]="InputType.Text"
         [(ngModel)]="form.name"
+        showCharCount="true"
+        [maxLength]="32"
+        [minLength]="0"
         name="name"
         required />
       <app-input
@@ -33,6 +36,9 @@
         placeholder="e.g. +1-202-555-0141"
         [type]="InputType.Tel"
         [(ngModel)]="form.phone"
+        showCharCount="true"
+        [maxLength]="12"
+        [minLength]="10"
         name="phone" />
       <app-input
         label="Date of Birth"

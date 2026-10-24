@@ -130,7 +130,7 @@ export class DataTable {
   });
 
   exportRows() {
-    const cols = this.columns().filter(c => c.type !== ColumnType.Actions && c.type !== ColumnType.EditOnly);
+    const cols = this.columns().filter(c => c.type !== ColumnType.Actions && c.type !== ColumnType.EditOnly && c.type !== ColumnType.Hidden);
     const header = cols.map(c => c.label).join(',');
     const rows = this.filtered().map(row =>
       cols.map(c => {
