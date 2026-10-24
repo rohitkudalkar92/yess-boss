@@ -50,11 +50,10 @@
     <ng-template
       #cell
       let-row
-      let-col="col">
+      let-col="col"
+      let-colType="colType">
       @if (col === 'orderId') {
         <span class="font-semibold text-slate-900">{{ row[col] }}</span>
-      } @else if (col === 'clientName') {
-        <span class="text-slate-600">{{ row[col] }}</span>
       } @else if (col === 'actions') {
         <div class="flex items-center gap-2">
           <app-button
@@ -93,7 +92,7 @@
         </div>
         <div class="flex justify-between items-center text-xs text-slate-400">
           <span>{{ order.garment }}</span>
-          <span>Due: {{ order.dueDate }}</span>
+          <span>Due: {{ order.dueDate | date:'longDate' }}</span>
         </div>
         <div class="flex gap-2 pt-1">
           <app-button

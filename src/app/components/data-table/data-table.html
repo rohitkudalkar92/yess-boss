@@ -114,17 +114,8 @@
           <tr class="hover:bg-slate-50/60 transition">
             @for (col of columns(); track col.key) {
               <td class="px-6 py-3.5">
-                @if (cellRef) {
-                  <ng-container *ngTemplateOutlet="cellRef; context: { $implicit: row, col: col.key }" />
-                } @else if (col.type === 'actions') {
-                  <div class="flex gap-2">
-                    <app-button label="Edit" [variant]="ButtonVariant.Secondary" [size]="ButtonSize.Sm" (clicked)="edit.emit(row)" />
-                    <app-button label="Delete" [variant]="ButtonVariant.Danger" [size]="ButtonSize.Sm" (clicked)="delete.emit(row)" />
-                  </div>
-                } @else if (col.type === 'editOnly') {
-                  <app-button label="Edit" [variant]="ButtonVariant.Secondary" [size]="ButtonSize.Sm" (clicked)="edit.emit(row)" />
-                } @else if (col.type === 'date') {
-                  {{ row[col.key] | date:'dd MMM yyyy, HH:mm' }}
+                @if (col.type === 'date') {
+                  {{ row[col.key] | date:'longDate' }}
                 } @else if (col.type === 'status') {
                   <span class="px-2.5 py-1 text-xs font-semibold rounded-full border {{ statusClass(row[col.key]) }}">{{ row[col.key] }}</span>
                 } @else if (col.type === 'number') {
@@ -133,6 +124,15 @@
                     (click)="cellClick.emit({ row, col: col.key })">{{ row[col.key] ?? '—' }}</span>
                 } @else if (col.type === 'client') {
                   {{ clientMap()[row[col.key]] ?? row[col.key] }}
+                } @else if (cellRef) {
+                  <ng-container *ngTemplateOutlet="cellRef; context: { $implicit: row, col: col.key, colType: col.type }" />
+                } @else if (col.type === 'actions') {
+                  <div class="flex gap-2">
+                    <app-button label="Edit" [variant]="ButtonVariant.Secondary" [size]="ButtonSize.Sm" (clicked)="edit.emit(row)" />
+                    <app-button label="Delete" [variant]="ButtonVariant.Danger" [size]="ButtonSize.Sm" (clicked)="delete.emit(row)" />
+                  </div>
+                } @else if (col.type === 'editOnly') {
+                  <app-button label="Edit" [variant]="ButtonVariant.Secondary" [size]="ButtonSize.Sm" (clicked)="edit.emit(row)" />
                 } @else {
                   {{ row[col.key] || '—' }}
                 }
@@ -174,7 +174,7 @@
             <p class="text-sm text-slate-500">
               @if (field.label) { <span class="text-slate-400 text-xs">{{ field.label }}: </span> }
               @if (field.type === 'date') {
-                {{ row[field.key] | date:'dd MMM yyyy, HH:mm' }}
+                {{ row[field.key] | date:'longDate' }}
               } @else {
                 {{ row[field.key] || '—' }}
               }

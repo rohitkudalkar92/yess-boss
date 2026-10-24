@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { DatePipe } from '@angular/common';
 import { StatCard } from '../../components/stat-card/stat-card';
 import { DataTable, TableColumn, ColumnType, TableFilter } from '../../components/data-table/data-table';
 import { AppButton } from '../../components/button/button';
@@ -14,7 +15,7 @@ import { ClientService } from '../../services/client.service';
 
 @Component({
   selector: 'app-orders',
-  imports: [StatCard, DataTable, AppButton, NewOrderModal, OrderDetailModal],
+  imports: [StatCard, DataTable, AppButton, NewOrderModal, OrderDetailModal, DatePipe],
   templateUrl: './orders.html',
 })
 export class Orders {
