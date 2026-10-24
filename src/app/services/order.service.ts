@@ -41,6 +41,14 @@ export class OrderService {
     this.orders().filter(o => o.status === 'Fitting Ready').length
   );
 
+  readonly missedDueDate = computed(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return this.orders().filter(o =>
+      o.status !== 'Delivered' && new Date(o.dueDate) < today
+    ).length;
+  });
+
   readonly deliveredThisMonth = computed(() => {
     const now = new Date();
     return this.orders().filter(o => {

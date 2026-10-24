@@ -4,7 +4,7 @@
       [order]="editingOrder"
       (closed)="onModalClosed()" />
   }
-  <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
     <app-stat-card
       label="Active Orders"
       [value]="activeCount"
@@ -19,6 +19,12 @@
       label="Completed (Month)"
       [value]="deliveredThisMonth"
       badge="↑ 12% above target" />
+    <app-stat-card
+      label="Missed Due Date"
+      [value]="missedDueDate"
+      badge="Overdue"
+      badgeClass="text-red-500"
+      [icon]="IconName.Clock" />
   </div>
 
   <app-data-table

@@ -56,6 +56,7 @@ export class Orders {
   get activeCount() { return this.orderService.activeCount(); }
   get pendingFittingsCount() { return this.orderService.pendingFittingsCount(); }
   get deliveredThisMonth(): number { return this.orderService.deliveredThisMonth(); }
+  get missedDueDate(): number { return this.orderService.missedDueDate(); }
 
   statusClass(status: string): string {
     const map: Partial<Record<OrderStatus, string>> = {
