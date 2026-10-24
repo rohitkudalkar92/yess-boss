@@ -78,8 +78,13 @@ export class NewOrderModal implements OnChanges {
 
   async onCreateClient(name: string) {
     if (!name.trim()) return;
-    await this.clientService.add({ name: name.trim(), phone: '', dob: '' });
-    this.form.client = name.trim();
+    try {
+      await this.clientService.add({ name: name.trim(), phone: '', dob: '' });
+      this.form.client = name.trim();
+      this.toast.show(`Client "${name.trim()}" created`);
+    } catch {
+      this.toast.show('Failed to create client', 'error');
+    }
   }
 
   onGarmentChange() {

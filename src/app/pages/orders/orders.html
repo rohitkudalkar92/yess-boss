@@ -24,7 +24,9 @@
   <app-data-table
     title="Orders"
     [columns]="columns"
-    [rows]="orders">
+    [rows]="orders"
+    searchable
+    searchPlaceholder="Search orders...">
     <ng-template
       #cell
       let-row

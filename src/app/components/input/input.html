@@ -73,7 +73,7 @@
               </li>
             }
           </ul>
-          @if (allowCreate) {
+          @if (allowCreate && search && filtered.length === 0) {
             <div class="border-t border-slate-100 p-2">
               <button
                 type="button"
