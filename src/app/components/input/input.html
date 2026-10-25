@@ -127,7 +127,7 @@
     } @else {
     <input
       [type]="type === InputType.Number ? 'text' : type"
-      inputmode="numeric"
+      [attr.inputmode]="type === InputType.Number ? 'numeric' : null"
       [placeholder]="placeholder"
       [(ngModel)]="value"
       (ngModelChange)="onInput($event)"
