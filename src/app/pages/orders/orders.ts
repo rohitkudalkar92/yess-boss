@@ -7,7 +7,7 @@ import { AppButton } from '../../components/button/button';
 import { NewOrderModal } from '../../components/new-order-modal/new-order-modal';
 import { OrderDetailModal } from '../../components/order-detail-modal/order-detail-modal';
 import { IconName } from '../../enums/icon-name.enum';
-import { ButtonVariant, ButtonSize } from '../../enums/button.enum';
+import { ButtonVariant, ButtonSize, ButtonWidth } from '../../enums/button.enum';
 import { InputType } from '../../enums/input-type.enum';
 import { OrderService, Order } from '../../services/order.service';
 import { OrderStatus } from '../../enums/order-status.enum';
@@ -42,6 +42,7 @@ export class Orders {
   readonly IconName = IconName;
   readonly ButtonVariant = ButtonVariant;
   readonly ButtonSize = ButtonSize;
+  readonly ButtonWidth = ButtonWidth;
 
   readonly columns: TableColumn[] = [
     { key: 'orderId', label: 'Order' },

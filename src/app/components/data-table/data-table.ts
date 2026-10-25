@@ -30,6 +30,7 @@ export { ColumnType };
   selector: 'app-data-table',
   imports: [NgTemplateOutlet, FormsModule, DatePipe, AppButton, AppInput],
   templateUrl: './data-table.html',
+  host: { class: 'md:flex md:flex-col md:min-h-0' },
 })
 export class DataTable {
   title = input<string>('');

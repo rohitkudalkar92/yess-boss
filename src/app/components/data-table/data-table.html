@@ -1,4 +1,4 @@
-<div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col flex-1 min-h-0">
+<div class="bg-white rounded-2xl border border-slate-200 shadow-sm md:flex md:flex-col md:flex-1 md:min-h-0">
   <!-- Header row: title + export -->
   <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between gap-4">
     <div>
@@ -161,7 +161,7 @@
   </div>
 
   <!-- Mobile -->
-  <div class="sm:hidden divide-y divide-slate-100 overflow-y-auto flex-1 rounded-b-2xl">
+  <div class="sm:hidden divide-y divide-slate-100 md:overflow-y-auto md:flex-1 rounded-b-2xl">
     @for (row of paginated(); track $index) {
       @if (mobileRowRef) {
         <ng-container *ngTemplateOutlet="mobileRowRef; context: { $implicit: row }" />
