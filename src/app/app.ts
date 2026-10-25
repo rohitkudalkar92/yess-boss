@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
 import { Topbar } from './topbar/topbar';
 import { Toast } from './components/toast/toast';
@@ -16,6 +16,17 @@ export class App {
   readonly routes = APP_ROUTES;
   readonly IconName = IconName;
   isLanding = false;
+  showScrollTop = false;
+
+  @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
+
+  onScroll(e: Event) {
+    this.showScrollTop = (e.target as HTMLElement).scrollTop > 200;
+  }
+
+  scrollToTop() {
+    this.scrollContainer.nativeElement.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   constructor(private router: Router) {
     this.router.events
