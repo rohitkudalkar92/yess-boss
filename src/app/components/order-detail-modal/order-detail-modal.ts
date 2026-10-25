@@ -13,7 +13,7 @@ import { ButtonVariant, ButtonWidth } from '../../enums/button.enum';
 export class OrderDetailModal {
   @Input() order!: Order;
   @Input() clientName = '';
-  @Input() details: Record<string, string> = {};
+  get details() { return this.order?.measurements ?? {}; }
   @Output() closed = new EventEmitter<void>();
 
   readonly ButtonVariant = ButtonVariant;

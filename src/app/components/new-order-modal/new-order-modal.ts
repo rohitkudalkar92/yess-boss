@@ -79,6 +79,7 @@ export class NewOrderModal implements OnChanges {
         dueDate: this.order.dueDate,
         isPaid: this.order.isPaid,
       } satisfies OrderForm;
+      this.garmentDetails = { ...this.order.measurements };
     }
   }
 
@@ -109,6 +110,7 @@ export class NewOrderModal implements OnChanges {
         clientId: this.form.clientId,
         phone: this.form.phone,
         garment: this.form.garment as string,
+        measurements: this.garmentDetails,
         status: this.form.status,
         dueDate: this.form.dueDate,
         isPaid: this.form.isPaid,
@@ -120,6 +122,7 @@ export class NewOrderModal implements OnChanges {
         clientId: this.form.clientId,
         phone: this.form.phone,
         garment: this.form.garment as string,
+        measurements: this.garmentDetails,
         status: this.form.status,
         dueDate: this.form.dueDate,
         isPaid: this.form.isPaid,

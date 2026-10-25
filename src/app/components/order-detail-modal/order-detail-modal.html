@@ -32,7 +32,7 @@
         <div class="bg-slate-50 rounded-xl px-4 py-3">
           <p class="text-xs text-slate-400 mb-0.5">Client</p>
           <p class="text-sm font-semibold text-slate-900">{{ clientName }}</p>
-        </div>
+    </div>
         <div class="bg-slate-50 rounded-xl px-4 py-3">
           <p class="text-xs text-slate-400 mb-0.5">Phone</p>
           <p class="text-sm font-semibold text-slate-900">{{ order.phone || '—' }}</p>
@@ -45,12 +45,7 @@
           <p class="text-xs text-slate-400 mb-0.5">Due Date</p>
           <p class="text-sm font-semibold text-slate-900">{{ order.dueDate | date:'dd MMM yyyy' }}</p>
         </div>
-        <div class="bg-slate-50 rounded-xl px-4 py-3 col-span-2">
-          <p class="text-xs text-slate-400 mb-0.5">Payment</p>
-          <p class="text-sm font-semibold" [class]="order.isPaid ? 'text-emerald-600' : 'text-red-500'">
-            {{ order.isPaid ? 'Paid' : 'Unpaid' }}
-          </p>
-        </div>
+        
       </div>
 
       <!-- Measurements -->

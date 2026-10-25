@@ -21,6 +21,7 @@ export interface Order {
   clientId: string;
   phone: string;
   garment: string;
+  measurements: Record<string, string>;
   status: string;
   dueDate: string;
   isPaid: boolean;
