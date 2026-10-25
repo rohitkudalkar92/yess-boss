@@ -106,24 +106,18 @@
 
   @if (type !== InputType.Select) {
     @if (type === InputType.Date) {
-      <div
-        class="relative cursor-pointer"
-        (click)="dateInput.showPicker()">
-        <input
-          #dateInput
-          [type]="type"
-          [(ngModel)]="value"
-          (ngModelChange)="onInput($event)"
-          (blur)="onBlur()"
-          [disabled]="disabled"
-          [min]="disablePast ? todayStr : null"
-          class="w-full bg-slate-100 text-sm px-4 py-2.5 rounded-xl border transition focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-800 cursor-pointer pointer-events-none"
-          [class]="
-            'w-full bg-slate-100 text-sm px-4 py-2.5 rounded-xl border transition focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-800 cursor-pointer pointer-events-none ' +
-            (disabled ? 'opacity-50 cursor-not-allowed ' : '') +
-            (errors.length ? 'border-red-400' : 'border-transparent')
-          " />
-      </div>
+      <input
+        [type]="type"
+        [(ngModel)]="value"
+        (ngModelChange)="onInput($event)"
+        (blur)="onBlur()"
+        [disabled]="disabled"
+        [min]="disablePast ? todayStr : null"
+        [class]="
+          'w-full bg-slate-100 text-sm px-4 py-2.5 rounded-xl border transition focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-800 cursor-pointer ' +
+          (disabled ? 'opacity-50 cursor-not-allowed ' : '') +
+          (errors.length ? 'border-red-400' : 'border-transparent')
+        " />
     } @else {
     <input
       [type]="type === InputType.Number ? 'text' : type"
