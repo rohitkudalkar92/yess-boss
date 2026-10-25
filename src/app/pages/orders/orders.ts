@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { StatCard } from '../../components/stat-card/stat-card';
@@ -24,6 +24,7 @@ export class Orders {
   private route = inject(ActivatedRoute);
 
   initialFilters = signal<Record<string, string>>({});
+  activeStatFilter = signal<string | null>(null);
 
   constructor() {
     const params = this.route.snapshot.queryParamMap;
@@ -91,6 +92,20 @@ export class Orders {
     this.showModal = false;
     this.editingOrder = null;
     this.viewingOrder = null;
+  }
+
+  onStatClick(status: string | null) {
+    const next = this.activeStatFilter() === status ? null : status;
+    this.activeStatFilter.set(next);
+    const base = this.route.snapshot.queryParamMap;
+    const filters: Record<string, string> = {};
+    const clientId = base.get('clientId');
+    if (clientId) {
+      const name = this.clientService.clients().find(c => c.id === clientId)?.name;
+      if (name) filters['clientId'] = name;
+    }
+    if (next) filters['status'] = next;
+    this.initialFilters.set({ ...filters });
   }
 
   get orders() { return this.orderService.orders(); }

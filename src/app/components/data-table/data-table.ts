@@ -77,8 +77,8 @@ export class DataTable {
 
   constructor() {
     effect(() => {
-      const init = this.initialFilters();
-      if (Object.keys(init).length) this.activeFilters.set(init);
+      this.activeFilters.set(this.initialFilters());
+      this.page.set(1);
     });
   }
 

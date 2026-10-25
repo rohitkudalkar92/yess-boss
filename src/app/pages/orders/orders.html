@@ -11,27 +11,37 @@
       (closed)="onModalClosed()" />
   }
   @if (orders.length) {
-  <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
     <app-stat-card
       label="Active Orders"
       [value]="activeCount"
-      badge="↑ 4 new this week" />
+      badge="↑ 4 new this week"
+      color="emerald"
+      [active]="activeStatFilter() === null"
+      (clicked)="onStatClick(null)" />
     <app-stat-card
       label="Pending Fittings"
       [value]="pendingFittingsCount"
       badge="Due Today"
-      badgeClass="text-amber-600"
-      [icon]="IconName.Clock" />
+      badgeClass="text-amber-500"
+      color="amber"
+      [active]="activeStatFilter() === 'Fitting Ready'"
+      (clicked)="onStatClick('Fitting Ready')" />
     <app-stat-card
       label="Completed (Month)"
       [value]="deliveredThisMonth"
-      badge="↑ 12% above target" />
+      badge="↑ 12% above target"
+      color="blue"
+      [active]="activeStatFilter() === 'Delivered'"
+      (clicked)="onStatClick('Delivered')" />
     <app-stat-card
       label="Missed Due Date"
       [value]="missedDueDate"
       badge="Overdue"
       badgeClass="text-red-500"
-      [icon]="IconName.Clock" />
+      color="red"
+      [active]="activeStatFilter() === 'Overdue'"
+      (clicked)="onStatClick('Overdue')" />
   </div>
   }
 

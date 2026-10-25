@@ -1,10 +1,8 @@
-import { Component, input } from '@angular/core';
-import { AppIcon } from '../icon/icon';
-import { IconName } from '../../enums/icon-name.enum';
+import { Component, input, output, booleanAttribute } from '@angular/core';
 
 @Component({
   selector: 'app-stat-card',
-  imports: [AppIcon],
+  imports: [],
   templateUrl: './stat-card.html',
 })
 export class StatCard {
@@ -12,5 +10,7 @@ export class StatCard {
   value = input.required<string | number>();
   badge = input<string>('');
   badgeClass = input<string>('text-emerald-600');
-  icon = input<IconName | null>(null);
+  color = input<'emerald' | 'amber' | 'blue' | 'red'>('emerald');
+  active = input(false, { transform: booleanAttribute });
+  clicked = output<void>();
 }
