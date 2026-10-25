@@ -8,10 +8,43 @@
     searchPlaceholder="Search by name..."
     [searchType]="InputType.Text"
     addLabel="+ New Client"
-    [mobileFields]="mobileFields"
     (add)="showModal.set(true)"
     (edit)="editTarget.set($any($event))"
-    (cellClick)="onCellClick($event)" />
+    (cellClick)="onCellClick($event)">
+
+    <ng-template #mobileRow let-client>
+      <div class="px-4 py-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 font-bold text-sm flex items-center justify-center shrink-0">
+            {{ client.name.charAt(0).toUpperCase() }}
+          </div>
+          <div class="flex-1 min-w-0">
+            <h3 class="font-bold text-slate-900 truncate">{{ client.name }}</h3>
+            <p class="text-xs text-slate-400 mt-0.5">{{ client.phone || '—' }}</p>
+          </div>
+          <span class="px-2.5 py-1 text-xs font-semibold rounded-full border border-slate-200 text-slate-500 bg-slate-50 shrink-0">
+            {{ client.orderCount || 0 }} orders
+          </span>
+        </div>
+        <div class="border-t border-slate-100 flex gap-2 mt-3 pt-3 [&>*]:flex-1">
+          <app-button
+            label="Orders"
+            [variant]="ButtonVariant.Secondary"
+            [size]="ButtonSize.Sm"
+            [width]="ButtonWidth.Full"
+            (clicked)="onCellClick({ row: client, col: 'orderCount' })" />
+          <app-button
+            label="Edit"
+            [variant]="ButtonVariant.Primary"
+            [size]="ButtonSize.Sm"
+            [width]="ButtonWidth.Full"
+            [icon]="IconName.Edit"
+            (clicked)="editTarget.set(client)" />
+        </div>
+      </div>
+    </ng-template>
+
+  </app-data-table>
 </div>
 
 @if (showModal() || editTarget()) {

@@ -1,19 +1,28 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 import { ClientService, Client } from '../../services/client.service';
 import { ClientModal } from '../../components/client-modal/client-modal';
+import { AppButton } from '../../components/button/button';
 import { DataTable, TableColumn, ColumnType } from '../../components/data-table/data-table';
 import { InputType } from '../../enums/input-type.enum';
+import { ButtonVariant, ButtonSize, ButtonWidth } from '../../enums/button.enum';
+import { IconName } from '../../enums/icon-name.enum';
 import { APP_ROUTES } from '../../constants/app-routes';
 
 @Component({
   selector: 'app-clients',
-  imports: [ClientModal, DataTable],
+  imports: [ClientModal, DataTable, AppButton, DatePipe],
   templateUrl: './clients.html',
 })
 export class Clients {
   private clientService = inject(ClientService);
   private router = inject(Router);
+
+  readonly ButtonVariant = ButtonVariant;
+  readonly ButtonSize = ButtonSize;
+  readonly ButtonWidth = ButtonWidth;
+  readonly IconName = IconName;
 
   readonly InputType = InputType;
 
@@ -29,12 +38,6 @@ export class Clients {
     { key: 'createdAt', label: 'Created At', type: ColumnType.Date },
     { key: 'modifiedAt', label: 'Modified At', type: ColumnType.Date },
     { key: 'actions', label: 'Actions', type: ColumnType.EditOnly },
-  ];
-
-  readonly mobileFields: { key: string; label?: string; type?: ColumnType }[] = [
-    { key: 'phone' },
-    { key: 'dob', label: 'DOB' },
-    { key: 'createdAt', label: 'Created', type: ColumnType.Date },
   ];
 
   get clients(): Client[] { return this.clientService.clients(); }

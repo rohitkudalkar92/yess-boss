@@ -31,7 +31,11 @@ export class ClientService {
     this.unsubscribe?.();
     const q = query(collection(db, 'clients'), where('shopId', '==', shopId));
     this.unsubscribe = onSnapshot(q, snapshot =>
-      this.clients.set(snapshot.docs.map(d => ({ id: d.id, ...d.data() } as Client)))
+      this.clients.set(
+        snapshot.docs
+          .map(d => ({ id: d.id, ...d.data() } as Client))
+          .sort((a, b) => (b.modifiedAt ?? b.createdAt) > (a.modifiedAt ?? a.createdAt) ? 1 : -1)
+      )
     );
   }
 

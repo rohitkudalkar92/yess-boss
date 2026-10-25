@@ -65,7 +65,15 @@ export class OrderService {
     this.unsubscribe?.();
     const q = query(collection(db, 'orders'), where('shopId', '==', shopId));
     this.unsubscribe = onSnapshot(q, snapshot => {
-      this.orders.set(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Order)));
+      this.orders.set(
+        snapshot.docs
+          .map(doc => ({ id: doc.id, ...doc.data() } as Order))
+          .sort((a, b) => {
+            const ta = (a.modifiedAt ?? a.createdAt)?.toMillis() ?? 0;
+            const tb = (b.modifiedAt ?? b.createdAt)?.toMillis() ?? 0;
+            return tb - ta;
+          })
+      );
     });
   }
 
