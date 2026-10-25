@@ -115,7 +115,7 @@ export class NewOrderModal implements OnChanges {
         dueDate: this.form.dueDate,
         isPaid: this.form.isPaid,
       });
-      this.toast.show(`Order updated — ${this.form.garment}`);
+      this.toast.show(`Order updated — ${this.selectedClientName}, ${this.form.garment}`);
     } else {
       await this.orderService.add({
         shopId: this.auth.currentUser()!.shopId,
@@ -127,7 +127,7 @@ export class NewOrderModal implements OnChanges {
         dueDate: this.form.dueDate,
         isPaid: this.form.isPaid,
       });
-      this.toast.show(`Order created — ${this.form.garment}`);
+      this.toast.show(`Order created — ${this.selectedClientName}, ${this.form.garment}`);
     }
     this.close();
   }

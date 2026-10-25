@@ -70,7 +70,7 @@
             (createNew)="onCreateClient($event)"
             required />
 
-          <div class="grid grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 min-[400px]:grid-cols-2 gap-4">
             <app-input
               label="Phone Number"
               placeholder="e.g. +1-202-555-0141"
@@ -92,7 +92,7 @@
               required />
           </div>
 
-          <div class="grid grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 min-[400px]:grid-cols-2 gap-4">
             <app-input
               label="Status"
               [type]="InputType.Select"
@@ -121,7 +121,7 @@
             }}</span> (inches)
           </p>
 
-          <div class="grid grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 min-[400px]:grid-cols-2 gap-4">
             @for (field of fields; track field.key) {
               <div
                 [class]="
