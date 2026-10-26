@@ -12,7 +12,7 @@ import { APP_ROUTES } from '../../constants/app-routes';
 
 @Component({
   selector: 'app-clients',
-  imports: [ClientModal, DataTable, AppButton, DatePipe],
+  imports: [ClientModal, DataTable, AppButton],
   templateUrl: './clients.html',
 })
 export class Clients {
