@@ -23,6 +23,7 @@ export interface User {
   phone: string;
   email: string;
   shopId: string;
+  shopName: string;
   isActive: boolean;
   token?: string;
   tokenExpiry?: string;

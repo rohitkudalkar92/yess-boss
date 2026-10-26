@@ -1,6 +1,7 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { OrderService } from '../services/order.service';
 import { APP_ROUTES } from '../constants/app-routes';
 import { AppButton } from '../components/button/button';
 import { AppLogo } from '../components/logo/logo';
@@ -21,6 +22,8 @@ export class Topbar {
   readonly ButtonVariant = ButtonVariant;
   readonly ButtonWidth = ButtonWidth;
   readonly UserRoleLabel = UserRoleLabel;
+
+  readonly orders = inject(OrderService);
 
   constructor(
     public auth: AuthService,

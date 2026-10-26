@@ -48,6 +48,7 @@
   <app-data-table
     class="md:flex-1 md:min-h-0 md:flex md:flex-col"
     title="Orders"
+    [subtitle]="orders.length + ' total'"
     addLabel="+ New Order"
     [columns]="columns"
     [rows]="orders"

@@ -37,7 +37,8 @@
             <div
               class="px-4 py-2.5 text-xs text-slate-400 border-b border-slate-100 truncate">
               {{ auth.username() }}
-              <span class="block text-[10px] font-semibold text-slate-600">{{ UserRoleLabel[auth.currentUser()?.role!] }} · {{ auth.currentUser()?.shopId }}</span>
+              <span class="block text-[10px] font-semibold text-slate-600">{{ UserRoleLabel[auth.currentUser()?.role!] }} · {{ auth.currentUser()?.shopName }}</span>
+              <span class="block text-[10px] text-slate-400">{{ orders.orders().length }} total orders</span>
               @if (auth.currentUser()?.email) {
                 <span class="block text-[10px] font-semibold text-slate-600 truncate">{{ auth.currentUser()?.email }}</span>
               }
